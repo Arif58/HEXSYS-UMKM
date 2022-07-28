@@ -1,0 +1,16 @@
+/*--psql -U postgres -d telkomims <resources/sql/com_region.sql--*/
+psql -U postgres -d telkomims <user.sql
+
+psql -U postgres -d telkomims <com_region.sql
+psql -U postgres -d telkomims <com_nation.sql
+
+psql -U postgres -d telkomims <com_code.sql
+psql -U postgres -d telkomims <com_bank.sql
+
+psql -U postgres -d telkomims <data.sql
+
+psql -U postgres -d telkomims <po_supplier.sql
+psql -U postgres -d telkomims <inventori.sql
+
+--Menu Report
+psql -U postgres -d telkomims <report-inventori.sql
