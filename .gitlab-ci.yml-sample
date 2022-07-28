@@ -1,0 +1,64 @@
+variables:
+  SSH_PRIVATE_KEY: "-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEA5cP2tMbqC3f+zYPODj3BLEI/wrPEk7lsMZ2Umv8ac7LKyWLO
+PSPCVc7/Tmtim3PMB9zYSixLWp3a9qdnlL3MHNzic+TzTALn433G4hstyRKaAlwF
+KNRiWbf8SOcWG6C9bUjmk7sbTjoK1Vw2Zp0OM1FhOQ2to9mmRPJU+18OMXeTvJAB
+Ct9/Evf42BvdERoORPTVMznSImBPnRDEXQKjhh/7xVFC5Oh/6uTS4zdsFd99x9RG
+UJEf/j3zJGhA9nPMBN0MAc0uCa1OpKZjC7ABG8cXiRRLmKvFwedAeb9KTOVtdOY+
+/RUSv0HYPKVYbf9ckLVyjEpKxnj790H5MuY2EQIDAQABAoIBAEeSnsQ7fmaqL35X
+g5WeGRGvZWtCUobt6M0f2E3cD6Jg3JiVJceX3w6Z15/XBbWFAdalLd8VIzgMGkxh
+Y3vLD80h5YzSkhNoiFGuOYjvjHipSb5YaecJGcX28SjIi3N5w+hKIEF+tIfOvtct
+zWhznhvQSufZ4fA7eXbawiw3tRUlIme+s6om2q99AAPbavpoTBlWVVoiTS/ylbwT
+ALj+XQtQJhiLHcoiXOpAJGQe6MlV47KV77SoU5lly1rxfof0/jRB9d4COEk76Lpr
+3hBDABtnTYz/lhq4/FsMAqbA8UqLuoSelqvswCVSUUp0OdIdgKax07Hz7dm1GYWn
+1dJUfU0CgYEA/dYCV/V92ssQ1gz99ImgzCew9Pqz4VhZqoJHzjRPcEBBLRIimxw8
+/ilDzNTnUKtFi/j2FOymIJ+f3/hQBoHWIzLraUZ9VI8YkSJpoldn7dUctSTL7849
+Zb5D2D0qe1GBmNwf7UtnyLzsBAxugkxKiqOmRAqgvDS7j7bDQtWd/vsCgYEA57lr
+2Rmp3EeBa1aEL1st/O/T+X7DUaGDQcTD6Rrnt2vgRPqrQlvcNfh9akVL0dRtxDUY
+00v3bw1xQsBkZtQGTVOadRmI7U+kbZNvOCgfl5p9Lc7+n41MapKDHvg09CgICc+y
+mlfckDGHfceJu85s63Reyr4b30euNY5wGPZ24WMCgYEA4bl49g0ZsQIZY6/D+byV
+oFa/duqmIYM2oXkfL5C2/6Q0EUdqPLL8ziuV3kWJuePEgbeP5YWYKbSpMDsZtt+o
+tD5ot4J2m0Zw20dV1oaRph54W+Fv9T1avepXXKjv6R/O9kbxoUwH66uM2gDQGNCN
+DQKALUuiKhtem2sz8nASAxcCgYAX7E60FTAyK7eyyzXOZc1zpZbu1SV5EgGpEpVf
+RYXSq/J1bKOtsCol8EeSZyESwqmqbgjoF5mt/2dICvDSpOUZqp3xpPc7+NLy9Ruw
+YoQQdMSjrBEhi8bt4b5jviBJbLCXwrefs55zzIk+dRFFMGSSUmtO5x2diZr0sIXm
+LdvMHQKBgA8ne+SLWGZzI+hEz9XRPDY6nlcczu01oBRT4neZm3zHqoI0U+kHNs+e
+BnJ4/lbQWkjmobjpm9iWrbZnfoV/ZuhKDC1gRCsd0SnRF884lK0NioDloSm8Qjj0
+nOX5AmGswatdnQX32xeecU70ZtKy0axlogpCmSiz7Vv+Q12izRBG
+-----END RSA PRIVATE KEY-----"
+
+stages:
+  - production
+
+before_script:
+  # Setup SSH deploy keys
+  - "which ssh-agent || ( apt-get install -qq openssh-client )"
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo $SSH_PRIVATE_KEY)
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+before_script:
+  # Setup SSH deploy keys
+  - "which ssh-agent || ( apt-get install -qq openssh-client )"
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+production-deploy:
+  stage: production
+  image: tetraweb/php:7.1
+  script:
+    - ssh -p $SSH_PORT $SSH_USERNAME@$SSH_HOST "
+      cd ~/$APP &&
+      rm -rf hexsys-hexsys.2.0 &&
+      git clone https://$GIT_USERNAME:$GIT_PASSWORD@gitlab.com/pipitgoku/hexsys-hexsys.2.0.git &&
+      cd hexsys-hexsys.2.0 &&
+      yes | cp -rf * ~/app/ &&
+      yes | cp -rf deploy/* ~/app/ &&
+      yes | cp -f .env-host ~/app/.env &&
+      yes | cp -f .bowerrc ~/app/.bowerrc &&
+      cd .. &&
+      rm -rf hexsys-hexsys.2.0 &&
+      php -c ~/php.ini ~/composer.phar update"

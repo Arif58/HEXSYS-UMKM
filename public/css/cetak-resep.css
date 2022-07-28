@@ -1,0 +1,21 @@
+@import url(../fonts/Roboto/style.css);
+@import url(../fonts/Digit/style.css);
+*, *:after, *::before { box-sizing: border-box; margin: 0px; padding: 0px; }
+
+body { font-family: 'Roboto', sans-serif; font-size: 8px; }
+
+
+.no-antrian .page .header { margin-bottom: 0; }
+.no-antrian .page .header img { height: 95px; }
+.no-antrian .page .wrapper h4 { margin: 0; }
+.no-antrian .page .wrapper h3 { margin: 15px 0; font-size: 6.5em; font-weight: normal; font-family: "digit"; margin-top: 0; margin-bottom: 0;}
+.no-antrian .page .wrapper .date { overflow: hidden; margin-bottom: 5px; }
+.no-antrian .page .wrapper .date .left { float: left; text-align: right; width: 50%; padding: 0 15px; }
+.no-antrian .page .wrapper .date .right { float: right; text-align: left; width: 50%; padding: 0 15px; }
+
+
+.datapasien{width: 90%; display: flex; margin-left: 10%;}
+.col4{width: 30%; float: left; text-align: left; font-weight: bold; height: auto;}
+.col8{width: 60%; float: right; text-align: left; font-weight: bold;}
+
+.no-antrian-rm{font-size: 16px;}

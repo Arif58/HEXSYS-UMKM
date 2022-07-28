@@ -1,0 +1,144 @@
+body{
+	margin-left: 2%;
+	width: 80%;
+}
+.header{
+	width: 100%;
+}
+.logo{
+	width: 30%;
+	float: left;
+	
+}
+
+.logo img{
+	width: 100%;
+}
+
+.titles{
+	width: 70%;
+	float: right;
+	
+}
+
+h3{
+	margin-top: 0;
+	-webkit-margin-before: 0;
+	-moz-margin-before: 0;
+	-ms-margin-before: 0;
+	-o-margin-before: 0;
+	margin-bottom: 0;
+	-webkit-margin-after: 0;
+	-moz-margin-after: 0;
+	-ms-margin-after: 0;
+	-o-margin-after: 0;
+	font-size: 20px;
+	text-align: center;
+}
+
+h4{
+	margin-top: 0;
+	-webkit-margin-before: 0;
+	-moz-margin-before: 0;
+	-ms-margin-before: 0;
+	-o-margin-before: 0;
+	margin-bottom: 0;
+	-webkit-margin-after: 0;
+	-moz-margin-after: 0;
+	-ms-margin-after: 0;
+	-o-margin-after: 0;
+	font-size: 20px;
+	text-align: center;
+	font-weight: normal;
+}
+
+.content{
+	width: 100%;
+	display: flex;
+}
+
+.datapasien{
+	display: flex; 
+	width: 100%;
+	margin-top: 10px;
+	-webkit-margin-before: 10px;
+	-moz-margin-before: 10px;
+	-ms-margin-before: 10px;
+	-o-margin-before: 10px;
+}
+
+.col4{
+	width: 35%; 
+	float: left; 
+	text-align: left; 
+	font-weight: bold; 
+	height: auto;
+}
+
+.col8{
+	width: 65%; 
+	float: right; 
+	text-align: left; 
+	font-weight: bold;
+}
+
+.kiri {
+	width: 45%;
+	display: block;
+	margin-top: 10px;
+	-webkit-margin-before: 10px;
+	-moz-margin-before: 10px;
+	-ms-margin-before: 10px;
+	-o-margin-before: 10px;
+	float: left;
+	margin-right: 5%;
+}
+
+.kanan{
+	width: 45%;
+	display: block;
+	margin-top: 10px;
+	-webkit-margin-before: 10px;
+	-moz-margin-before: 10px;
+	-ms-margin-before: 10px;
+	-o-margin-before: 10px;
+	float: right;
+	margin-left: 5%;
+}
+
+p{	
+	margin-top: 0;
+	-webkit-margin-before: 0;
+	-moz-margin-before: 0;
+	-ms-margin-before: 0;
+	-o-margin-before: 0;
+	margin-bottom: 0;
+	-webkit-margin-after: 0;
+	-moz-margin-after: 0;
+	-ms-margin-after: 0;
+	-o-margin-after: 0;
+}
+
+.sub-1, .sub-2{
+	width: 45%;
+}
+
+.sub-1{
+	float: left;
+}
+
+.sub-2{
+	float: right;
+}
+
+.footer{
+	margin-top: 10px;
+	-webkit-margin-before: 10px;
+	-moz-margin-before: 10px;
+	-ms-margin-before: 10px;
+	-o-margin-before: 10px;
+}
+
+hr{
+	width: 100%;
+}
