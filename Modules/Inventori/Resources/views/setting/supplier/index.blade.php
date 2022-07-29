@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-	@include('erpgl::layouts.master')
+	@include('inventori::layouts.master')
     <!-- Basic datatable -->
 	<div class="card">
         <div class="card-header header-elements-inline">
