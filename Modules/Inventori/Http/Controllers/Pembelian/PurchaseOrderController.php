@@ -238,6 +238,12 @@ class PurchaseOrderController extends Controller{
      * @return \Illuminate\Http\Response
      */
     function store(Request $request){
+		if ($request->updatepo == '1') {
+			$this->updatePo($request, $request->poid);
+			
+			return redirect('/inventori/pembelian/purchase-order/'.$request->poid);
+		}
+		
         $this->validate($request,[
             //'po_no'       => 'required',
             //'supplier_cd'   => 'required',
@@ -358,6 +364,32 @@ class PurchaseOrderController extends Controller{
 		//}	
 		
 		return response()->json(['status' => 'ok'],200); 
+    }
+	
+	function updatePo(Request $request, $id){    
+        $po = InvPoPurchaseOrder::find($id);
+		
+        $po->supplier_cd = $request->supplier_cd;
+		$po->percent_ppn = $request->percent_ppn;
+		$po->delivery_datetime  = empty($request->delivery_datetime) ? NULL : formatDate($request->delivery_datetime);
+		$po->aktivitas_cd = $request->aktivitas_cd;
+		$po->aktivitas_tp = $request->aktivitas_tp;
+					
+        //if ($request->percent_ppn) {
+		$sumPoDetail    = InvPoPoDetail::where('po_cd', $po->po_cd)->sum('trx_amount');
+		$amountPpn      = $sumPoDetail * ($po->percent_ppn/100);
+		$sumPlusPpn     = $sumPoDetail + $amountPpn;
+		//$sumPlusPpn     = $sumPoDetail;
+
+		$po->total_price    = $sumPoDetail;
+		$po->total_amount   = $sumPlusPpn;
+		$po->ppn            = $amountPpn;
+		//}
+		$po->updated_by = Auth::user()->user_id;
+        $po->save();
+		
+		return response()->json(['status' => 'ok'],200);
+		//return redirect('/inventori/pembelian/purchase-order/'.$id);
     }
 
     /**

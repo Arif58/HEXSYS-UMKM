@@ -186,6 +186,18 @@
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="submit" class="btn btn-primary ml-3 legitRipple" onClick="return checkUnit();">Simpan <i class="icon-floppy-disk ml-2"></i></button>
                     </div>
+				@else
+					@if ($popr == '')
+					@if($po->po_st == 'INV_TRX_ST_1' or $po->po_st == 'INV_TRX_ST_5')
+					@if( in_array(Auth::user()->role->role_cd,array('superuser','admwh')) )	
+					<input type="hidden" name="poid" value="{{ $po->po_cd }}">
+					<input type="hidden" name="updatepo" value="1">
+					<div class="d-flex justify-content-end align-items-center">
+                        <button type="submit" class="btn btn-primary ml-3 legitRipple">Update <i class="icon-floppy-disk ml-2"></i></button>
+                    </div>
+					@endif
+					@endif
+					@endif
 				@endif
             </form>
 
@@ -366,7 +378,7 @@
 			@endphp
             @if(!empty($po))
                 @if($po->po_st == 'INV_TRX_ST_1' or $po->po_st == 'INV_TRX_ST_5')
-					@if( in_array(Auth::user()->role->role_cd,array('superuser','adminv')) )
+					@if( in_array(Auth::user()->role->role_cd,array('superuser','admwh')) )
                     <button type="button" class="btn btn-warning legitRipple" id="proses"><i class="icon-check mr-2"></i> 
 					@if($po->po_st == 'INV_TRX_ST_5')
 					Proses Permintaan Pembelian
@@ -391,7 +403,7 @@
 					@endif
 					
 					<button type="button" class="btn btn-primary legitRipple" id="upload"><i class="icon-upload mr-2"></i> Upload</button>
-					@if( in_array(Auth::user()->role->role_cd,array('superuser','adminv')) )
+					@if( in_array(Auth::user()->role->role_cd,array('superuser','admwh')) )
 					<button type="button" class="btn btn-primary legitRipple" id="discount"><i class="icon-upload mr-2"></i> Discount | Saksi</button>
 					@endif
             @endif
