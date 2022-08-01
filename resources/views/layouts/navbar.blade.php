@@ -11,12 +11,12 @@
     <div class="navbar-header navbar-dark d-none d-md-flex align-items-md-center">
         <div class="navbar-brand navbar-brand-md">
             <a href="{{ url('/') }}" class="d-inline-block w-100">
-            <img src="{{ asset('/images/logo-dark.png') }}" class="center mx-auto" alt="">
+            <img src="{{ asset('/images/logo-brin.png') }}" class="center mx-auto" alt="">
             </a>
         </div>
         <div class="navbar-brand navbar-brand-xs">
             <a href="{{ url('/') }}" class="d-inline-block w-100">
-            <img src="{{ asset('/images/logo-simple-dark.png') }}"class="mx-auto" alt="">
+            <img src="{{ asset('/images/favicon.ico') }}"class="mx-auto" alt="">
             </a>
         </div>
     </div>
@@ -52,7 +52,7 @@
             </li>
         </ul>
         <span class="navbar-text ml-md-3">
-            <span class="badge badge-mark border-orange-300 mr-2"></span>
+            <span class="badge badge-mark border-white-300 mr-1"></span>
             {{ salam() }}
         </span>
 

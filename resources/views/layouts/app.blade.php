@@ -24,8 +24,8 @@
 	<style>
 		:root {
 			--app-white: #ffffff;
-			--app-sidebar-dark: #06623b;
-			--app-sidebar-dark-secondary: #ffcc29;
+			--app-sidebar-dark: #1f1d1d;
+			--app-sidebar-dark-secondary: rgb(200, 102, 102);
 		}
 	</style>
 	<link href="/css/style.min.css" rel="stylesheet" type="text/css">

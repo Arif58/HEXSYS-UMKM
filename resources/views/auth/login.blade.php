@@ -52,7 +52,7 @@
 			background-color: #fff;
 		}
 		.login-cover2 {
-			background: url("/images/bg2.png") no-repeat;
+			background: url("/images/bg-login.png") no-repeat;
 			/* background-size: cover; */
             background-position: bottom center;
 			background-attachment: fixed;
