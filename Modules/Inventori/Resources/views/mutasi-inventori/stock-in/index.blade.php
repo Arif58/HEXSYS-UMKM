@@ -167,7 +167,7 @@
             columns: [
                 { data: 'positemunit_cd', name: 'positemunit_cd', visible:false},
                 { data: 'pos_cd', name: 'pos_cd', visible:false },
-                { data: 'pos_nm', name: 'pos.pos_nm' },
+                { data: 'pos_nm', name: 'pos.pos_nm', visible:true },
                 { data: 'item_nm', name: 'master.item_nm' },
                 { data: 'unit_nm', name: 'unit.unit_nm' },
                 { data: "quantity", name : "quantity", visible:true, render: $.fn.dataTable.render.number( '.', ',', 2, '' ), className: "text-right" },

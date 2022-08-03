@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class InvInvPosInventori extends Model{
@@ -25,5 +26,16 @@ class InvInvPosInventori extends Model{
         }
 
         return $pos;
+    }
+	
+	public static function getPosCd(){
+		$lastNum      = InvInvPosInventori::select(DB::Raw("
+                        coalesce(max(pos_cd::int) + 1, 1) as lastnum
+                        "))
+                        ->whereRaw("pos_cd ~ '^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$'")
+                        ->first()
+                        ->lastnum;
+		
+		return str_pad($lastNum,4,"0",STR_PAD_LEFT);
     }
 }

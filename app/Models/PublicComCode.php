@@ -33,7 +33,9 @@ class PublicComCode extends Model{
     }
 	
 	public static function getAllGroup(){
-		$data = DB::table(Self::$tableName)->distinct()->get(['code_group']);
+		$data = DB::table(Self::$tableName)->distinct()
+				->orderBy('code_group')
+				->get(['code_group']);
 		
 		return $data;
 		

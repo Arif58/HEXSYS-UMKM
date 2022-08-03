@@ -402,9 +402,11 @@
 					</div>
 					@endif
 					
+					@if( !in_array($po->po_st,array('INV_TRX_ST_0','INV_TRX_ST_3','INV_TRX_ST_9')) )
 					<button type="button" class="btn btn-primary legitRipple" id="upload"><i class="icon-upload mr-2"></i> Upload</button>
+					@endif
 					@if( in_array(Auth::user()->role->role_cd,array('superuser','admwh')) )
-					<button type="button" class="btn btn-primary legitRipple" id="discount"><i class="icon-upload mr-2"></i> Discount | Saksi</button>
+					<button type="button" class="btn btn-primary legitRipple" id="discount"><i class="icon-upload mr-2"></i> Discount | Biaya Kirim | Saksi</button>
 					@endif
             @endif
             <button type="reset" class="btn btn-light legitRipple" id="reset"><i class="icon-reload-alt mr-2"></i> Kembali </button>
@@ -526,6 +528,18 @@
                                 <div class="form-group form-group-float">
                                     <label class="form-group-float-label is-visible">Discount [%]</label>
                                     <input type="number" name="discount_percent" class="form-control" placeholder="%" aria-invalid="false">
+                                </div>
+                            </div>
+                        </div>
+						<br>
+						<div>
+							<h5 class="modal-title" id="modal-discount-title"> Biaya Kirim</h5>
+						</div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group form-group-float">
+                                    <label class="form-group-float-label is-visible">Biaya Kirim [Rp.]</label>
+                                    <input type="number" name="addcost_amount" class="form-control" placeholder="nominal" aria-invalid="false">
                                 </div>
                             </div>
                         </div>
@@ -801,6 +815,14 @@
                 $('input[name=search_param]').val('').trigger('keyup');
                 tabelData.ajax.reload();
             });
+			
+			/* upload file */
+			$(document).on('click', '#upload',function(){
+				$('#modal-file').modal('show');
+			});
+			$('#save-file').click(function(){
+				$('#form-file').submit();
+			});
 			
             @if($po->po_st == 'INV_TRX_ST_1' or $po->po_st == 'INV_TRX_ST_5')
                 function myCallbackFunction (updatedCell, updatedRow, oldValue) {
@@ -1171,13 +1193,13 @@
 				});
 				
 				/* input discount | saksi */
-				$(document).on('click', '#discount',function(){
+				/* $(document).on('click', '#discount',function(){
 					$('#modal-discount').modal('show');
 					showDiscount(dataTrxCd);
 				});
 				$('#save-discount').click(function(){
 					$('#form-discount').submit();
-				});
+				}); */
 				
 				/* hapus */
 				$(document).on('click', '.hapus-dokumen',function(){ 
@@ -1390,6 +1412,7 @@
 				
 				$('input[name=discount_amount]').val(responseData.discount_amount);
 				$('input[name=discount_percent]').val(responseData.discount_percent);
+				$('input[name=addcost_amount]').val(responseData.addcost_amount);
 				
 				$('input[name=data_10]').val(responseData.data_10);
 				$('input[name=data_20]').val(responseData.data_20);

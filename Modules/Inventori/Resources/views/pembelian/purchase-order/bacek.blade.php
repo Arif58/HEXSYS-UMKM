@@ -230,9 +230,9 @@
 					<!--<p><?= configuration('INST_NAME') ?></p>-->
 					<!--
 					<p><img src="{{ url('/images/logo.png') }}" alt="" width="50" height="50"></p>
-					<p><font color="red">HEXSYS</font></p>
-					<p><font size="2px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></p>
-					<p><font size="2px">Telp. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fax : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></p>
+					<p>YAYASAN PENDIDIKAN <font color="red">PRIMA</font> SWARGA BARA (YPPSB)</p>
+					<p><font size="2px">Jalan DR. Soetomo, Komplek PT Kaltim Prima Coal – Sangatta 75683 – Kabupaten Kutai Timur – KALTIM</font></p>
+					<p><font size="2px">Telp. (0549) 21060/21061/521222 Fax : (0549) 21060 - 21629</font></p>
 					-->
 				</div>
 				<div class="colsright text-align-left form-group-bottom-15 " style="margin-top: -10px">
@@ -270,9 +270,11 @@
 			
 			$no_bulan = $array_romawi[date("n",strtotime($data[0]->trx_date))];
 			@endphp
+			<!--if(!in_array($data[0]->dana_tp_nm,array('OPEX','Dana Kegiatan Siswa')) )-->
 			<div class="info">
-		        <h3 id="und">Nomor : <?= str_pad($data[0]->data_no,3,"0",STR_PAD_LEFT) .'/BAST/' .$data[0]->po_unit .' HEXSYS/' . $no_bulan .'/' .date("Y",strtotime($data[0]->trx_date)) ?></h2>
+		        <h3 id="und">Nomor : <?= str_pad($data[0]->data_no,3,"0",STR_PAD_LEFT) .'/BASTB/' .$data[0]->po_unit .' YPPSB-Sgt/' . $no_bulan .'/' .date("Y",strtotime($data[0]->trx_date)) ?></h2>
 		    </div>
+			<!--endif-->
 			@endif
 			@endif
 		</header>
@@ -297,7 +299,7 @@
 		                    <td class="data"></td>
 		                </tr>
 						<tr>
-		                    <td class="data" width="10%">&nbsp;&nbsp;&nbsp;&nbsp;NIP</td>
+		                    <td class="data" width="10%">&nbsp;&nbsp;&nbsp;&nbsp;B/N</td>
 		                    <td class="data" width="50%">: <?= $data[0]->data_20 ?></td>
 		                    <td class="data"></td>
 		                </tr>
@@ -307,7 +309,7 @@
 		                    <td class="data"></td>
 		                </tr>
 						<tr>
-		                    <td class="data" width="10%">&nbsp;&nbsp;&nbsp;&nbsp;NIP</td>
+		                    <td class="data" width="10%">&nbsp;&nbsp;&nbsp;&nbsp;B/N</td>
 		                    <td class="data" width="50%">: <?= $data[0]->data_21 ?></td>
 		                    <td class="data"></td>
 		                </tr>
@@ -317,7 +319,7 @@
 		                    <td class="data"></td>
 		                </tr>
 						<tr>
-		                    <td class="data" width="10%">&nbsp;&nbsp;&nbsp;&nbsp;NIP</td>
+		                    <td class="data" width="10%">&nbsp;&nbsp;&nbsp;&nbsp;B/N</td>
 		                    <td class="data" width="50%">: <?= $data[0]->data_22 ?></td>
 		                    <td class="data"></td>
 		                </tr>
@@ -327,7 +329,7 @@
 						<tr>
 		                    <td class="data" colspan="3">
 							<p>
-							Kami yang tersebut di atas adalah Panitia Pemeriksa Pengadaan Barang / Jasa pada  <?= $data[0]->po_unit ?> HEXSYS, yang dibentuk berdasarkan Surat Keputusan Direktur No. : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tanggal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Telah melakukan pemeriksaan terhadap pengadaan barang untuk <?= $data[0]->po_unit ?> HEXSYS sesuai Surat Pesanan Barang Nomor: <?= str_pad($data[0]->data_no,3,"0",STR_PAD_LEFT) .'/' .$no_bulan .'/' .date("Y",strtotime($data[0]->trx_date)) ?> Tanggal <?= $data[0]->tgl_trx ?> yang dilaksanakan oleh <?= $data[0]->supplier_nm ?>. 
+							Kami yang tersebut di atas adalah Panitia Pemeriksa Pengadaan Barang / Jasa pada sekolah <?= $data[0]->po_unit ?> YPPSB Kecamatan Sangatta Utara yang dibentuk berdasarkan Surat Keputusan Kepala Sekolah No. : &nbsp;&nbsp;&nbsp; <?= $data[0]->data_40 ?> &nbsp;&nbsp;&nbsp; Tanggal &nbsp;&nbsp;&nbsp; <?= $data[0]->data_41 ?> &nbsp;&nbsp;&nbsp;&nbsp; Telah melakukan pemeriksaan terhadap pengadaan barang untuk <?= $data[0]->po_unit ?> YPPSB sesuai Surat Pesanan Barang Nomor: <?= str_pad($data[0]->data_no,3,"0",STR_PAD_LEFT) .'/' .$no_bulan .'/' .date("Y",strtotime($data[0]->trx_date)) ?> Tanggal <?= $data[0]->tgl_trx ?> yang dilaksanakan oleh <?= $data[0]->supplier_nm ?>. 
 							</p>
 							<br>
 							<p>
@@ -363,8 +365,10 @@
 			    <th width="35%">Nama Barang</th>
 			    <th>Qty</th>
 			    <th>Unit</th>
+				@if(!in_array($data[0]->dana_tp_nm,array('BOS','BOSDA','BOP')) )
 			    <th>Harga/Unit</th>
 			    <th>Jumlah</th>
+				@endif
 			  </tr>
 				<?php 
 				$nomor = 1; 
@@ -377,8 +381,10 @@
 			    <td><?= $key->item_nm ?></td>
 			    <td><?= (int) $key->quantity ?></td>
 			    <td><?= $key->unit_nm ?></td>
+				@if(!in_array($data[0]->dana_tp_nm,array('BOS','BOSDA','BOP')) )
 			    <td style="text-align: right;"><?= number_format($key->unit_price,2,',','.') ?></td>
 			    <td style="text-align: right;"><?= number_format($key->trx_amount,2,',','.') ?></td>
+				@endif
 			  </tr>
 			  <?php } ?>
 			    <tr>
@@ -386,8 +392,10 @@
 				    <td style="border-bottom-color: transparent;border-right-color: transparent;"><?= $data[0]->deliv_date ?></td>
 				    <td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
 				    <td style="border-bottom-color: transparent;border-left-color: transparent;"></td>
+					@if(!in_array($data[0]->dana_tp_nm,array('BOS','BOSDA','BOP')) )
 				    <td style="border-bottom-color: transparent;border-left-color: transparent;">Sub Total</td>
 				    <td style="border-bottom-color: transparent;border-left-color: transparent;text-align: right;"><?=  number_format($data[0]->total_price,2,',','.'); ?></td>
+					@endif
 			    </tr>
 				@if ($data[0]->po_st != 'INV_TRX_ST_5')
 				<tr>
@@ -395,8 +403,10 @@
 				    <td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
 				    <td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
 				    <td style="border-bottom-color: transparent;"></td>
+					@if(!in_array($data[0]->dana_tp_nm,array('BOS','BOSDA','BOP')) )
 					<td style="border-bottom-color: transparent;border-left-color: transparent;">PPN</td>
 					<td style="border-bottom-color: transparent;border-left-color: transparent;text-align: right;"><?=  number_format($data[0]->ppn,2,',','.'); ?></td>
+					@endif
 				</tr>
 				<tr>
 					<td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
@@ -406,14 +416,24 @@
 					<td style="border-bottom-color: transparent;border-left-color: transparent;">Discount [<?=  number_format($data[0]->discount_percent,0,',','.'); ?> %]</td>
 					<td style="border-bottom-color: transparent;border-left-color: transparent;text-align: right;"><?=  number_format($data[0]->discount_amount,2,',','.'); ?></td>
 				</tr>
+				<tr>
+					<td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
+					<td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
+					<td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
+					<td style="border-bottom-color: transparent;"></td>
+					<td style="border-bottom-color: transparent;border-left-color: transparent;">Biaya Kirim</td>
+					<td style="border-bottom-color: transparent;border-left-color: transparent;text-align: right;"><?=  number_format($data[0]->addcost_amount,2,',','.'); ?></td>
+				</tr>
 				@endif
 				<tr>
 					<td style="border-right-color: transparent;"></td>
 				    <td style="border-right-color: transparent;"></td>
 				    <td style="border-right-color: transparent;"></td>
 				    <td ></td>
+					@if(!in_array($data[0]->dana_tp_nm,array('BOS','BOSDA','BOP')) )
 					<td>Total</td>
-					<td style="text-align: right;"><?= number_format($data[0]->total_amount - $data[0]->discount_amount,2,',','.'); ?></td>
+					<td style="text-align: right;"><?= number_format($data[0]->total_amount - $data[0]->discount_amount + $data[0]->addcost_amount,2,',','.'); ?></td>
+					@endif
 				</tr>
 			</table>
 				<table border="0" style="border: transparent;" style="">
@@ -434,7 +454,8 @@
 					<table>
 						<tbody>
 							<tr>
-								<td class="data" style=""><?= regionName(configuration('APPCD_REGIONKAB')).' , '.tgl_indo(formatDate($data[0]->tgl_trx)) ?>
+								<!--<td class="data" style=""><?= regionName(configuration('APPCD_REGIONKAB')).' , '.tgl_indo(formatDate($data[0]->tgl_trx)) ?></td>-->
+								<td class="data" style=""><?= 'Sangatta, '.tgl_indo(formatDate($data[0]->tgl_trx)) ?></td>
 							</tr>
 						</tbody>
 					</table>
@@ -465,21 +486,21 @@
 									<td class="data" colspan="2">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="data" width="60%">1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									<td class="data" width="60%">1. <?= $data[0]->data_10 ?></td>
 									<td class="data">....................</td>
 								</tr>
 								<tr>
 									<td class="data" colspan="2">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="data" width="60%">2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									<td class="data" width="60%">2. <?= $data[0]->data_11 ?></td>
 									<td class="data">....................</td>
 								</tr>
 								<tr>
 									<td class="data" colspan="2">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="data" width="60%">3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									<td class="data" width="60%">3. <?= $data[0]->data_12 ?></td>
 									<td class="data">....................</td>
 								</tr>
 							</tbody>

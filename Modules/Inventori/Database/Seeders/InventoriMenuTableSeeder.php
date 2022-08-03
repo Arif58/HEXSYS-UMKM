@@ -57,7 +57,7 @@ class InventoriMenuTableSeeder extends Seeder
                 'created_at'    => date('Y-m-d H:i:s')
             ],[
                 'menu_cd'       => 'INV0103',
-                'menu_nm'       => 'Gudang',
+                'menu_nm'       => 'UMKM',
                 'menu_url'      => 'inventori/setting/pos-inventori',
                 'menu_no'       => '900103',
                 'menu_level'    => 3,

@@ -15,7 +15,7 @@ class CreateSpInvGetPoDetailProcedure extends Migration
     {
         DB::unprepared("
             CREATE OR REPLACE FUNCTION inv.sp_inv_get_po_detail(p_param character varying, p_paramtp character varying)
-            RETURNS TABLE(po_cd uuid, po_no character varying, po_st character varying, trx_date timestamp, tgl_trx character varying, supplier_cd character varying, supplier_nm character varying, supp_add text, deliv_addr text, deliv_date character varying, currency_cd character varying, entry_by character varying, percent_ppn numeric, total_price numeric, total_amount numeric, ppn numeric, note text, po_unit character varying, data_no integer, po_source character varying, popr_st character varying, dana_tp_nm character varying, discount_amount numeric, discount_percent numeric, data_10 character varying, data_11 character varying, data_12 character varying, data_20 character varying, data_21 character varying, data_22 character varying, data_30 character varying, data_31 character varying, data_32 character varying, item_cd character varying, item_nm character varying, item_desc character varying, assettp_cd character varying,assettp_desc character varying, unit_cd character varying, unit_nm character varying, quantity numeric, unit_price numeric, trx_amount numeric, info_note character varying)
+            RETURNS TABLE(po_cd uuid, po_no character varying, po_st character varying, trx_date timestamp, tgl_trx character varying, supplier_cd character varying, supplier_nm character varying, supp_add text, deliv_addr text, deliv_date character varying, currency_cd character varying, entry_by character varying, percent_ppn numeric, total_price numeric, total_amount numeric, ppn numeric, note text, po_unit character varying, data_no integer, po_source character varying, popr_st character varying, dana_tp_nm character varying, discount_amount numeric, discount_percent numeric, addcost_amount numeric, data_10 character varying, data_11 character varying, data_12 character varying, data_20 character varying, data_21 character varying, data_22 character varying, data_30 character varying, data_31 character varying, data_32 character varying,  data_40 character varying, data_41 character varying, data_42 character varying, item_cd character varying, item_nm character varying, item_desc character varying, assettp_cd character varying,assettp_desc character varying, unit_cd character varying, unit_nm character varying, quantity numeric, unit_price numeric, trx_amount numeric, info_note character varying)
             LANGUAGE plpgsql
 			AS $$
             BEGIN
@@ -42,9 +42,9 @@ class CreateSpInvGetPoDetailProcedure extends Migration
 					po.unit_cd as po_unit,
 					po.data_no,po.po_source,po.popr_st,
 					com.code_nm as data_tp_nm,
-                    po.discount_amount,po.discount_percent,
+                    po.discount_amount,po.discount_percent,po.addcost_amount,
 					po.data_10,po.data_11,po.data_12,po.data_20,po.data_21,po.data_22,
-					po.data_30,po.data_31,po.data_32,
+					po.data_30,po.data_31,po.data_32,po.data_40,po.data_41,po.data_42,
 					pod.item_cd,
                     CASE
 				            WHEN pod.item_cd IS NULL THEN pod.item_desc
@@ -89,9 +89,9 @@ class CreateSpInvGetPoDetailProcedure extends Migration
 					po.unit_cd as po_unit,
 					po.data_no,po.po_source,po.popr_st,
 					com.code_nm as data_tp_nm,
-                    po.discount_amount,po.discount_percent,
+                    po.discount_amount,po.discount_percent,po.addcost_amount,
 					po.data_10,po.data_11,po.data_12,po.data_20,po.data_21,po.data_22,
-					po.data_30,po.data_31,po.data_32,
+					po.data_30,po.data_31,po.data_32,po.data_40,po.data_41,po.data_42,
 					pod.item_cd,
                     CASE
 				            WHEN pod.item_cd IS NULL THEN pod.item_desc
@@ -136,9 +136,9 @@ class CreateSpInvGetPoDetailProcedure extends Migration
 					po.unit_cd as po_unit,
 					po.data_no,po.po_source,po.popr_st,
 					com.code_nm as data_tp_nm,
-                    po.discount_amount,po.discount_percent,
+                    po.discount_amount,po.discount_percent,po.addcost_amount,
 					po.data_10,po.data_11,po.data_12,po.data_20,po.data_21,po.data_22,
-					po.data_30,po.data_31,po.data_32,
+					po.data_30,po.data_31,po.data_32,po.data_40,po.data_41,po.data_42,
 					pod.item_cd,
                     CASE
 				            WHEN pod.item_cd IS NULL THEN pod.item_desc

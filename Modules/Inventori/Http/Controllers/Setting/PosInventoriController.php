@@ -22,7 +22,7 @@ class PosInventoriController extends Controller{
      */
     function index(){
         $filename_page = 'index';
-        $title         = 'Data Gudang';
+        $title         = 'Data UMKM';
         
         return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title'));
     }
@@ -45,12 +45,13 @@ class PosInventoriController extends Controller{
      */
     function store(Request $request){
         $this->validate($request,[
-            'pos_cd' => 'required|unique:pgsql.inv.inv_pos_inventori|max:20',
+            //'pos_cd' => 'required|unique:pgsql.inv.inv_pos_inventori|max:20',
             'pos_nm' => 'required|max:255',
         ]);
         
         $pos            = new InvInvPosInventori;
-        $pos->pos_cd    = strtoupper($request->pos_cd);
+        //$pos->pos_cd    = strtoupper($request->pos_cd);
+		$pos->pos_cd 	= InvInvPosInventori::getPosCd();
         $pos->pos_nm    = $request->pos_nm;
         $pos->description   = $request->description;
         if($request->checkbox_transaksi == 'on'){

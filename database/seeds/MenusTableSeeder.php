@@ -22,7 +22,7 @@ class MenusTableSeeder extends Seeder
             [ "menu_cd" => "SYS0103", "menu_nm" => "Kode", "menu_no" => "010103","menu_image" => "","menu_level" => "3", "menu_url" => "sistem/admin/kode", "menu_root" => "SYS01", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "SYS0104", "menu_nm" => "Log Aktivitas", "menu_no" => "010104","menu_image" => "","menu_level" => "3", "menu_url" => "sistem/admin/log-activity", "menu_root" => "SYS01", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "SYS0105", "menu_nm" => "Propinsi", "menu_no" => "010105","menu_image" => "","menu_level" => "3", "menu_url" => "sistem/admin/region", "menu_root" => "SYS01", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
-            [ "menu_cd" => "SYS0106", "menu_nm" => "Data Perusahaan", "menu_no" => "010106","menu_image" => "","menu_level" => "3", "menu_url" => "sistem/admin/company", "menu_root" => "SYS01", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
+            //[ "menu_cd" => "SYS0106", "menu_nm" => "Data Perusahaan", "menu_no" => "010106","menu_image" => "","menu_level" => "3", "menu_url" => "sistem/admin/company", "menu_root" => "SYS01", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             
 			/*--INVENTORI--*/
             /*--Master--*/

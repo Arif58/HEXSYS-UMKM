@@ -347,17 +347,17 @@
 			    </tr>
 				@if ($data[0]->po_st != 'INV_TRX_ST_5')
 				<tr>
+					<td style="border-bottom-color: transparent;border-right-color: transparent;">Alamat Kirim</td>
+					<td style="border-bottom-color: transparent;border-right-color: transparent;"><?= $data[0]->deliv_addr; ?></td>
 					<td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
-				    <td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
-				    <td style="border-bottom-color: transparent;border-right-color: transparent;"></td>
-				    <td style="border-bottom-color: transparent;"></td>
+					<td style="border-bottom-color: transparent;"></td>
 					<td style="border-bottom-color: transparent;border-left-color: transparent;">PPN</td>
 					<td style="border-bottom-color: transparent;border-left-color: transparent;text-align: right;"><?=  number_format($data[0]->ppn,2,',','.'); ?></td>
 				</tr>
 				@endif
 				<tr>
-					<td  style="border-right-color: transparent;">Alamat Kirim</td>
-				    <td style="border-right-color: transparent;"><?= $data[0]->deliv_addr; ?></td>
+					<td style="border-right-color: transparent;"></td>
+				    <td style="border-right-color: transparent;"></td>
 				    <td style="border-right-color: transparent;"></td>
 				    <td ></td>
 					<td>Total</td>

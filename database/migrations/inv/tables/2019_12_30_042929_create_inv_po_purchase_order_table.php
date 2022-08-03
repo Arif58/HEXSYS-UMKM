@@ -28,6 +28,7 @@ class CreateInvPoPurchaseOrderTable extends Migration
             $table->decimal("total_amount", 15, 2)->nullable();
 			$table->decimal("discount_amount", 15, 2)->nullable();
 			$table->decimal("discount_percent", 5, 2)->nullable();
+			$table->decimal("addcost_amount", 10, 2)->nullable();
             $table->string("vat_tp")->nullable();
             $table->decimal("percent_ppn", 5,2)->nullable();
             $table->decimal("ppn", 15, 2)->nullable();

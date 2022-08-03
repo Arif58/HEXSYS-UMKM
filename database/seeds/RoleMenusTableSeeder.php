@@ -20,7 +20,7 @@ class RoleMenusTableSeeder extends Seeder
             [ "menu_cd" => "SYS0103", "role_cd" => "superuser", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "SYS0104", "role_cd" => "superuser", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "SYS0105", "role_cd" => "superuser", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
-            [ "menu_cd" => "SYS0106", "role_cd" => "superuser", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
+            //[ "menu_cd" => "SYS0106", "role_cd" => "superuser", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
                         
             /*--Inventori--*/
             /*[ "menu_cd" => "IMST", "role_cd" => "superuser", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
@@ -41,7 +41,7 @@ class RoleMenusTableSeeder extends Seeder
             [ "menu_cd" => "SYS0103", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "SYS0104", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "SYS0105", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
-            [ "menu_cd" => "SYS0106", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
+            //[ "menu_cd" => "SYS0106", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
                                      
 			/*--Inventori--*/
             /*[ "menu_cd" => "IMST", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],

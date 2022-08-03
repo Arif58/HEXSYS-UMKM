@@ -16,8 +16,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group form-group-float">
-                            {{-- <label class="form-group-float-label is-visible">Nama Gudang</label> --}}
-                            <input name="search_param" id="search_param" placeholder="Pencarian Nama Gudang" class="form-control" data-fouc />
+                            {{-- <label class="form-group-float-label is-visible">Nama UMKM</label> --}}
+                            <input name="search_param" id="search_param" placeholder="Pencarian Nama UMKM" class="form-control" data-fouc />
                         </div>
                     </div>
                 </div>
@@ -28,9 +28,9 @@
                     <table class="table table-single-select datatable-pagination" id="tabel-data" width="100%">
                         <thead>
                             <tr>
-                                <th width="15%">Kode Gudang</th>
-                                <th id="pos_nm_table" width="15%">Nama Gudang</th>
-                                <th id="description_table" width="15%">Deskripsi</th>
+                                <th width="15%">Kode UMKM</th>
+                                <th id="pos_nm_table" width="15%">Nama UMKM</th>
+                                <th id="description_table" width="15%">Keterangan</th>
                                 <th id="postrx_st_table" width="1%">postrx_st_table</th>
                                 
                             </tr>
@@ -47,17 +47,17 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group form-group-float">
-                                <label class="form-group-float-label is-visible">Kode Gudang</label>
-                                <input type="text" name="pos_cd" class="form-control text-uppercase" required="" placeholder="" aria-invalid="false">
+                                <label class="form-group-float-label is-visible">Kode UMKM</label>
+                                <input type="text" name="pos_cd" class="form-control text-uppercase" placeholder="Kode digenerate sistem" aria-invalid="false" maxlength="20" readonly>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group form-group-float">
-                                <label class="form-group-float-label is-visible">Nama Gudang</label>
+                                <label class="form-group-float-label is-visible">Nama UMKM</label>
                                 <input type="text" name="pos_nm" class="form-control" required="" placeholder="" aria-invalid="false">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" style="display: none">
                             <div class="form-group form-group-float">
                                 <label class="form-group-float-label is-visible">Pos Transaksi</label>
                                 <div class="input-group">
@@ -66,10 +66,88 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    {{--<div class="row">
                         <div class="col-md-8">
-                            <label class="form-group-float-label is-visible">Deskripsi</label>
+                            <label class="form-group-float-label is-visible">Keterangan</label>
                             <textarea name="description" id="description" class="form-control"></textarea>
+                        </div>
+                    </div>--}}
+					<div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Alamat</label>
+                                <input type="text" name="address" id="address" class="form-control" required="" placeholder="" aria-invalid="false">
+                            </div>
+                        </div>
+                         <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Propinsi</label>
+                                <select name="region_prop" id="region_prop" class="form-control form-control-select2 select-search" data-fouc>
+
+                                </select>
+                            </div>
+                        </div>
+                        {{--<div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Kota/Kabupaten</label>
+                                <select name="region_kab" id="region_kab" class="form-control form-control-select2 select-search" data-fouc>
+
+                                </select>
+                            </div>
+                        </div>--}}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Kode Pos</label>
+                                <input type="text" name="postcode" id="postcode" class="form-control" placeholder="" aria-invalid="false" maxlength="6">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Telepon</label>
+                                <input type="text" name="phone" id="phone" class="form-control" required="" placeholder="" aria-invalid="false" maxlength="20">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">HP</label>
+                                <input type="text" name="mobile" id="mobile" class="form-control" required="" placeholder="" aria-invalid="false" maxlength="20">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Fax</label>
+                                <input type="text" name="fax" id="fax" class="form-control" placeholder="" aria-invalid="false" maxlength="20">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Email</label>
+                                <input type="email" name="email" id="email" class="form-control" placeholder="" aria-invalid="false" maxlength="100">
+                            </div>
+                        </div>
+						<div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">NPWP</label>
+                                <input type="text" name="npwp" id="npwp" class="form-control" placeholder="" aria-invalid="false" maxlength="50">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Kontak Person</label>
+                                <input type="text" name="pic" id="pic" class="form-control" placeholder="" aria-invalid="false" maxlength="200">
+                            </div>
+                        </div>
+						<div class="col-md-8">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Keterangan</label>
+                                <input type="text" name="description" id="description" class="form-control" placeholder="" aria-invalid="false" maxlength="200">
+                            </div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-end align-items-center">

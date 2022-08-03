@@ -616,11 +616,14 @@ class PurchaseOrderController extends Controller{
 			}
 			
 			$sumMinusDiscount	= $sumPoDetail - $discountAmount;
+			
+			$addcostAmount		= $request->addcost_amount ? $request->addcost_amount : 0;
 
             //$po->total_price  	= $sumMinusDiscount;
             //$po->total_amount   	= $sumMinusDiscount;
 			$po->discount_amount 	= $discountAmount;
 			$po->discount_percent 	= $discountPercent;
+			$po->addcost_amount 	= $addcostAmount;
 		}
 		$po->updated_by = Auth::user()->user_id;
         $po->save();
@@ -670,6 +673,17 @@ class PurchaseOrderController extends Controller{
 				
 				$po->entry_by          	= Auth::user()->user_nm;
 				$po->created_by         = Auth::user()->user_id;
+				/* //--BA Saksi
+				$po->data_10 = comCodeValue('BA_CD_NM_01_' .$popr->unit_cd);
+				$po->data_20 = comCodeValue('BA_CD_BN_01_' .$popr->unit_cd);
+				$po->data_11 = comCodeValue('BA_CD_NM_02_' .$popr->unit_cd);
+				$po->data_21 = comCodeValue('BA_CD_BN_02_' .$popr->unit_cd);
+				$po->data_12 = comCodeValue('BA_CD_NM_03_' .$popr->unit_cd);
+				$po->data_22 = comCodeValue('BA_CD_BN_03_' .$popr->unit_cd);
+				//--BA Surat
+				$po->data_40 = comCodeValue('BA_CD_SKNO_' .$popr->unit_cd);
+				$po->data_41 = comCodeValue('BA_CD_SKTG_' .$popr->unit_cd); */
+				
 				$po->save();
 				
 				$poprDetail = InvPoPoDetail::where('po_cd',$id)->get();

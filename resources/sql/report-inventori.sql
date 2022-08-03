@@ -17,7 +17,7 @@ INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_u
 	
 	INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_url, menu_image, created_by, updated_by, created_at, updated_at) VALUES('INV1022', 'Permohonan Pembelian', '901022', 'INV10', 3, 'inventori/report/purchase-request', NULL, 'admin', NULL, CURRENT_TIMESTAMP, NULL);
 	
-	INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_url, menu_image, created_by, updated_by, created_at, updated_at) VALUES('INV1023', 'Pesanan Pembelian', '901023', 'INV10', 3, 'inventori/report/purchase-order', NULL, 'admin', NULL, CURRENT_TIMESTAMP, NULL);
+	INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_url, menu_image, created_by, updated_by, created_at, updated_at) VALUES('INV1023', 'Purchase Order', '901023', 'INV10', 3, 'inventori/report/purchase-order', NULL, 'admin', NULL, CURRENT_TIMESTAMP, NULL);
 	
 	INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_url, menu_image, created_by, updated_by, created_at, updated_at) VALUES('INV1024', 'Penerimaan Barang', '901024', 'INV10', 3, 'inventori/report/receive', NULL, 'admin', NULL, CURRENT_TIMESTAMP, NULL);
 	
@@ -25,7 +25,7 @@ INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_u
 	
 	INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_url, menu_image, created_by, updated_by, created_at, updated_at) VALUES('INV1026', 'Realisasi Permohonan Pembelian', '901026', 'INV10', 3, 'inventori/report/realisasi-pr', NULL, 'admin', NULL, CURRENT_TIMESTAMP, NULL);
 	
-	INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_url, menu_image, created_by, updated_by, created_at, updated_at) VALUES('INV1027', 'Realisasi Pesanan Pembelian', '901027', 'INV10', 3, 'inventori/report/realisasi-po', NULL, 'admin', NULL, CURRENT_TIMESTAMP, NULL);
+	INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_url, menu_image, created_by, updated_by, created_at, updated_at) VALUES('INV1027', 'Realisasi Purchase Order', '901027', 'INV10', 3, 'inventori/report/realisasi-po', NULL, 'admin', NULL, CURRENT_TIMESTAMP, NULL);
 	
 	--INSERT INTO auth.menus (menu_cd, menu_nm, menu_no, menu_root, menu_level, menu_url, menu_image, created_by, updated_by, created_at, updated_at) VALUES('INV1031', 'Approval', '901031', 'INV10', 3, 'inventori/report/approval', NULL, 'admin', NULL, CURRENT_TIMESTAMP, NULL);
 
@@ -81,4 +81,5 @@ SELECT
 menu_cd,
 'admin' AS created_by,now()
 FROM auth.menus m
-WHERE menu_cd ILIKE 'INV10%';
+WHERE menu_cd ILIKE 'INV10%'
+AND menu_cd NOT IN ('INV1003','INV1021','INV1022','INV1026','INV1027','INV1031');

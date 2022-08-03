@@ -14,7 +14,7 @@ class InvInvPosInventoriTableSeeder extends Seeder{
     public function run(){
         InvInvPosInventori::truncate();
         InvInvPosInventori::insert([
-            [
+            /* [
                 "pos_cd"     => "WHMASTER",
                 "pos_nm"     => "GUDANG UTAMA",
                 "postrx_st"  => "1",
@@ -22,7 +22,7 @@ class InvInvPosInventoriTableSeeder extends Seeder{
                 "created_by" => "admin",
                 "created_at" => date('Y-m-d H:i:s'),
             ],
-            /* [
+            [
                 "pos_cd"     => "UNIT01",
                 "pos_nm"     => "UNIT01",
                 "postrx_st"  => "1",
