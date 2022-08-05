@@ -74,10 +74,26 @@
                                 </select>
                             </div>
                         </div>
-                         <div class="col-md-4">
+                        <div class="col-md-4">
                             <div class="form-group form-group-float">
                                 <label class="form-group-float-label is-visible">Kota/Kabupaten</label>
                                 <select name="region_kab" id="region_kab" class="form-control form-control-select2 select-search" data-fouc>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Kecamatan</label>
+                                <select name="region_kec" id="region_kec" class="form-control form-control-select2 select-search" data-fouc>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Kelurahan</label>
+                                <select name="kelurahan" id="kelurahan" class="form-control form-control-select2 select-search" data-fouc>
 
                                 </select>
                             </div>
@@ -136,7 +152,7 @@
                                 <input type="text" name="supplier_note" id="supplier_note" class="form-control" placeholder="" aria-invalid="false" maxlength="200">
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="submit" class="btn btn-primary ml-3 legitRipple">Simpan <i class="icon-floppy-disk ml-2"></i></button>
@@ -154,12 +170,12 @@
     var baseUrl     = "{{ url('inventori/setting/supplier/') }}";
 
     $(document).ready(function(){
-        $('#bagian-form').hide();  
+        $('#bagian-form').hide();
         /*tabel terkait */
         tabelData = $('#tabel-data').DataTable({
-            processing	: true, 
-            serverSide	: true, 
-            order		: [], 
+            processing	: true,
+            serverSide	: true,
+            order		: [],
             ajax		: {
                 url: baseUrl+'/data',
                 type: "POST",
@@ -195,8 +211,8 @@
 					download: 	'open',
 					customize: function (doc) {
 						//--Header & Parameter
-						var reportTitle =  'Data Supplier';	
-												
+						var reportTitle =  'Data Supplier';
+
 						//--Full width table
 						//doc.content[1].table.widths =Array(doc.content[1].table.body[0].length + 1).join('*').split('');
 						doc.content[1].table.widths = [40,150,180,160];
@@ -207,14 +223,14 @@
 							doc.content[1].table.body[i][2].alignment = 'left';
 							doc.content[1].table.body[i][3].alignment = 'left';
 						}
-						
+
 						//doc.defaultStyle.alignment = 'center'; //--alignment all column
 						doc.styles.tableHeader.alignment = 'center';
 						doc.defaultStyle.fontSize = 10;
 						doc.styles.tableHeader.fontSize = 12;
 						doc.styles.tableFooter.fontSize = 10;
 						doc.styles.title.fontSize = 14;
-						
+
 						doc.content.splice(0,1);
 						var now = new Date();
 						var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
@@ -278,7 +294,7 @@
             ],
         });
 
-        $(document).on('keyup', '#search_param',function(){ 
+        $(document).on('keyup', '#search_param',function(){
             tabelData.column('#supplier_nm_table').search($(this).val()).draw();
         });
 
@@ -293,16 +309,16 @@
             saveMethod  ='tambah';
 
             $('input[name=supplier_nm]').focus();
-            $('#bagian-tabel').hide();      
-            $('#bagian-form').show(); 
-            $('.card-title').text('Tambah Data');       
+            $('#bagian-tabel').hide();
+            $('#bagian-form').show();
+            $('.card-title').text('Tambah Data');
         });
 
         /* reset form */
         $('#reset').click(function()   {
             reset('')
         });
-        
+
         /* submit form */
         $('#form-isian').submit(function(e){
             if (e.isDefaultPrevented()) {
@@ -338,7 +354,7 @@
                             'data': record,
                             'dataType': 'JSON',
                             'success': function(response){
-                                if(response["status"] == 'ok') {     
+                                if(response["status"] == 'ok') {
                                     swal({
                                         title: "Berhasil",
                                         type: "success",
@@ -353,7 +369,7 @@
                                     swal({title: "Data Gagal Disimpan",type: "error",showCancelButton: false,showConfirmButton: false,timer: 1000});
                                 }
                             },
-                            'error': function(response){ 
+                            'error': function(response){
                                 var errorText = '';
                                 $.each(response.responseJSON.errors, function(key, value) {
                                     errorText += value+'<br>'
@@ -362,16 +378,16 @@
                                 swal({
                                     title             : response.status+':'+response.responseJSON.message,
                                     type              : "error",
-                                    html              : errorText, 
+                                    html              : errorText,
                                     showCancelButton  : false,
                                     confirmButtonColor: "#DD6B55",
                                     confirmButtonText : "OK",
                                     cancelButtonText  : "Tidak",
                                 }).then(function(result){
-                                    if(result.value){   	
+                                    if(result.value){
                                         reset('ubah');
                                     }
-                                });  
+                                });
                             }
                         });
                     }
@@ -380,7 +396,7 @@
         });
 
         /* ubah data */
-        $(document).on('click', '#ubah',function(){ 
+        $(document).on('click', '#ubah',function(){
             if (dataCd == null) {
                 swal({
                     title: "Pilih Data!",
@@ -391,7 +407,7 @@
                 });
             }else{
                 saveMethod  ='ubah';
-                
+
                 $('input[name=supplier_cd]').val(rowData['supplier_cd']).prop('readonly',true);
                 $('input[name=supplier_nm]').val(rowData['supplier_nm']);
                 $('input[name=address]').val(rowData['address']);
@@ -441,8 +457,8 @@
                         });
                     }
                 });
-                $('#bagian-tabel').hide();      
-                $('#bagian-form').show(); 
+                $('#bagian-tabel').hide();
+                $('#bagian-form').show();
             }
         });
 
@@ -468,7 +484,7 @@
                 }).then(function(result){
                     if(result.value){
                         swal({allowOutsideClick : false, title: "Menghapus Data",onOpen: () => {swal.showLoading();}});
-                        
+
                         $.ajax({
                             url : baseUrl+'/'+dataCd,
                             type: "DELETE",
@@ -502,7 +518,7 @@
                         swal.close();
                     }
                 });
-            } 
+            }
         });
 
         /*cek kode*/
@@ -557,6 +573,34 @@
 		     	},
 	      	});
         });
+        $('#region_kab').change(function () {
+            $('#region_kec').select2({
+		        placeholder : "Pilih Kecamatan",
+		        ajax : {
+		        	url :  "{{ url('daftar-daerah/by-root/') }}"+"/"+$('#region_kab').val(),
+		        	dataType: 'json',
+			        processResults: function(data){
+			            return {
+			                results: data
+			            };
+			        },
+		     	},
+	      	});
+        });
+        $('#region_kec').change(function () {
+            $('#kelurahan').select2({
+		        placeholder : "Pilih Kelurahan",
+		        ajax : {
+		        	url :  "{{ url('daftar-daerah/by-root/') }}"+"/"+$('#region_kec').val(),
+		        	dataType: 'json',
+			        processResults: function(data){
+			            return {
+			                results: data
+			            };
+			        },
+		     	},
+	      	});
+        });
     });
 
     function reset(type) {
@@ -564,12 +608,12 @@
         dataCd = null;
         rowData = null;
         tabelData.ajax.reload();
-        
-        $('#bagian-tabel').show();      
-        $('#bagian-form').hide(); 
+
+        $('#bagian-tabel').show();
+        $('#bagian-form').hide();
         $('input[name=supplier_cd]').val('').prop('readonly',false);
         $('input[name=supplier_nm]').val('');
-        $('.card-title').text('Data Supplier');       
+        $('.card-title').text('Data Supplier');
     }
 </script>
 @endpush

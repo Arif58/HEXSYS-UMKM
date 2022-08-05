@@ -125,6 +125,7 @@ class KonversiController extends Controller
             $newMove->pos_destination = $request->pos_cd_destination;
             $newMove->unit_cd         = $oldStockSource->unit_cd;
             $newMove->item_cd         = $oldStockSource->item_cd;
+            $newMove->pos_cd = Auth::user()->unit_cd;
             $newMove->trx_by          = Auth::user()->user_id;
             $newMove->trx_datetime    = date('Y-m-d H:i:s');
             $newMove->trx_qty         = $request->jumlah_trx;

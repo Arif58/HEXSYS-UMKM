@@ -52,6 +52,7 @@ class InvItemTypeController extends Controller{
         $type             = new InvInvItemType;
         $type->type_cd    = strtoupper($request->type_cd);
         $type->type_nm    = $request->type_nm;
+        $type->pos_cd = Auth::user()->unit_cd;
         $type->created_by = Auth::user()->user_id;
         $type->save();
 
@@ -89,6 +90,7 @@ class InvItemTypeController extends Controller{
         $type = InvInvItemType::find($id);
         $type->type_cd    = $request->type_cd;
         $type->type_nm    = $request->type_nm;
+        $type->pos_cd = Auth::user()->unit_cd;
         $type->created_by = Auth::user()->user_id;
 
         $type->save();

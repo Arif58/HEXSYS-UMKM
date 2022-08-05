@@ -5,15 +5,17 @@ namespace App\Http\Controllers\Admin;
 use DB;
 use Auth;
 use DataTables;
-use Illuminate\Http\Request;
-use App\Models\AuthUser;
 use App\Models\AuthRole;
+use App\Models\AuthUser;
 use App\Models\AuthRoleUser;
-use App\Models\PublicComCompany;
+use Illuminate\Http\Request;
 use App\Models\PublicComUnit;
+use App\Models\PublicComCompany;
 
-use Illuminate\Support\Facades\Hash;
+use App\Models\InvInvPosInventori;
+use App\Helpers\LogActivityHelpers;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -84,7 +86,7 @@ class UserController extends Controller
             }
             $roles      = AuthRole::getAllRoles(Auth::user()->role->role_cd);
             $companies  = PublicComCompany::all(['comp_cd','comp_nm']);
-			$unit  		= PublicComUnit::all(['unit_cd','unit_nm']);
+			$unit  		= InvInvPosInventori::all(['pos_cd','pos_nm']);
             \LogActivityHelpers::saveLog(
                 $logTp = 'visit', 
                 $logNm = "Membuka Menu $title" . " " . $dataUser->user_nm

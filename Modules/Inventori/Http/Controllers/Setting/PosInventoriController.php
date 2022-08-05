@@ -53,6 +53,19 @@ class PosInventoriController extends Controller{
         //$pos->pos_cd    = strtoupper($request->pos_cd);
 		$pos->pos_cd 	= InvInvPosInventori::getPosCd();
         $pos->pos_nm    = $request->pos_nm;
+        $pos->postcode = $request->postcode;
+        $pos->phone = $request->phone;
+        $pos->address = $request->address;
+        $pos->mobile = $request->mobile;
+        $pos->fax = $request->fax;
+        $pos->email = $request->email;
+        $pos->npwp = $request->npwp;
+        $pos->pic = $request->pic;
+        $pos->pos_note = $request->pos_note;
+        $pos->region_prop = $request->region_prop;
+        $pos->region_kab = $request->region_kab;
+        $pos->region_kec = $request->region_kec;
+        $pos->region_kel = $request->region_kel;
         $pos->description   = $request->description;
         if($request->checkbox_transaksi == 'on'){
             $pos->postrx_st = '1';
@@ -96,7 +109,22 @@ class PosInventoriController extends Controller{
         $pos = InvInvPosInventori::find($id);
         $pos->pos_cd     = $request->pos_cd;
         $pos->pos_nm     = $request->pos_nm;
+        $pos->postcode = $request->postcode;
+        $pos->phone = $request->phone;
+        $pos->address = $request->address;
+        $pos->mobile = $request->mobile;
+        $pos->fax = $request->fax;
+        $pos->email = $request->email;
+        $pos->npwp = $request->npwp;
+        $pos->pos_note = $request->pos_note;
+
+        $pos->pic = $request->pic;
+        $pos->region_prop = $request->region_prop;
+        $pos->region_kab = $request->region_kab;
+        $pos->region_kec = $request->region_kec;
+        $pos->region_kel = $request->region_kel;  
         $pos->description   = $request->description;
+    
         if($request->checkbox_transaksi == 'on'){
             $pos->postrx_st = '1';
         } else {

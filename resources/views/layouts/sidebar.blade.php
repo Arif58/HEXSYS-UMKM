@@ -111,9 +111,9 @@
                     </li>
 
                     @php
-                    $Menu = new App\Http\Controllers\MenuController;
+                   $Menu = new App\Http\Controllers\MenuController;
                     @endphp
-                    @include('menu.menu',['activeMenus'=> $Menu->getActiveMenus() ,'menus' => $Menu->getMenuSide()])
+                   @include('menu.menu',['activeMenus'=> $Menu->getActiveMenus() ,'menus' => $Menu->getMenuSide()])
 
                     <!-- /main -->                        
                 </ul>

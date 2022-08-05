@@ -203,6 +203,7 @@ class PurchaseRequestController extends Controller{
             $pr->trx_date           = $trxDate;
             $pr->note               = $request->note;
             $pr->pr_st              = 'INV_TRX_ST_1';
+            $pr->pos_cd = Auth::user()->unit_cd;
 			//$pr->entry_by         = Auth::user()->user_id;
 			$pr->entry_by          	= Auth::user()->user_nm;
             $pr->created_by         = Auth::user()->user_id;
@@ -243,6 +244,7 @@ class PurchaseRequestController extends Controller{
 			else {
 			$prd->info_st     	= '0';
 			}
+            
             $prd->created_by    = Auth::user()->user_id;
             $prd->save();
 			
@@ -314,6 +316,7 @@ class PurchaseRequestController extends Controller{
         //    $prd                = InvPoPrDetail::find($id);
 		$savePrd = DB::transaction(function () use($request, $prd) {
             $prd->pos_source    = $request->pos_source;
+            $prd->pos_cd = Auth::user()->unit_cd;
             $prd->updated_by    = Auth::user()->user_id;
             $prd->save();
 
@@ -365,6 +368,7 @@ class PurchaseRequestController extends Controller{
 			$pr             = InvPoPurchaseRequest::find($id);
 			$pr->pr_st     	= 'INV_TRX_ST_0';
 			$pr->pos_source	= $posWh;
+            $pr->pos_cd = Auth::user()->unit_cd;
 			$pr->updated_by = Auth::user()->user_id;
 			$pr->save();
 			

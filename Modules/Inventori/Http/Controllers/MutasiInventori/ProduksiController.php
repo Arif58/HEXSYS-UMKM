@@ -193,6 +193,7 @@ class ProduksiController extends Controller{
             $prod->trx_date           	= $trxDate;
             $prod->note               	= $request->note;
             $prod->prod_st            	= 'INV_TRX_ST_1';
+            $prod->pos_cd = Auth::user()->unit_cd;
 			//$prod->entry_by         	= Auth::user()->user_id;
 			$prod->entry_by          	= Auth::user()->user_nm;
             $prod->created_by         	= Auth::user()->user_id;

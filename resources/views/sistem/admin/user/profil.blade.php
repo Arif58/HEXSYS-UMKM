@@ -128,8 +128,8 @@
                                         <select name="unit_cd" id="unit_cd" data-placeholder="Pilih Unit" class="form-control form-control-select2 select-search" data-fouc>
                                             <option value=""> === Pilih Data === </option>
                                             @foreach ($unit as $item)
-                                                <option value="{{ $item->unit_cd }}">{{ $item->unit_nm }}</option>   
-                                            @endforeach
+                                            <option value="{{ $item->pos_cd }}">{{ $item->pos_nm }}</option>
+                                        @endforeach
                                         </select>
                                     </div>
                                 </div>

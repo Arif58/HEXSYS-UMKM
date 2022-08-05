@@ -202,6 +202,7 @@ class ReceiveItemController extends Controller{
             $receive->note              = $request->note;
             $receive->pos_cd            = $request->pos_cd;
             $receive->ri_st             = 'INV_TRX_ST_1';
+            $receive->pos_cd = Auth::user()->unit_cd;
             //$receive->entry_by          = Auth::user()->user_id;
 			$receive->entry_by          = Auth::user()->user_nm;
             $receive->created_by        = Auth::user()->user_id;
@@ -274,6 +275,7 @@ class ReceiveItemController extends Controller{
 					$newMove->pos_destination = $oldStock->pos_cd;
 					$newMove->unit_cd         = $oldStock->unit_cd;
 					$newMove->item_cd         = $oldStock->item_cd;
+                    $newMove->pos_cd = Auth::user()->unit_cd;
 					$newMove->trx_by          = Auth::user()->user_id;
 					$newMove->trx_datetime    = date('Y-m-d H:i:s');
 					$newMove->trx_qty         = $item->quantity;

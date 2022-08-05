@@ -64,7 +64,9 @@ class SupplierController extends Controller{
         $supplier->npwp = $request->npwp;
         $supplier->pic = $request->pic;
 		$supplier->supplier_note = $request->supplier_note;
+        $supplier->pos_cd = Auth::user()->unit_cd;
         $supplier->created_by  = Auth::user()->user_id;
+        
         $supplier->save();
 
         return response()->json(['status' => 'ok'],200); 
@@ -112,6 +114,7 @@ class SupplierController extends Controller{
         $supplier->npwp = $request->npwp;
         $supplier->pic = $request->pic;
 		$supplier->supplier_note = $request->supplier_note;
+        $supplier->pos_cd = Auth::user()->unit_cd;
         $supplier->created_by  = Auth::user()->user_id;
 
         $supplier->save();

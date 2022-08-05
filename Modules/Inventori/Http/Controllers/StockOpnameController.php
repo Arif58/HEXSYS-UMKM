@@ -134,6 +134,7 @@ class StockOpnameController extends Controller{
             $opname->date_start = formatDate($tanggal[0]);
             $opname->date_end   = formatDate($tanggal[1]);
             $opname->note       = $request->note;
+            $opname->pos_cd = Auth::user()->unit_cd;
             $opname->created_by = Auth::user()->user_id;
             $opname->save();
 
@@ -191,6 +192,7 @@ class StockOpnameController extends Controller{
     function update(Request $request, $id){    
         $opname             = InvInvOpname::find($id);
         $opname->trx_st     = '1';
+        $opname->pos_cd = Auth::user()->unit_cd;
         $opname->updated_by = Auth::user()->user_id;
         $opname->save();
 

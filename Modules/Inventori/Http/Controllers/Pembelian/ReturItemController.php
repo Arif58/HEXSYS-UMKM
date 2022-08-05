@@ -201,6 +201,7 @@ class ReturItemController extends Controller
             $retur->ppn               = $request->ppn;
             $retur->note              = $request->note;
             $retur->retur_st          = 'INV_TRX_ST_1';
+            $retur->pos_cd = Auth::user()->unit_cd;
             //$retur->entry_by          = Auth::user()->user_id;
 			$retur->entry_by          = Auth::user()->user_nm;
             $retur->created_by        = Auth::user()->user_id;
@@ -237,6 +238,7 @@ class ReturItemController extends Controller
     function update(Request $request, $id){    
         $retur             = InvPoRetur::find($id);
         $retur->retur_st   = 'INV_TRX_ST_0';
+        $retur->pos_cd = Auth::user()->unit_cd;
         $retur->updated_by = Auth::user()->user_id;
         $retur->save();
 

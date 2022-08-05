@@ -57,6 +57,7 @@ class StockOutController extends Controller{
             $newMove->pos_destination = $oldStock->pos_cd;
             $newMove->unit_cd         = $oldStock->unit_cd;
             $newMove->item_cd         = $oldStock->item_cd;
+            $newMove->pos_cd = Auth::user()->unit_cd;
             $newMove->trx_by          = Auth::user()->user_id;
             $newMove->trx_datetime    = date('Y-m-d H:i:s');
             $newMove->trx_qty         = $request->jumlah_trx;

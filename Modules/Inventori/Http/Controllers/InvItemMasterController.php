@@ -218,6 +218,7 @@ class InvItemMasterController extends Controller{
             /*if($request->checkbox_generik == 'on'){
                 $item->generic_st   = '1';
             }*/
+            $item->pos_cd = Auth::user()->unit_cd;
             $item->created_by     = Auth::user()->user_id;
             $item->save();
             
@@ -339,6 +340,7 @@ class InvItemMasterController extends Controller{
         } else {
             $item->generic_st   = '0';
         }*/
+        $item->pos_cd = Auth::user()->unit_cd;
         $item->updated_by     	= Auth::user()->user_id;
 
         $item->save();

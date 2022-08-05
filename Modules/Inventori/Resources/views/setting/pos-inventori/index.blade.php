@@ -57,6 +57,12 @@
                                 <input type="text" name="pos_nm" class="form-control" required="" placeholder="" aria-invalid="false">
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Deskripsi UMKM</label>
+                                <input type="text" name="description" class="form-control" required="" placeholder="" aria-invalid="false">
+                            </div>
+                        </div>
                         <div class="col-md-4" style="display: none">
                             <div class="form-group form-group-float">
                                 <label class="form-group-float-label is-visible">Pos Transaksi</label>
@@ -79,7 +85,7 @@
                                 <input type="text" name="address" id="address" class="form-control" required="" placeholder="" aria-invalid="false">
                             </div>
                         </div>
-                         <div class="col-md-4">
+                        <div class="col-md-4">
                             <div class="form-group form-group-float">
                                 <label class="form-group-float-label is-visible">Propinsi</label>
                                 <select name="region_prop" id="region_prop" class="form-control form-control-select2 select-search" data-fouc>
@@ -87,6 +93,31 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Kota/Kabupaten</label>
+                                <select name="region_kab" id="region_kab" class="form-control form-control-select2 select-search" data-fouc>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Kecamatan</label>
+                                <select name="region_kec" id="region_kec" class="form-control form-control-select2 select-search" data-fouc>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Kelurahan</label>
+                                <select name="region_kel" id="region_kel" class="form-control form-control-select2 select-search" data-fouc>
+
+                                </select>
+                            </div>
+                        </div>
+                  
                         {{--<div class="col-md-4">
                             <div class="form-group form-group-float">
                                 <label class="form-group-float-label is-visible">Kota/Kabupaten</label>
@@ -146,7 +177,7 @@
 						<div class="col-md-8">
                             <div class="form-group form-group-float">
                                 <label class="form-group-float-label is-visible">Keterangan</label>
-                                <input type="text" name="description" id="description" class="form-control" placeholder="" aria-invalid="false" maxlength="200">
+                                <input type="text" name="pos_note" id="pos_note" class="form-control" placeholder="" aria-invalid="false" maxlength="200">
                             </div>
                         </div>
                     </div>
@@ -397,12 +428,70 @@
                             $('input[name=pos_cd]').val('');
                             $('input[name=pos_cd]').focus();
                             swal.close();
+                    
                         });
                     }
                 });
             }
         });
+        $('#region_prop').select2({
+	        placeholder : "Pilih Propinsi",
+	        ajax : {
+	        	url :  "{{ url('daftar-daerah/provinsi/') }}",
+	        	dataType: 'json',
+		        processResults: function(data){
+		            return {
+		                results: data
+		            };
+		        },
+	     	},
+      	});
+        $('#region_prop').change(function () {
+            $('#region_kab').select2({
+		        placeholder : "Pilih Kota",
+		        ajax : {
+		        	url :  "{{ url('daftar-daerah/by-root/') }}"+"/"+$('#region_prop').val(),
+		        	dataType: 'json',
+			        processResults: function(data){
+			            return {
+			                results: data
+			            };
+			        },
+		     	},
+	      	});
+        });
+        $('#region_kab').change(function () {
+            $('#region_kec').select2({
+		        placeholder : "Pilih Kecamatan",
+		        ajax : {
+		        	url :  "{{ url('daftar-daerah/by-root/') }}"+"/"+$('#region_kab').val(),
+		        	dataType: 'json',
+			        processResults: function(data){
+			            return {
+			                results: data
+			            };
+			        },
+		     	},
+	      	});
+        });
+        $('#region_kec').change(function () {
+            $('#region_kel').select2({
+		        placeholder : "Pilih Kelurahan",
+		        ajax : {
+		        	url :  "{{ url('daftar-daerah/by-root/') }}"+"/"+$('#region_kec').val(),
+		        	dataType: 'json',
+			        processResults: function(data){
+			            return {
+			                results: data
+			            };
+			        },
+		     	},
+	      	});
+        });
     });
+     /*region */
+    
+    
 
     function reset(type) {
         saveMethod  ='';
@@ -414,6 +503,21 @@
         $('#bagian-form').hide(); 
         $('input[name=pos_cd]').val('').prop('readonly',false);
         $('input[name=pos_nm]').val('');
+        $('input[name=description]').val('');
+        $('input[name=address]').val('');
+        $('input[name=phone]').val('');
+        $('input[name=mobile]').val('');
+        $('input[name=fax]').val('');
+        $('input[name=email]').val('');
+        $('input[name=npwp]').val('');
+        $('input[name=pic]').val('');
+        $('input[name=pos_note]').val('');
+        $('input[name=postcode]').val('');
+        $('select[name=region_prop]').val('').trigger('change');
+        $('select[name=region_kec]').val('').trigger('change');
+        $('select[name=region_kel]').val('').trigger('change');
+        $('select[name=region_kab]').val('').trigger('change');
+
         $('.card-title').text('Data Gudang');       
     }
 </script>
