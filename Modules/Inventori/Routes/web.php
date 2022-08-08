@@ -15,12 +15,12 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
     Route::get('/', function () {
         return redirect('inventori/daftar-inventori');
     });
-	
+
 	Route::group(['prefix' => 'file'], function (){
 		Route::post('/{id}', 'FileController@store');
 		Route::get('/delete/{id}', 'FileController@destroy');
 	});
-	
+
 	Route::group(['prefix' => 'setting','middleware' => ['check.role.menu:INV01']], function () {
         Route::get('/', function () {
             return redirect('inventori/satuan');
@@ -54,6 +54,7 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
             Route::get('/{id}', 'Setting\PosInventoriController@show');
             Route::put('/{id}', 'Setting\PosInventoriController@update');
             Route::delete('/{id}', 'Setting\PosInventoriController@destroy');
+            Route::get('/print/{id}', 'Setting\PosInventoriController@print');
         });
 
         /* supplier */
@@ -111,7 +112,7 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
     Route::get('/datalist', 'InvItemMasterController@getDataList');
 	Route::get('/tipeaset', 'InvItemMasterController@getTipeAset');
 	Route::get('/satuanlist', 'InvItemMasterController@getSatuanList');
-	
+
     Route::group(['prefix' => 'daftar-inventori','middleware' => ['check.role.menu:INV02']], function () {
         Route::get('/', 'InvItemMasterController@index');
         Route::get('/detail/{id}', 'InvItemMasterController@detail');
@@ -139,7 +140,7 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
 
     /* mutasi-inventori */
     Route::group(['prefix' => 'mutasi-inventori','middleware' => ['check.role.menu:INV04']], function () {
-        
+
         /* stock in */
         Route::group(['prefix' => 'stock-in','middleware' => ['check.role.menu:INV0401']], function () {
             Route::get('/', 'MutasiInventori\StockInController@index');
@@ -192,7 +193,7 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
             Route::get('/', 'MutasiInventori\HistoryController@index');
             Route::post('/data', 'MutasiInventori\HistoryController@getData');
         });
-		
+
 		/* produksi */
         Route::group(['prefix' => 'produksi','middleware' => ['check.role.menu:INV0409']], function () {
             Route::get('/{id?}', 'MutasiInventori\ProduksiController@index');
@@ -239,7 +240,7 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
 			Route::put('/itempos/{id}', 'Pembelian\PurchaseRequestController@updatePos');
             Route::delete('/item/{id}', 'Pembelian\PurchaseRequestController@destroyItem');
         });
-		
+
 		/* purchase order */
         Route::group(['prefix' => 'purchase-order'/*,'middleware' => ['check.role.menu:INV0601']*/], function () {
             Route::get('/{id?}', 'Pembelian\PurchaseOrderController@index');
@@ -254,13 +255,13 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
             Route::delete('/item/{id}', 'Pembelian\PurchaseOrderController@destroyItem');
 			Route::put('/closing/{id}', 'Pembelian\PurchaseOrderController@closing');
 			Route::put('/generate/{id}', 'Pembelian\PurchaseOrderController@generatePo');
-			
+
 			Route::get('/print/{id}', 'Pembelian\PurchaseOrderController@print');
 			Route::get('/print-request/{id}', 'Pembelian\PurchaseOrderController@printRequest');
 			Route::get('/print-nota/{id}', 'Pembelian\PurchaseOrderController@printNota');
 			Route::get('/print-bast/{id}', 'Pembelian\PurchaseOrderController@printBast');
 			Route::get('/print-bacek/{id}', 'Pembelian\PurchaseOrderController@printBacek');
-			
+
 			Route::post('/discount/{id}', 'Pembelian\PurchaseOrderController@discount');
         });
 
@@ -295,7 +296,7 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
             Route::delete('/item/{id}', 'Pembelian\ReturItemController@destroyItem');
             Route::post('/data-list-faktur','Pembelian\ReturItemController@getDataListFaktur');
         });
-		
+
 		/* approval */
         Route::group(['prefix' => 'approval'/*,'middleware' => ['check.role.menu:INV0605']*/], function () {
             //Route::get('/{id?}', 'Pembelian\ApprovalController@index');
@@ -304,15 +305,15 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
 			Route::post('/history', 'Pembelian\ApprovalController@getHistory');
             Route::put('/{id}', 'Pembelian\ApprovalController@update');
             Route::delete('/{id}', 'Pembelian\ApprovalController@destroy');
-			
+
 			Route::get('/list/{id}', 'Pembelian\ApprovalController@getApproval');
 			Route::put('/reject/{id}', 'Pembelian\ApprovalController@reject');
 			Route::get('/view/{id}', 'Pembelian\ApprovalController@viewData');
 			Route::get('/file/{id}', 'Pembelian\ApprovalController@viewFile');
-			
+
 			Route::get('/edit/{id?}', 'Pembelian\ApprovalController@editData');
         });
-		
+
 		/* invoice */
         Route::group(['prefix' => 'invoice'/*,'middleware' => ['check.role.menu:INV0606']*/], function () {
             Route::get('/', 'Pembelian\PurchaseOrderController@invoice');
@@ -321,7 +322,7 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
 			Route::put('/close/{id}', 'Pembelian\PurchaseOrderController@closeInvoice');
         });
     });
-	
+
 	/* laporan inventori */
     Route::group(['prefix' => 'report','middleware' => ['check.role.menu:INV10']], function () {
         /* stock in */
@@ -347,7 +348,7 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
             Route::get('/', 'Report\StockAdjustmentController@index');
             Route::post('/data', 'Report\StockAdjustmentController@getData');
         });
-		
+
 		/* kartu stok */
         Route::group(['prefix' => 'kartu-stok'], function () {
             Route::get('/', 'Report\HistoryController@index');
@@ -365,25 +366,25 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
             Route::get('/', 'Report\PurchaseRequestController@index');
             Route::post('/data', 'Report\PurchaseRequestController@getData');
         });
-		
+
 		/* permohonan Pembelian */
         Route::group(['prefix' => 'purchase-request'], function () {
             Route::get('/', 'Report\PurchasePoprController@index');
             Route::post('/data', 'Report\PurchasePoprController@getData');
         });
-		
+
 		/* purchase order */
         Route::group(['prefix' => 'purchase-order'], function () {
             Route::get('/', 'Report\PurchaseOrderController@index');
             Route::post('/data', 'Report\PurchaseOrderController@getData');
         });
-		
+
 		/* realisasi permohonan Pembelian */
         Route::group(['prefix' => 'realisasi-pr'], function () {
             Route::get('/', 'Report\PurchasePoprController@realisasi');
             Route::post('/data', 'Report\PurchasePoprController@getRealisasi');
         });
-		
+
 		/* realisasi purchase order */
         Route::group(['prefix' => 'realisasi-po'], function () {
             Route::get('/', 'Report\PurchaseOrderController@realisasi');
@@ -401,7 +402,7 @@ Route::group(['prefix' => 'inventori','middleware' => ['check.role.menu:INV']], 
             Route::get('/{id?}', 'Report\ReturItemController@index');
             Route::post('/data', 'Report\ReturItemController@getData');
         });
-		
+
 		/* approval */
         Route::group(['prefix' => 'approval'], function () {
             Route::get('/{id?}', 'Report\ApprovalController@index');

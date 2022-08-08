@@ -11,7 +11,7 @@ use App\Models\InvInvPosInventori;
 
 class PosInventoriController extends Controller{
     private $folder_path = 'setting.pos-inventori';
-    
+
     function __construct(){
         $this->middleware('auth');
     }
@@ -23,7 +23,7 @@ class PosInventoriController extends Controller{
     function index(){
         $filename_page = 'index';
         $title         = 'Data UMKM';
-        
+
         return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title'));
     }
 
@@ -37,6 +37,13 @@ class PosInventoriController extends Controller{
         return DataTables::of($data)->make(true);
     }
 
+    function print(Request $request, $id) {
+        $filename_page = 'print';
+        $datas = InvInvPosInventori::select('pos_cd','pos_nm','description','postrx_st')->where('pos_cd', $id)->get();
+        return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('datas'));
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -48,7 +55,7 @@ class PosInventoriController extends Controller{
             //'pos_cd' => 'required|unique:pgsql.inv.inv_pos_inventori|max:20',
             'pos_nm' => 'required|max:255',
         ]);
-        
+
         $pos            = new InvInvPosInventori;
         //$pos->pos_cd    = strtoupper($request->pos_cd);
 		$pos->pos_cd 	= InvInvPosInventori::getPosCd();
@@ -75,7 +82,7 @@ class PosInventoriController extends Controller{
         $pos->created_by= Auth::user()->user_id;
         $pos->save();
 
-        return response()->json(['status' => 'ok'],200); 
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -105,7 +112,7 @@ class PosInventoriController extends Controller{
         $this->validate($request,[
             'pos_nm' => 'required',
         ]);
-        
+
         $pos = InvInvPosInventori::find($id);
         $pos->pos_cd     = $request->pos_cd;
         $pos->pos_nm     = $request->pos_nm;
@@ -122,9 +129,9 @@ class PosInventoriController extends Controller{
         $pos->region_prop = $request->region_prop;
         $pos->region_kab = $request->region_kab;
         $pos->region_kec = $request->region_kec;
-        $pos->region_kel = $request->region_kel;  
+        $pos->region_kel = $request->region_kel;
         $pos->description   = $request->description;
-    
+
         if($request->checkbox_transaksi == 'on'){
             $pos->postrx_st = '1';
         } else {
@@ -134,7 +141,7 @@ class PosInventoriController extends Controller{
 
         $pos->save();
 
-        return response()->json(['status' => 'ok'],200); 
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -156,7 +163,7 @@ class PosInventoriController extends Controller{
      */
     function getListData(Request $request){
         $searchParam = $request->get('term');
-        $poss       = InvInvPosInventori::select("pos_cd as id", "pos_nm as text") 
+        $poss       = InvInvPosInventori::select("pos_cd as id", "pos_nm as text")
                         ->where("pos_nm", "ILIKE", "%$searchParam%")
                         ->get()
                         ->toArray();
