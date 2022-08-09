@@ -8,11 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class InvInvPosInventori extends Model{
     protected $table        = 'inv.inv_pos_inventori';
-    protected $primaryKey   = 'pos_cd'; 
+    protected $primaryKey   = 'pos_cd';
     public $incrementing    = false;
 
     protected $fillable = [
-        'pos_cd', 'pos_nm', 'created_by', 'updated_by'
+        'pos_cd', 'pos_nm', 'postcode','phone','address','mobile','fax','email','npwp','pic','pos_note','region_prop','region_kab','region_kec','region_kel','description', 'created_by', 'updated_by'
     ];
 
     static function getOwnedPos($roleUser,$defaultUnit){
@@ -32,7 +32,7 @@ class InvInvPosInventori extends Model{
         ->where('user.user_id',$id);
         return $pos;
     }
-	
+
 	public static function getPosCd(){
 		$lastNum      = InvInvPosInventori::select(DB::Raw("
                         coalesce(max(pos_cd::int) + 1, 1) as lastnum
@@ -40,7 +40,7 @@ class InvInvPosInventori extends Model{
                         ->whereRaw("pos_cd ~ '^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$'")
                         ->first()
                         ->lastnum;
-		
+
 		return str_pad($lastNum,4,"0",STR_PAD_LEFT);
     }
 }

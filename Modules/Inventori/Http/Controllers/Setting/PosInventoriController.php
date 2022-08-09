@@ -42,8 +42,13 @@ class PosInventoriController extends Controller{
      * @return \Illuminate\Http\Response
      */
     function getData(){
-   
-        $data = InvInvPosInventori::select('pos_cd','pos_nm','description','postrx_st') ;
+
+        $data = InvInvPosInventori::select(
+            '*',
+            'user.user_nm',
+            'user.email'
+        )
+        ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd');
 
         //   ->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
         //     ->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
@@ -71,33 +76,55 @@ class PosInventoriController extends Controller{
             'pos_nm' => 'required|max:255',
         ]);
 
-        $pos            = new InvInvPosInventori;
+        // $pos            = new InvInvPosInventori;
         //$pos->pos_cd    = strtoupper($request->pos_cd);
-		$pos->pos_cd 	= InvInvPosInventori::getPosCd();
-        $pos->pos_nm    = $request->pos_nm;
-        $pos->postcode = $request->postcode;
-        $pos->phone = $request->phone;
-        $pos->address = $request->address;
-        $pos->mobile = $request->mobile;
-        $pos->fax = $request->fax;
-        $pos->email = $request->email;
-        $pos->npwp = $request->npwp;
-        $pos->pic = $request->pic;
-        $pos->pos_note = $request->pos_note;
-        $pos->region_prop = $request->region_prop;
-        $pos->region_kab = $request->region_kab;
-        $pos->region_kec = $request->region_kec;
-        $pos->region_kel = $request->region_kel;
-        $pos->description   = $request->description;
-        if($request->checkbox_transaksi == 'on'){
-            $pos->postrx_st = '1';
-        } else {
-			$pos->postrx_st = '0';
-		}
-        $pos->created_by= Auth::user()->user_id;
-        $pos->save();
-        
+		// $pos->pos_cd 	= InvInvPosInventori::getPosCd();
+        // $pos->pos_nm    = $request->pos_nm;
+        // $pos->postcode = $request->postcode;
+        // $pos->phone = $request->phone;
+        // $pos->address = $request->address;
+        // $pos->mobile = $request->mobile;
+        // $pos->fax = $request->fax;
+        // $pos->email = $request->email;
+        // $pos->npwp = $request->npwp;
+        // $pos->pic = $request->pic;
+        // $pos->pos_note = $request->pos_note;
+        // $pos->region_prop = $request->region_prop;
+        // $pos->region_kab = $request->region_kab;
+        // $pos->region_kec = $request->region_kec;
+        // $pos->region_kel = $request->region_kel;
+        // $pos->description   = $request->description;
+        // if($request->checkbox_transaksi == 'on'){
+        //     $pos->postrx_st = '1';
+        // } else {
+		// 	$pos->postrx_st = '0';
+		// }
+        // $pos->created_by= Auth::user()->user_id;
+        // $pos->save();
+
         DB::transaction(function () use($request) {
+
+            $posCd = InvInvPosInventori::getPosCd();
+
+            $pos = InvInvPosInventori::create([
+                'pos_cd' 	    => $posCd,
+                'pos_nm'        => $request->pos_nm,
+                'postcode'      => $request->postcode,
+                'phone'         => $request->phone,
+                'address'       => $request->address,
+                'mobile'        => $request->mobile,
+                'fax'           => $request->fax,
+                'email'         => $request->email,
+                'npwp'          => $request->npwp,
+                'pic'           => $request->pic,
+                'pos_note'      => $request->pos_note,
+                'region_prop'   => $request->region_prop,
+                'region_kab'    => $request->region_kab,
+                'region_kec'    => $request->region_kec,
+                'region_kel'    => $request->region_kel,
+                'description'   => $request->description,
+                'created_by'    => Auth::user()->user_id
+            ]);
 
             $create = !empty($request->create)  ? '1' : '0';
             $read   = !empty($request->read)    ? '1' : '0';
@@ -114,22 +141,23 @@ class PosInventoriController extends Controller{
                 'user_tp'    => $request->role_cd,
                 'rule_tp'    => $ruleTp,
                 'comp_cd'	 => $request->comp_cd,
-                'unit_cd'    => $request->unit_cd,
+                'unit_cd'    => $posCd,
                 'created_by' => Auth::user()->user_id
             ]);
             \LogActivityHelpers::saveLog(
-                $logTp = 'create', 
-                $logNm = "Menambah Data User $user->user_id - $user->user_nm", 
-                $table = $user->getTable(), 
+                $logTp = 'create',
+                $logNm = "Menambah Data User $user->user_id - $user->user_nm",
+                $table = $user->getTable(),
                 $newData = $user
             );
 
-            
             $roleUser = AuthRoleUser::create([
                 'role_cd'    => $request->role_cd,
                 'user_id'    => $user->user_id,
-                'created_by' => Auth::user()->user_id 
+                'created_by' => Auth::user()->user_id
             ]);
+
+            return $posCd;
         });
 
 
