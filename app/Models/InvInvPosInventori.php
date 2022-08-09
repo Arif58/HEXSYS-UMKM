@@ -4,6 +4,7 @@ namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class InvInvPosInventori extends Model{
     protected $table        = 'inv.inv_pos_inventori';
@@ -24,7 +25,11 @@ class InvInvPosInventori extends Model{
             }
             $pos = $pos->get();
         }
-
+        $data=DB::table(Self::$tableName)
+        ->join('auth.role_users as ru','ru.user_id','user.user_id')
+        ->join('auth.roles as role','role.role_cd','ru.role_cd')
+        ->select("*")
+        ->where('user.user_id',$id);
         return $pos;
     }
 	

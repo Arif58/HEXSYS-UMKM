@@ -14,13 +14,25 @@
         <div class="card-body">
             <div id="bagian-tabel">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group form-group-float">
                             {{-- <label class="form-group-float-label is-visible">Nama UMKM</label> --}}
                             <input name="search_param" id="search_param" placeholder="Pencarian Nama UMKM" class="form-control" data-fouc />
                         </div>
                     </div>
+                    {{-- <div class="col-md-6">
+                        <div class="form-group form-group-float">
+                            <label class="form-group-float-label is-visible">Daerah UMKM</label>
+                            <select name="type_cd" class="form-control form-control-select2 select-search" data-fouc>
+                                <option value="">=== Pilih Data ===</option> 
+                                {{-- @foreach ($types as $item)
+                                    <option value="{{ $item->type_cd}}">{{ $item->type_nm}}</option>
+                                @endforeach --}} 
+                            {{-- </select>
+                        </div>
+                    </div>  --}}
                 </div>
+              
                 <button type="button" class="btn btn-primary legitRipple" id="tambah"><i class="icon-add mr-2"></i> Tambah</button>
                 <button type="button" class="btn btn-warning legitRipple" id="ubah"><i class="icon-pencil mr-2"></i> Ubah</button>
                 <button type="button" class="btn btn-danger legitRipple" id="hapus"><i class="icon-trash mr-2"></i> Hapus</button>
@@ -195,6 +207,54 @@
                                 </div>
                             </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">User ID <span class="text-danger">*</span></label>
+                                <input type="text" name="user_id" class="form-control" id="user_id" required placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Nama User <span class="text-danger">*</span></label>
+                                <input type="text" name="user_nm" class="form-control" required="" placeholder="" aria-invalid="false">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Email <span class="text-danger">*</span></label>
+                                <input type="email" name="email" class="form-control" id="email" required placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Password <span class="text-danger">*</span></label>
+                                <input type="password" name="password" id="password" class="form-control" required placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Verifikasi Password <span class="text-danger">*</span></label>
+                                <input type="password" name="repeat_password" class="form-control" required placeholder="">
+                            </div>
+                        </div>
+                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Jenis User <span class="text-danger">*</span></label>
+                                <select name="role_cd" id="role_cd" data-placeholder="Pilih Autorisasi" class="form-control form-control-select2 select-search" required data-fouc>
+                                    <option value=""> === Pilih Data === </option>
+                                    @foreach ($roles as $item)
+                                        <option value="{{ $item->role_cd }}">{{ $item->role_nm }}</option>   
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="submit" class="btn btn-primary ml-3 legitRipple">Simpan <i class="icon-floppy-disk ml-2"></i></button>
                         <button type="reset" class="btn btn-light legitRipple" id="reset">Selesai <i class="icon-reload-alt ml-2"></i></button>
@@ -539,9 +599,14 @@
         $('input[name=fax]').val('');
         $('input[name=email]').val('');
         $('input[name=npwp]').val('');
+        $('input[name=password]').val('');
+        $('input[name=repeat_password]').val('');
+        $('input[name=user_id]').val('');
+        $('input[name=user_nm]').val('');
         $('input[name=pic]').val('');
         $('input[name=pos_note]').val('');
         $('input[name=postcode]').val('');
+        $('select[name=role_cd]').val('').trigger('change');
         $('select[name=region_prop]').val('').trigger('change');
         $('select[name=region_kec]').val('').trigger('change');
         $('select[name=region_kel]').val('').trigger('change');

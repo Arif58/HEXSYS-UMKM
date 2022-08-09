@@ -2,12 +2,20 @@
 
 namespace Modules\Inventori\Http\Controllers\Setting;
 
-use Illuminate\Http\Request;
-
 use Auth;
+
+
+use Illuminate\Support\Str;
 use DataTables;
-use App\Http\Controllers\Controller;
+use App\Models\AuthRole;
+use App\Models\AuthUser;
+use App\Models\AuthRoleUser;
+use Illuminate\Http\Request;
 use App\Models\InvInvPosInventori;
+use Illuminate\Support\Facades\DB;
+use App\Helpers\LogActivityHelpers;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class PosInventoriController extends Controller{
     private $folder_path = 'setting.pos-inventori';
@@ -23,8 +31,9 @@ class PosInventoriController extends Controller{
     function index(){
         $filename_page = 'index';
         $title         = 'Data UMKM';
+        $roles      = AuthRole::getAllRoles(Auth::user()->role->role_cd);
 
-        return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title'));
+        return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title','roles'));
     }
 
     /**
@@ -33,7 +42,12 @@ class PosInventoriController extends Controller{
      * @return \Illuminate\Http\Response
      */
     function getData(){
-        $data = InvInvPosInventori::select('pos_cd','pos_nm','description','postrx_st');
+   
+        $data = InvInvPosInventori::select('pos_cd','pos_nm','description','postrx_st') ;
+
+        //   ->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
+        //     ->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
+        //   ->leftjoin('inv.inv_pos as unit','unit.post_nm','users.user_nm');
         return DataTables::of($data)->make(true);
     }
 
@@ -52,6 +66,7 @@ class PosInventoriController extends Controller{
      */
     function store(Request $request){
         $this->validate($request,[
+            'role_cd' => 'required',
             //'pos_cd' => 'required|unique:pgsql.inv.inv_pos_inventori|max:20',
             'pos_nm' => 'required|max:255',
         ]);
@@ -81,6 +96,42 @@ class PosInventoriController extends Controller{
 		}
         $pos->created_by= Auth::user()->user_id;
         $pos->save();
+        
+        DB::transaction(function () use($request) {
+
+            $create = !empty($request->create)  ? '1' : '0';
+            $read   = !empty($request->read)    ? '1' : '0';
+            $update = !empty($request->update)  ? '1' : '0';
+            $delete = !empty($request->delete)  ? '1' : '0';
+
+            $ruleTp = $create.$read.$update.$delete;
+
+            $user = AuthUser::create([
+                'user_id'    => $request->user_id,
+                'user_nm'    => $request->user_nm,
+                'email'      => $request->email,
+                'password'   => Hash::make($request->password),
+                'user_tp'    => $request->role_cd,
+                'rule_tp'    => $ruleTp,
+                'comp_cd'	 => $request->comp_cd,
+                'unit_cd'    => $request->unit_cd,
+                'created_by' => Auth::user()->user_id
+            ]);
+            \LogActivityHelpers::saveLog(
+                $logTp = 'create', 
+                $logNm = "Menambah Data User $user->user_id - $user->user_nm", 
+                $table = $user->getTable(), 
+                $newData = $user
+            );
+
+            
+            $roleUser = AuthRoleUser::create([
+                'role_cd'    => $request->role_cd,
+                'user_id'    => $user->user_id,
+                'created_by' => Auth::user()->user_id 
+            ]);
+        });
+
 
         return response()->json(['status' => 'ok'],200);
     }
@@ -93,7 +144,7 @@ class PosInventoriController extends Controller{
      */
     function show($id){
         $pos = InvInvPosInventori::find($id);
-
+        $roleUser   = AuthRoleUser::where('user_id',$id)->first();
         if($pos){
             return response()->json(['status' => 'ok', 'data' => $pos],200);
         }else{
