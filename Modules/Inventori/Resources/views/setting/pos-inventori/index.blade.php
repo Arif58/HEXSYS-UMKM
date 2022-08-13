@@ -14,7 +14,7 @@
     <div class="card-body">
         <div id="bagian-tabel">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group form-group-float">
                         {{-- <label class="form-group-float-label is-visible">Nama UMKM</label> --}}
                         <input name="search_param" id="search_param" placeholder="Pencarian Nama UMKM"
@@ -32,6 +32,24 @@
                 {{-- </select>
                         </div>
                     </div>  --}}
+                    <div class="col-md-4">
+                        <div class="form-group form-group-float">
+                            <label class="form-group-float-label is-visible">Propinsi</label>
+                            <select name="region_prop_param" id="region_prop_param"
+                                class="form-control form-control-select2 select-search" data-fouc>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-group-float">
+                            <label class="form-group-float-label is-visible">Kota/Kabupaten</label>
+                            <select name="region_kab_param" id="region_kab_param"
+                                class="form-control form-control-select2 select-search" data-fouc>
+
+                            </select>
+                        </div>
+                    </div>
             </div>
 
             <button type="button" class="btn btn-primary legitRipple" id="tambah"><i class="icon-add mr-2"></i>
@@ -51,7 +69,12 @@
                             <th id="postrx_st_table" width="1%">postrx_st_table</th>
                             <th id="user_nm" width="1%">User Name</th>
                             <th id="email" width="1%">Email</th>
-
+                            <th id="provinsi" width="1%">Provinsi</th>
+                            <th id="kabupaten" width="1%">Kabupaten/Kota</th>
+                            <th id="user_id" width="1%">User ID</th>
+                            <th id="user_id" width="1%">Password User</th>
+                            {{-- <th id="user_id" width="1%">User ID</th> --}}
+                            {{-- <th id="" width="1%">Kabupaten/Kota</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -365,6 +388,31 @@
                         name: 'email',
                         visible: true
                     },
+                    {
+                        data: 'region_prop',
+                        name: 'region_prop',
+                        visible: true
+                    },
+                    {
+                        data: 'region_kab',
+                        name: 'region_kab',
+                        visible: true
+                    },
+                    {
+                        data: 'user_id',
+                        name: 'user_id',
+                        visible: true
+                    },
+                    {
+                        data: 'password',
+                        name: 'password',
+                        visible: true
+                    },
+                    // {
+                    //     data: 'user_nm',
+                    //     name: 'user_id',
+                    //     visible: true
+                    // },
                 ],
             });
 
@@ -624,6 +672,7 @@
                     });
                 }
             });
+            //region
             $('#region_prop').select2({
                 placeholder: "Pilih Propinsi",
                 ajax: {
@@ -681,10 +730,52 @@
                     },
                 });
             });
+            /*end region */
+            //param region prop
+            $('#region_prop_param').select2({
+                placeholder: "Pilih Propinsi",
+                ajax: {
+                    url: "{{ url('daftar-daerah/provinsi/') }}",
+                    dataType: 'json',
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                },
+            });
+            //param region kab
+            $('#region_prop_param').change(function () {
+                $('#region_kab_param').select2({
+                    placeholder: "Pilih Kota",
+                    ajax: {
+                        url: "{{ url('daftar-daerah/by-root/') }}" + "/" +
+                            $('#region_prop_param').val(),
+                        dataType: 'json',
+                        processResults: function (data) {
+                            return {
+                                results: data
+                            };
+                        },
+                    },
+                });
+            });
         });
-        /*region */
 
 
+        $(document).on('change', '#region_prop_param',function(){
+            tabelData.column('#provinsi').search($(this).val()).draw();
+        });
+        $(document).on('change', '#region_kab_param',function(){
+            tabelData.column('#kabupaten').search($(this).val()).draw();
+        });
+        $('#reload-table').click(function(){
+			$('input[name=search_param]').val('').trigger('keyup');
+			$('select[name=region_prop_param]').val('').trigger('change');
+			$('select[name=region_kab_param]').val('').trigger('change');
+
+			tabelData.ajax.reload();
+		});
 
         function reset(type) {
             saveMethod = '';

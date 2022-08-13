@@ -2,12 +2,13 @@
 
 namespace Modules\Inventori\Http\Controllers\Setting;
 
-use Illuminate\Http\Request;
-
 use Auth;
+
 use DataTables;
-use App\Http\Controllers\Controller;
+use App\Models\AuthRole;
+use Illuminate\Http\Request;
 use App\Models\InvPoSupplier;
+use App\Http\Controllers\Controller;
 
 class SupplierController extends Controller{
     private $folder_path = 'setting.supplier';
@@ -23,8 +24,8 @@ class SupplierController extends Controller{
     function index(){
         $filename_page = 'index';
         $title         = 'Data Supplier';
-
-        return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title'));
+        $roles      = AuthRole::getAllRoles(Auth::user()->role->role_cd);
+        return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title','roles'));
     }
 
     /**
@@ -33,9 +34,40 @@ class SupplierController extends Controller{
      * @return \Illuminate\Http\Response
      */
     function getData(){
-        $data = InvPoSupplier::query();
+        $unit = Auth::user()->unit_cd;
+        if ($unit != 'NULL'){
+        $data = InvPoSupplier::select(
+            '*',
+            'user.user_nm',
+             'user.email',
+            'prop.region_nm as region_prop',
+            'kab.region_nm as region_kab'
+            
+        )
+        ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.po_supplier.pos_cd')
+            ->leftJoin('com_region as prop', 'prop.region_cd', 'inv.po_supplier.region_prop')
+            ->leftJoin('com_region as kab', 'kab.region_cd', 'inv.po_supplier.region_kab')
+            ->where('inv.po_supplier.pos_cd', $unit);
+
         return DataTables::of($data)->make(true);
+    } else {
+        $data = InvPoSupplier::select(
+            '*',
+            'user.user_nm',
+             'user.email',
+            'prop.region_nm as region_prop',
+            'kab.region_nm as region_kab'
+            
+        )
+        ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.po_supplier.pos_cd')
+            ->leftJoin('com_region as prop', 'prop.region_cd', 'inv.po_supplier.region_prop')
+            ->leftJoin('com_region as kab', 'kab.region_cd', 'inv.po_supplier.region_kab');
+            // ->where('inv_item_master.pos_cd', $unit);
+
+        return DataTables::of($data)->make(true);
+
     }
+}
 
     /**
      * Store a newly created resource in storage.

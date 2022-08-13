@@ -1,7 +1,7 @@
 
 <html>
     <head>
-        <title>SLIP GAJI</title>
+        <title>DATA UMKM</title>
         <link href="{{asset('theme/plugin/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
         <!-- page css -->
         <link href="{{asset('theme/css/pages/login-register-lock.css')}}" rel="stylesheet">
@@ -31,9 +31,13 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>CD</th>
+                    <th>Kode UMKM</th>
                     <th>Nama UMKM</th>
                     <th>Deskripsi</th>
+                    <th>Nama User</th>
+                    <th>User ID</th>
+                    <th>Password</th>
+                 
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +47,11 @@
                         <td>{{ $data->pos_cd }}</td>
                         <td>{{ $data->pos_nm }}</td>
                         <td>{{ $data->description }}</td>
+                        <td>{{ $data->user_nm }}</td>
+                        <td>{{ $data->user_id }}</td>
+                        <td>{{ $data->password }}</td>
+                        {{-- <td>{{ $data->user_nm }}</td> --}}
+                        {{-- <td>{{ $data->password }}</td> --}}
                     </tr>
                 @endforeach
             </tbody>

@@ -5,12 +5,13 @@ namespace Modules\Inventori\Http\Controllers\Setting;
 use Auth;
 
 
-use Illuminate\Support\Str;
 use DataTables;
 use App\Models\AuthRole;
 use App\Models\AuthUser;
+use Illuminate\Support\Str;
 use App\Models\AuthRoleUser;
 use Illuminate\Http\Request;
+use App\Models\InvInvItemType;
 use App\Models\InvInvPosInventori;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\LogActivityHelpers;
@@ -31,6 +32,7 @@ class PosInventoriController extends Controller{
     function index(){
         $filename_page = 'index';
         $title         = 'Data UMKM';
+        // $typesumkm     = InvInvPosInventori::select(['region_cd','region_nm']);
         $roles      = AuthRole::getAllRoles(Auth::user()->role->role_cd);
 
         return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title','roles'));
@@ -43,26 +45,52 @@ class PosInventoriController extends Controller{
      */
     function getData(){
 
+        $unit = Auth::user()->unit_cd;
+        if ($unit != 'NULL'){
         $data = InvInvPosInventori::select(
             '*',
             'user.user_nm',
-            'user.email'
+            'user.email',
+            'prop.region_nm as region_prop',
+            'kab.region_nm as region_kab',
         )
-        ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd');
-
+        ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd')
+        ->leftJoin('com_region as prop', 'prop.region_cd', 'inv.inv_pos_inventori.region_prop')
+        ->leftJoin('com_region as kab', 'kab.region_cd', 'inv.inv_pos_inventori.region_kab')
+        //   ->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
+        //     ->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
+        //   ->leftjoin('inv.inv_pos as unit','unit.post_nm','users.user_nm');
+        ->where('inv.inv_pos_inventori.pos_cd', $unit);
+        return DataTables::of($data)->make(true);
+    } else {
+        $data = InvInvPosInventori::select(
+            '*',
+            'user.user_nm',
+            'user.email',
+            'prop.region_nm as region_prop',
+            'kab.region_nm as region_kab',
+        )
+        ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd')
+        ->leftJoin('com_region as prop', 'prop.region_cd', 'inv.inv_pos_inventori.region_prop')
+        ->leftJoin('com_region as kab', 'kab.region_cd', 'inv.inv_pos_inventori.region_kab');
         //   ->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
         //     ->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
         //   ->leftjoin('inv.inv_pos as unit','unit.post_nm','users.user_nm');
         return DataTables::of($data)->make(true);
+        }
     }
 
     function print(Request $request, $id) {
         $filename_page = 'print';
-        $datas = InvInvPosInventori::select('pos_cd','pos_nm','description','postrx_st')->where('pos_cd', $id)->get();
+        $datas = InvInvPosInventori::select('*','pos_cd','pos_nm','description','postrx_st'
+        ,'user.user_nm','user.user_id','user.password',)
+        
+        ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd')
+        ->where('pos_cd', $id)->get();
         return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('datas'));
 
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -250,4 +278,5 @@ class PosInventoriController extends Controller{
         array_unshift($poss,array('id' => '','text'=>'=== Pilih Pos Inventori ==='));
         return response()->json($poss);
     }
-}
+    }
+    

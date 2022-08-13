@@ -5,22 +5,23 @@ namespace Modules\Inventori\Http\Controllers;
 use DB;
 use Auth;
 use DataTables;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\AuthRole;
+use App\Models\InvInvUnit;
 use Illuminate\Support\Str;
 
-use App\Models\InvInvUnit;
-use App\Models\InvInvItemType;
-use App\Models\InvInvPosInventori;
-use App\Models\InvInvPosItemUnit;
-use App\Models\InvInvItemMaster;
-use App\Models\InvVwStockInventory;
-use App\Models\InvPoPrincipal;
-use App\Models\InvInvItemUnit;
-use App\Models\InvVwItemMultiSatuan;
+use Illuminate\Http\Request;
 use App\Models\InvInvFormula;
-use App\Models\InvInvFormulaItem;
+use App\Models\InvInvItemType;
+use App\Models\InvInvItemUnit;
+use App\Models\InvPoPrincipal;
 use App\Models\InvTrxTipeAset;
+use App\Models\InvInvItemMaster;
+use App\Models\InvInvFormulaItem;
+use App\Models\InvInvPosItemUnit;
+use App\Models\InvInvPosInventori;
+use App\Models\InvVwStockInventory;
+use App\Http\Controllers\Controller;
+use App\Models\InvVwItemMultiSatuan;
 
 class InvItemMasterController extends Controller{
     private $folder_path = 'inv-item-master';
@@ -40,12 +41,13 @@ class InvItemMasterController extends Controller{
         $types         = InvInvItemType::all(['type_cd','type_nm']);
         $roots         = InvInvItemMaster::all(['item_cd','item_nm']);
         $principals    = InvPoPrincipal::all(['principal_cd','principal_nm']);
+        $roles      = AuthRole::getAllRoles(Auth::user()->role->role_cd);
         $formulas      = InvInvFormula::all(['formula_cd','formula_nm']);
         //$item_cd       = Str::random(8);
 		//$item_cd       = '';
 		$item_cd       = InvInvItemMaster::getItemCd();
 
-        return view('inventori::' . $this->folder_path . '.' . $pageFileName, compact('title','units','types','roots','principals','item_cd','formulas'));
+        return view('inventori::' . $this->folder_path . '.' . $pageFileName, compact('title','roles','units','types','roots','principals','item_cd','formulas'));
     }
 
     function detail($id){
@@ -139,7 +141,14 @@ class InvItemMasterController extends Controller{
      * @return \Illuminate\Http\Response
      */
     function getData(){
+        $unit = Auth::user()->unit_cd;
+        if ($unit != 'NULL'){
         $data = InvInvItemMaster::select(
+            '*',
+            'user.user_nm',
+            // 'user.email',
+            // 'prop.region_nm as region_prop',
+            // 'kab.region_nm as region_kab',
                     "inv_item_master.item_cd",
                     "inv_item_master.item_nm",
                     "inv_item_master.unit_cd",
@@ -165,10 +174,53 @@ class InvItemMasterController extends Controller{
                 ->leftJoin('inv.inv_unit as unit','unit.unit_cd','=','inv_item_master.unit_cd')
                 ->leftJoin('inv.inv_item_golongan as golongan','golongan.golongan_cd','=','inv_item_master.golongan_cd')
                 ->leftJoin('inv.inv_item_kategori as kategori','kategori.kategori_cd','=','inv_item_master.kategori_cd')
-                ;
+                ->leftJoin('auth.users as user', 'user.unit_cd', 'inv_item_master.pos_cd')
+                // ->leftJoin('com_region as prop', 'prop.region_cd', 'inv_item_master.region_prop')
+                // ->leftJoin('com_region as kab', 'kab.region_cd', 'inv_item_master.region_kab')
+                ->where('inv_item_master.pos_cd', $unit);
+                
         
         return DataTables::of($data)->make(true);
+    } else {
+        $data = InvInvItemMaster::select(
+            '*',
+            'user.user_nm',
+            // 'user.email',
+            // 'prop.region_nm as region_prop',
+            // 'kab.region_nm as region_kab',
+                    "inv_item_master.item_cd",
+                    "inv_item_master.item_nm",
+                    "inv_item_master.unit_cd",
+                    "unit.unit_nm",
+                    "inv_item_master.type_cd",
+                    "type.type_nm",
+                    "item_price",
+                    "item_price_buy",
+                    "inv_item_master.image",
+                    "inv_item_master.ppn",
+                    "inv_item_master.vat_tp",
+                    "inv_item_master.maximum_stock",
+                    "inv_item_master.minimum_stock",
+                    "inv_item_master.golongan_cd",
+                    "golongan.golongan_nm",
+                    "inv_item_master.kategori_cd",
+                    "kategori.kategori_nm",
+                    "inv_item_master.dosis",
+                    "inv_item_master.inventory_st",
+                    "inv_item_master.generic_st"
+                )
+                ->leftJoin('inv.inv_item_type as type','type.type_cd','=','inv_item_master.type_cd')
+                ->leftJoin('inv.inv_unit as unit','unit.unit_cd','=','inv_item_master.unit_cd')
+                ->leftJoin('inv.inv_item_golongan as golongan','golongan.golongan_cd','=','inv_item_master.golongan_cd')
+                ->leftJoin('inv.inv_item_kategori as kategori','kategori.kategori_cd','=','inv_item_master.kategori_cd')
+                ->leftJoin('auth.users as user', 'user.unit_cd', 'inv_item_master.pos_cd');
+                // ->leftJoin('com_region as prop', 'prop.region_cd', 'inv_item_master.region_prop')
+                // ->leftJoin('com_region as kab', 'kab.region_cd', 'inv_item_master.region_kab');
+                
+        return DataTables::of($data)->make(true);
+                // ->where('inv_item_master.pos_cd', $unit);
     }
+}
 
     /**
      * Store a newly created resource in storage.
