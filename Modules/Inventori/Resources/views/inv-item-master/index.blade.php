@@ -230,7 +230,7 @@
                                     <input type="checkbox" id="checkbox_generik" name="checkbox_generik">
                                 </div>
                             </div>
-                        </div>-->	
+                        </div>-->
                     </div>
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="submit" class="btn btn-primary ml-3 legitRipple">Simpan <i class="icon-floppy-disk ml-2"></i></button>
@@ -274,7 +274,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group form-group-float">
-                                <button type="submit" name="submit" class="btn btn-primary btn-sm btn-flat" id="add-satuan"><i class="icon-add"></i></button>                                
+                                <button type="submit" name="submit" class="btn btn-primary btn-sm btn-flat" id="add-satuan"><i class="icon-add"></i></button>
                             </div>
                         </div>
                     </div>
@@ -358,7 +358,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group form-group-float">
-                                <button type="submit" name="submit" class="btn btn-primary btn-sm btn-flat" id="add-formula"><i class="icon-add"></i></button>                                
+                                <button type="submit" name="submit" class="btn btn-primary btn-sm btn-flat" id="add-formula"><i class="icon-add"></i></button>
                             </div>
                         </div>
                     </div>
@@ -397,7 +397,7 @@
     var unit_cd_satuan = ""
 
     $(document).ready(function(){
-        $('#bagian-form').hide();  
+        $('#bagian-form').hide();
 
         $('select[name=vat_tp]').change(function () {
             if ($(this).val() == 'VAT_TP_0') {
@@ -412,9 +412,9 @@
 
 
         tabelData = $('#tabel-data').DataTable({
-            processing	: true, 
-            serverSide	: true, 
-            order		: [1,'asc'], 
+            processing	: true,
+            serverSide	: true,
+            order		: [1,'asc'],
             ajax		: {
                 url: baseUrl+'/'+'data',
                 type: "POST",
@@ -450,8 +450,8 @@
 					download: 	'open',
 					customize: function (doc) {
 						//--Header & Parameter
-						var reportTitle =  'Data Inventori';	
-												
+						var reportTitle =  'Data Inventori';
+
 						//--Full width table
 						//doc.content[1].table.widths =Array(doc.content[1].table.body[0].length + 1).join('*').split('');
 						doc.content[1].table.widths = [50,220,60,170];
@@ -462,14 +462,14 @@
 							doc.content[1].table.body[i][2].alignment = 'left';
 							doc.content[1].table.body[i][3].alignment = 'left';
 						}
-						
+
 						//doc.defaultStyle.alignment = 'center'; //--alignment all column
 						doc.styles.tableHeader.alignment = 'center';
 						doc.defaultStyle.fontSize = 10;
 						doc.styles.tableHeader.fontSize = 12;
 						doc.styles.tableFooter.fontSize = 10;
 						doc.styles.title.fontSize = 14;
-						
+
 						doc.content.splice(0,1);
 						var now = new Date();
 						var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
@@ -537,20 +537,20 @@
             ],
         });
 
-        $(document).on('keyup', '#search_param',function(){ 
+        $(document).on('keyup', '#search_param',function(){
             tabelData.column('#item_nm_table').search($(this).val()).draw();
         });
-		$(document).on('change', '#type_cd_param',function(){ 
+		$(document).on('change', '#type_cd_param',function(){
             tabelData.column('#type_cd_table').search($(this).val()).draw();
         });
 
         $('#reload-table').click(function(){
 			$('input[name=search_param]').val('').trigger('keyup');
 			$('select[name=type_cd_param]').val('').trigger('change');
-			
+
 			tabelData.ajax.reload();
 		});
-		
+
 		/* tambah data */
         $('#tambah').click(function()   {
             saveMethod  ='tambah';
@@ -561,16 +561,16 @@
             $('input[name=checkbox_generik]').prop('checked', false);
             $('input[name=item_nm]').focus();
             $('input[name=item_cd]').val("{{$item_cd}}");
-            $('#bagian-tabel').hide();      
-            $('#bagian-form').show(); 
-            $('.card-title').text('Tambah Data');       
+            $('#bagian-tabel').hide();
+            $('#bagian-form').show();
+            $('.card-title').text('Tambah Data');
         });
 
         /* reset form */
         $('#reset').click(function()   {
             reset('')
         });
-        
+
         /* submit form */
         $('#form-isian').submit(function(e){
             if (e.isDefaultPrevented()) {
@@ -606,7 +606,7 @@
                             'data': record,
                             'dataType': 'JSON',
                             'success': function(response){
-                                if(response["status"] == 'ok') {     
+                                if(response["status"] == 'ok') {
                                     swal({
                                         title: "Berhasil",
                                         type: "success",
@@ -621,7 +621,7 @@
                                     swal({title: "Data Gagal Disimpan",type: "error",showCancelButton: false,showConfirmButton: false,timer: 1000});
                                 }
                             },
-                            'error': function(response){ 
+                            'error': function(response){
                                 var errorText = '';
                                 $.each(response.responseJSON.errors, function(key, value) {
                                     errorText += value+'<br>'
@@ -630,16 +630,16 @@
                                 swal({
                                     title             : response.status+':'+response.responseJSON.message,
                                     type              : "error",
-                                    html              : errorText, 
+                                    html              : errorText,
                                     showCancelButton  : false,
                                     confirmButtonColor: "#DD6B55",
                                     confirmButtonText : "OK",
                                     cancelButtonText  : "Tidak",
                                 }).then(function(result){
-                                    if(result.value){   	
+                                    if(result.value){
                                         reset('ubah');
                                     }
-                                });  
+                                });
                             }
                         });
                     }
@@ -648,7 +648,7 @@
         });
 
         /* ubah data */
-        $(document).on('click', '#ubah',function(){ 
+        $(document).on('click', '#ubah',function(){
             if (dataCd == null) {
                 swal({
                     title: "Pilih Data!",
@@ -660,7 +660,7 @@
             }else{
                 saveMethod  ='ubah';
                 var floor = Math.floor;
-                
+
                 $('input[name=item_cd]').val(rowData['item_cd']).prop('readonly',true);
                 $('input[name=item_nm]').val(rowData['item_nm']);
                 $('input[name=item_price]').val(parseInt(rowData['item_price'])).trigger('input');
@@ -691,7 +691,7 @@
                     data:[{"id": rowData["golongan_cd"] ,"text":rowData["golongan_nm"]}] ,
                     ajax : {
                         url :  "{{ url('inventori/golongan/') }}",
-                        dataType: 'json', 
+                        dataType: 'json',
                         processResults: function(data){
                             return {
                                 results: data
@@ -706,7 +706,7 @@
                     data:[{"id": rowData["kategori_cd"] ,"text":rowData["kategori_nm"]}] ,
                     ajax : {
                         url :  "{{ url('inventori/kategori/') }}",
-                        dataType: 'json', 
+                        dataType: 'json',
                         processResults: function(data){
                             return {
                                 results: data
@@ -716,8 +716,8 @@
                     },
                 });
 
-                $('#bagian-tabel').hide();      
-                $('#bagian-form').show(); 
+                $('#bagian-tabel').hide();
+                $('#bagian-form').show();
             }
         });
 
@@ -743,7 +743,7 @@
                 }).then(function(result){
                     if(result.value){
                         swal({allowOutsideClick : false, title: "Menghapus Data",onOpen: () => {swal.showLoading();}});
-                        
+
                         $.ajax({
                             url : baseUrl+'/'+dataCd,
                             type: "DELETE",
@@ -777,7 +777,7 @@
                         swal.close();
                     }
                 });
-            } 
+            }
         });
 
         /*multi satuan */
@@ -797,10 +797,10 @@
                         paginate: {'next': $('html').attr('dir') == 'rtl' ? 'Next &larr;' : 'Next &rarr;', 'previous': $('html').attr('dir') == 'rtl' ? '&rarr; Prev' : '&larr; Prev'}
                     },
                     pagingType: "simple",
-                    processing	: true, 
-                    serverSide	: true, 
+                    processing	: true,
+                    serverSide	: true,
                     bDestroy    : true,
-                    order		: [], 
+                    order		: [],
                     ajax		: {
                         url: baseUrl+'/'+'data-satuan',
                         type: "POST",
@@ -823,7 +823,7 @@
                 $('input[name="satuan_item_cd"]').val(rowData["item_cd"]);
 			    $('input[name="unit_cd_default"]').val(rowData["unit_cd"]);
                 $('#modal-satuan').modal('show');
-            } 
+            }
         });
 
         /*simpan multi satuan */
@@ -851,7 +851,7 @@
                             'data': record,
                             'dataType': 'JSON',
                             'success': function(response){
-                                if(response["status"] == 'ok') {     
+                                if(response["status"] == 'ok') {
                                     swal({
                                         title: "Berhasil",
                                         type: "success",
@@ -866,7 +866,7 @@
                                     swal({title: "Data Gagal Disimpan",type: "error",showCancelButton: false,showConfirmButton: false,timer: 1000});
                                 }
                             },
-                            'error': function(response){ 
+                            'error': function(response){
                                 var errorText = '';
                                 $.each(response.responseJSON.errors, function(key, value) {
                                     errorText += value+'<br>'
@@ -875,16 +875,16 @@
                                 swal({
                                     title             : response.status+':'+response.responseJSON.message,
                                     type              : "error",
-                                    html              : errorText, 
+                                    html              : errorText,
                                     showCancelButton  : false,
                                     confirmButtonColor: "#DD6B55",
                                     confirmButtonText : "OK",
                                     cancelButtonText  : "Tidak",
                                 }).then(function(result){
-                                    if(result.value){   	
+                                    if(result.value){
                                         reset('ubah');
                                     }
-                                });  
+                                });
                             }
                         });
 					}
@@ -920,7 +920,7 @@
                             'data': dataMultiSatuan,
                             'dataType': 'JSON',
                             'success': function(response){
-                                if(response["status"] == 'ok') {     
+                                if(response["status"] == 'ok') {
                                     swal({
                                         title: "Berhasil",
                                         type: "success",
@@ -935,7 +935,7 @@
                                     swal({title: "Data Gagal Disimpan",type: "error",showCancelButton: false,showConfirmButton: false,timer: 1000});
                                 }
                             },
-                            'error': function(response){ 
+                            'error': function(response){
                                 var errorText = '';
                                 $.each(response.responseJSON.errors, function(key, value) {
                                     errorText += value+'<br>'
@@ -944,16 +944,16 @@
                                 swal({
                                     title             : response.status+':'+response.responseJSON.message,
                                     type              : "error",
-                                    html              : errorText, 
+                                    html              : errorText,
                                     showCancelButton  : false,
                                     confirmButtonColor: "#DD6B55",
                                     confirmButtonText : "OK",
                                     cancelButtonText  : "Tidak",
                                 }).then(function(result){
-                                    if(result.value){   	
+                                    if(result.value){
                                         reset('ubah');
                                     }
-                                });  
+                                });
                             }
                         });
 					}
@@ -978,10 +978,10 @@
                         paginate: {'next': $('html').attr('dir') == 'rtl' ? 'Next &larr;' : 'Next &rarr;', 'previous': $('html').attr('dir') == 'rtl' ? '&rarr; Prev' : '&larr; Prev'}
                     },
                     pagingType: "simple",
-                    processing	: true, 
-                    serverSide	: true, 
+                    processing	: true,
+                    serverSide	: true,
                     bDestroy    : true,
-                    order		: [], 
+                    order		: [],
                     ajax		: {
                         url: baseUrl+'/'+'data-formula',
                         type: "POST",
@@ -1003,7 +1003,7 @@
                 $('input[name="formula_item_cd"]').val(rowData["item_cd"]);
 			    // $('input[name="unit_cd_default"]').val(rowData["unit_cd"]);
                 $('#modal-formula').modal('show');
-            } 
+            }
         });
         /*simpan formula */
         $('#form-formula').submit(function(e){
@@ -1031,7 +1031,7 @@
                             'data': record,
                             'dataType': 'JSON',
                             'success': function(response){
-                                if(response["status"] == 'ok') {     
+                                if(response["status"] == 'ok') {
                                     swal({
                                         title: "Berhasil",
                                         type: "success",
@@ -1046,7 +1046,7 @@
                                     swal({title: "Data Gagal Disimpan",type: "error",showCancelButton: false,showConfirmButton: false,timer: 1000});
                                 }
                             },
-                            'error': function(response){ 
+                            'error': function(response){
                                 var errorText = '';
                                 $.each(response.responseJSON.errors, function(key, value) {
                                     errorText += value+'<br>'
@@ -1055,16 +1055,16 @@
                                 swal({
                                     title             : response.status+':'+response.responseJSON.message,
                                     type              : "error",
-                                    html              : errorText, 
+                                    html              : errorText,
                                     showCancelButton  : false,
                                     confirmButtonColor: "#DD6B55",
                                     confirmButtonText : "OK",
                                     cancelButtonText  : "Tidak",
                                 }).then(function(result){
-                                    if(result.value){   	
+                                    if(result.value){
                                         reset('ubah');
                                     }
-                                });  
+                                });
                             }
                         });
 					}
@@ -1096,7 +1096,7 @@
                             'data': dataFormula,
                             'dataType': 'JSON',
                             'success': function(response){
-                                if(response["status"] == 'ok') {     
+                                if(response["status"] == 'ok') {
                                     swal({
                                         title: "Berhasil",
                                         type: "success",
@@ -1111,7 +1111,7 @@
                                     swal({title: "Data Gagal Disimpan",type: "error",showCancelButton: false,showConfirmButton: false,timer: 1000});
                                 }
                             },
-                            'error': function(response){ 
+                            'error': function(response){
                                 var errorText = '';
                                 $.each(response.responseJSON.errors, function(key, value) {
                                     errorText += value+'<br>'
@@ -1120,23 +1120,23 @@
                                 swal({
                                     title             : response.status+':'+response.responseJSON.message,
                                     type              : "error",
-                                    html              : errorText, 
+                                    html              : errorText,
                                     showCancelButton  : false,
                                     confirmButtonColor: "#DD6B55",
                                     confirmButtonText : "OK",
                                     cancelButtonText  : "Tidak",
                                 }).then(function(result){
-                                    if(result.value){   	
+                                    if(result.value){
                                         reset('ubah');
                                     }
-                                });  
+                                });
                             }
                         });
 					}
 				});
 
         });
-        
+
 
         /*cek kode*/
         $('input[name=item_cd]').focusout(function(){
@@ -1168,7 +1168,7 @@
             // data:[{"id": "" ,"text":""}] ,
             ajax : {
                 url :  "{{ url('inventori/golongan/') }}",
-                dataType: 'json', 
+                dataType: 'json',
                 processResults: function(data){
                     return {
                         results: data
@@ -1184,7 +1184,7 @@
             $('#golongansub_cd').select2({
                 ajax : {
                     url :  "{{ url('inventori/golongan/') }}" + '/' + $(this).val(),
-                    dataType: 'json', 
+                    dataType: 'json',
                     processResults: function(data){
                         return {
                             results: data
@@ -1200,7 +1200,7 @@
             // data:[{"id": " ,"text":""}] ,
             ajax : {
                 url :  "{{ url('inventori/kategori/') }}",
-                dataType: 'json', 
+                dataType: 'json',
                 processResults: function(data){
                     return {
                         results: data
@@ -1210,7 +1210,7 @@
             },
         });
 
-        $('select[name=vat_tp]').val('VAT_TP_0').trigger('change');  
+        $('select[name=vat_tp]').val('VAT_TP_0').trigger('change');
     });
 
     function reset(type) {
@@ -1233,9 +1233,9 @@
                 dataCd = null;
                 rowData = null;
                 tabelData.ajax.reload();
-                
-                $('#bagian-tabel').show();      
-                $('#bagian-form').hide(); 
+
+                $('#bagian-tabel').show();
+                $('#bagian-form').hide();
                 $('input[name=item_cd]').val('').prop('readonly',false);
                 $('input[name=item_nm]').val('');
                 $('input[name=item_price_buy]').val('');
@@ -1246,7 +1246,7 @@
                 $('input[name=checkbox_inventori]').prop('checked', true);
                 //$('input[name=checkbox_generik]').prop('checked', false);
 
-                $('.card-title').text('Data Inventori'); 
+                $('.card-title').text('Data Inventori');
         }
     }
 </script>

@@ -15,13 +15,14 @@ class CreateInvVwStockExpiredView extends Migration
     {
         DB::unprepared("
         CREATE OR REPLACE VIEW inv.vw_stock_expired
-        AS SELECT 
+        AS SELECT
             batch.item_cd,
             master.item_nm,
             tipe.type_nm AS jenis,
             satuan.unit_nm AS satuan,
             public.fn_formatdatetime(move.trx_datetime) AS tanggal_masuk,
-            public.fn_formatdate(batch.expire_date) AS tanggal_expired
+            public.fn_formatdate(batch.expire_date) AS tanggal_expired,
+            master.pos_cd
         FROM inv.inv_batch_item batch
             JOIN inv.inv_item_move move ON move.inv_item_move_id = batch.batch_no
             JOIN inv.inv_item_master master ON master.item_cd::text = batch.item_cd::text

@@ -11,7 +11,7 @@ use App\Models\InvInvItemType;
 
 class InvItemTypeController extends Controller{
     private $folder_path = 'setting.item-type';
-    
+
     function __construct(){
         $this->middleware('auth');
     }
@@ -33,8 +33,15 @@ class InvItemTypeController extends Controller{
      * @return \Illuminate\Http\Response
      */
     function getData(){
-        $data = InvInvItemType::select('type_cd','type_nm');
-        return DataTables::of($data)->make(true);
+        $pos = Auth::user()->unit_cd;
+        if($pos != null) {
+            $data = InvInvItemType::select('type_cd','type_nm')->where('pos_cd', $pos);
+            return DataTables::of($data)->make(true);
+        } else {
+            $data = InvInvItemType::select('type_cd','type_nm');
+            return DataTables::of($data)->make(true);
+        }
+
     }
 
     /**
@@ -48,15 +55,15 @@ class InvItemTypeController extends Controller{
             'type_cd' => 'required|unique:pgsql.inv.inv_item_type|max:20',
             'type_nm' => 'required|max:255',
         ]);
-        
+
         $type             = new InvInvItemType;
         $type->type_cd    = strtoupper($request->type_cd);
         $type->type_nm    = $request->type_nm;
-        $type->pos_cd = Auth::user()->unit_cd;
+        $type->pos_cd     = Auth::user()->unit_cd;
         $type->created_by = Auth::user()->user_id;
         $type->save();
 
-        return response()->json(['status' => 'ok'],200); 
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -86,7 +93,7 @@ class InvItemTypeController extends Controller{
         $this->validate($request,[
             'type_nm' => 'required',
         ]);
-        
+
         $type = InvInvItemType::find($id);
         $type->type_cd    = $request->type_cd;
         $type->type_nm    = $request->type_nm;
@@ -95,7 +102,7 @@ class InvItemTypeController extends Controller{
 
         $type->save();
 
-        return response()->json(['status' => 'ok'],200); 
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -117,7 +124,7 @@ class InvItemTypeController extends Controller{
      */
     function getListData(Request $request){
         $searchParam = $request->get('term');
-        $types       = InvInvItemType::select("type_cd as id", "type_nm as text") 
+        $types       = InvInvItemType::select("type_cd as id", "type_nm as text")
                         ->where("type_nm", "ILIKE", "%$searchParam%")
                         ->get()
                         ->toArray();

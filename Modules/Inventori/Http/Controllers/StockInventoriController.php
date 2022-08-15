@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
 
 class StockInventoriController extends Controller{
     private $folder_path = 'stock-inventori';
-    
+
     function __construct(){
         $this->middleware('auth');
     }
@@ -27,7 +27,7 @@ class StockInventoriController extends Controller{
         $filename_page = 'index';
         $title         = 'Data Stok Inventori';
         $gudangs       = InvInvPosInventori::all()->sortBy('pos_nm');//->where('pos_root','');
-        $roles      = AuthRole::getAllRoles(Auth::user()->role->role_cd);
+        $roles         = AuthRole::getAllRoles(Auth::user()->role->role_cd);
 		//$gudangs       = InvInvPosInventori::all()->sortByDesc('pos_nm');
 
         return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title','roles','gudangs'));
@@ -39,16 +39,9 @@ class StockInventoriController extends Controller{
      * @return \Illuminate\Http\Response
      */
     function getData(){
-        $unit = Auth::user()->unit_cd;
         $posCd = configuration('WHPOS_TRX');
-        if ($unit != 'NULL'){
-		
+
         $data = InvInvPosItemUnit::select(
-            '*',
-            'user.user_nm',
-             'user.email',
-            // 'prop.region_nm as region_prop',
-            // 'kab.region_nm as region_kab',
                     "inv_pos_itemunit.positemunit_cd",
                     "inv_pos_itemunit.pos_cd",
                     "pos.pos_nm",
@@ -69,56 +62,12 @@ class StockInventoriController extends Controller{
                 ->join('inv.inv_pos_inventori as pos','pos.pos_cd','inv_pos_itemunit.pos_cd')
                 ->join('inv.inv_item_master as master','master.item_cd','inv_pos_itemunit.item_cd')
                 ->join('inv.inv_unit as unit','unit.unit_cd','inv_pos_itemunit.unit_cd')
-                ->leftJoin('auth.users as user', 'user.unit_cd', 'inv_pos_itemunit.pos_cd')
-                // ->leftJoin('com_region as prop', 'prop.region_cd', 'inv_pos_itemunit.region_prop')
-                // ->leftJoin('com_region as kab', 'kab.region_cd', 'inv_pos_itemunit.region_kab')
-               
 				->orderBy('pos_nm')
 				->orderBy('item_nm')
 				->where('inventory_st','1')
-                ->where('inv_pos_itemunit.pos_cd', $unit);
                 //->where('inv_pos_itemunit.pos_cd', $posCd)
-                  
+                ;
         return DataTables::of($data)->make(true);
-    } else {
-        $data = InvInvPosItemUnit::select(
-            '*',
-            'user.user_nm',
-             'user.email',
-            // 'prop.region_nm as region_prop',
-            // 'kab.region_nm as region_kab',
-                    "inv_pos_itemunit.positemunit_cd",
-                    "inv_pos_itemunit.pos_cd",
-                    "pos.pos_nm",
-                    "inv_pos_itemunit.item_cd",
-                    "master.item_nm",
-                    "master.item_price",
-                    "master.item_price_buy",
-                    "inv_pos_itemunit.unit_cd",
-                    "unit.unit_nm",
-                    "inv_pos_itemunit.quantity"
-                )
-				/* ->where(function($where) use($posCd){
-					$unit = empty(Auth::user()->unit_cd) ? $posCd : Auth::user()->unit_cd;
-					if ($unit !== '') {
-						$where->where('inv_pos_itemunit.pos_cd',[$unit]);
-					}
-				}) */
-                ->join('inv.inv_pos_inventori as pos','pos.pos_cd','inv_pos_itemunit.pos_cd')
-                ->join('inv.inv_item_master as master','master.item_cd','inv_pos_itemunit.item_cd')
-                ->join('inv.inv_unit as unit','unit.unit_cd','inv_pos_itemunit.unit_cd')
-                ->leftJoin('auth.users as user', 'user.unit_cd', 'inv_pos_itemunit.pos_cd')
-                // ->leftJoin('com_region as prop', 'prop.region_cd', 'inv_pos_itemunit.region_prop')
-                // ->leftJoin('com_region as kab', 'kab.region_cd', 'inv_pos_itemunit.region_kab')
-               
-				->orderBy('pos_nm')
-				->orderBy('item_nm')
-				->where('inventory_st','1');
-                // ->where('inv_pos_itemunit.pos_cd', $unit);
-                //->where('inv_pos_itemunit.pos_cd', $posCd)
-                  
-        return DataTables::of($data)->make(true);
-    }
     }
     /**
      * Display the specified resource.

@@ -381,12 +381,12 @@
                     {
                         data: 'user_nm',
                         name: 'user_nm',
-                        visible: true
+                        visible: false
                     },
                     {
                         data: 'email',
                         name: 'email',
-                        visible: true
+                        visible: false
                     },
                     {
                         data: 'region_prop',
@@ -401,7 +401,7 @@
                     {
                         data: 'user_id',
                         name: 'user_id',
-                        visible: true
+                        visible: false
                     },
                     {
                         data: 'password',
