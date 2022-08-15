@@ -8,12 +8,12 @@ use App\Models\InvTrxTarifUnitMedis;
 
 class InvInvItemMaster extends Model{
     protected $table        = 'inv.inv_item_master';
-    protected $primaryKey   = 'item_cd'; 
+    protected $primaryKey   = 'item_cd';
     public $incrementing    = false;
 
     protected $fillable = [
-        'item_cd', 
-        'item_nm', 
+        'item_cd',
+        'item_nm',
         'type_cd',
         'unit_cd',
         'barcode',
@@ -35,7 +35,7 @@ class InvInvItemMaster extends Model{
         'kategori_cd',
         'map_value',
         'dosis',
-        'created_by', 
+        'created_by',
         'update_by'
     ];
 
@@ -57,11 +57,42 @@ class InvInvItemMaster extends Model{
             ->join('inv.inv_unit as unit','unit.unit_cd','invpos.unit_cd');
         return $data;
     }
-	
+
+    static function getAllData(){
+        $data = InvInvItemMaster::select(
+            "inv_item_master.item_cd",
+            "inv_item_master.item_nm",
+            "inv_item_master.unit_cd",
+            "inv_item_master.pos_cd",
+            "unit.unit_nm",
+            "inv_item_master.type_cd",
+            "type.type_nm",
+            "item_price",
+            "item_price_buy",
+            "inv_item_master.image",
+            "inv_item_master.ppn",
+            "inv_item_master.vat_tp",
+            "inv_item_master.maximum_stock",
+            "inv_item_master.minimum_stock",
+            "inv_item_master.golongan_cd",
+            "golongan.golongan_nm",
+            "inv_item_master.kategori_cd",
+            "kategori.kategori_nm",
+            "inv_item_master.dosis",
+            "inv_item_master.inventory_st",
+            "inv_item_master.generic_st"
+        )
+        ->leftJoin('inv.inv_item_type as type','type.type_cd','=','inv_item_master.type_cd')
+        ->leftJoin('inv.inv_unit as unit','unit.unit_cd','=','inv_item_master.unit_cd')
+        ->leftJoin('inv.inv_item_golongan as golongan','golongan.golongan_cd','=','inv_item_master.golongan_cd')
+        ->leftJoin('inv.inv_item_kategori as kategori','kategori.kategori_cd','=','inv_item_master.kategori_cd');
+        return $data;
+    }
+
 	static function getItemCd()
 	{
 		$data = InvInvItemMaster::max(DB::Raw("item_cd::int"));
-		
+
 		return str_pad($data + 1 , 5 , "0" ,STR_PAD_LEFT);
 	}
 

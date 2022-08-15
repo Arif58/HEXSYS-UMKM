@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 
 class SupplierController extends Controller{
     private $folder_path = 'setting.supplier';
-    
+
     function __construct(){
         $this->middleware('auth');
     }
@@ -34,20 +34,20 @@ class SupplierController extends Controller{
      * @return \Illuminate\Http\Response
      */
     function getData(){
-        $unit = Auth::user()->unit_cd;
-        if ($unit != 'NULL'){
+        $pos = Auth::user()->unit_cd;
+        if ($pos != null){
         $data = InvPoSupplier::select(
             '*',
             'user.user_nm',
              'user.email',
             'prop.region_nm as region_prop',
             'kab.region_nm as region_kab'
-            
+
         )
         ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.po_supplier.pos_cd')
             ->leftJoin('com_region as prop', 'prop.region_cd', 'inv.po_supplier.region_prop')
             ->leftJoin('com_region as kab', 'kab.region_cd', 'inv.po_supplier.region_kab')
-            ->where('inv.po_supplier.pos_cd', $unit);
+            ->where('inv.po_supplier.pos_cd', $pos);
 
         return DataTables::of($data)->make(true);
     } else {
@@ -57,7 +57,7 @@ class SupplierController extends Controller{
              'user.email',
             'prop.region_nm as region_prop',
             'kab.region_nm as region_kab'
-            
+
         )
         ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.po_supplier.pos_cd')
             ->leftJoin('com_region as prop', 'prop.region_cd', 'inv.po_supplier.region_prop')
@@ -80,7 +80,7 @@ class SupplierController extends Controller{
             //'supplier_cd' => 'required|unique:pgsql.inv.po_supplier|max:20',
             'supplier_nm' => 'required|max:255',
         ]);
-        
+
         $supplier = new InvPoSupplier;
         //$supplier->supplier_cd = $request->supplier_cd;
 		$supplier->supplier_cd = InvPoSupplier::getSupplierCd();
@@ -98,10 +98,10 @@ class SupplierController extends Controller{
 		$supplier->supplier_note = $request->supplier_note;
         $supplier->pos_cd = Auth::user()->unit_cd;
         $supplier->created_by  = Auth::user()->user_id;
-        
+
         $supplier->save();
 
-        return response()->json(['status' => 'ok'],200); 
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -131,7 +131,7 @@ class SupplierController extends Controller{
         $this->validate($request,[
             'supplier_nm' => 'required',
         ]);
-        
+
         $supplier = InvPoSupplier::find($id);
         $supplier->supplier_cd = $request->supplier_cd;
         $supplier->supplier_nm = $request->supplier_nm;
@@ -151,7 +151,7 @@ class SupplierController extends Controller{
 
         $supplier->save();
 
-        return response()->json(['status' => 'ok'],200); 
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -173,7 +173,7 @@ class SupplierController extends Controller{
      */
     function getListData(Request $request){
         $searchParam = $request->get('term');
-        $suppliers   = InvPoSupplier::select("supplier_cd as id", "supplier_nm as text") 
+        $suppliers   = InvPoSupplier::select("supplier_cd as id", "supplier_nm as text")
                         ->where("supplier_nm", "ILIKE", "%$searchParam%")
                         ->get()
                         ->toArray();

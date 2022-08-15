@@ -25,7 +25,7 @@ use App\Models\InvVwItemMultiSatuan;
 
 class InvItemMasterController extends Controller{
     private $folder_path = 'inv-item-master';
-    
+
     function __construct(){
         $this->middleware('auth');
     }
@@ -81,10 +81,10 @@ class InvItemMasterController extends Controller{
                         ->leftJoin('inv.inv_item_kategori as kategori','kategori.kategori_cd','=','inv_item_master.kategori_cd')
                         ->where('item_cd', $id)
                         ->first();
-        
+
         return view('inventori::' . $this->folder_path . '.' . $pageName, compact('title', 'dataInventori','units','types'));
     }
-	
+
 	function getDataList(Request $request, $id=NULL){
 		$searchParam = $request->get('term');
 
@@ -102,7 +102,7 @@ class InvItemMasterController extends Controller{
         array_unshift($data,array('id' => '','text'=>'=== Pilih Item ===', 'disabled' => TRUE));
         return response()->json($data);
     }
-	
+
 	function getTipeAset(Request $request, $id=NULL){
 		$searchParam = $request->get('term');
 
@@ -118,7 +118,7 @@ class InvItemMasterController extends Controller{
         array_unshift($data,array('id' => '','text'=>'=== Pilih Item ===', 'disabled' => TRUE));
         return response()->json($data);
     }
-	
+
 	function getSatuanList(Request $request, $id=NULL){
 		$searchParam = $request->get('term');
 
@@ -134,93 +134,22 @@ class InvItemMasterController extends Controller{
         array_unshift($data,array('id' => '','text'=>'=== Pilih Item ===', 'disabled' => TRUE));
         return response()->json($data);
     }
-    
+
     /**
      * Display a listing of the resource for DataTables.
      *
      * @return \Illuminate\Http\Response
      */
     function getData(){
-        $unit = Auth::user()->unit_cd;
-        if ($unit != 'NULL'){
-        $data = InvInvItemMaster::select(
-            '*',
-            'user.user_nm',
-            // 'user.email',
-            // 'prop.region_nm as region_prop',
-            // 'kab.region_nm as region_kab',
-                    "inv_item_master.item_cd",
-                    "inv_item_master.item_nm",
-                    "inv_item_master.unit_cd",
-                    "unit.unit_nm",
-                    "inv_item_master.type_cd",
-                    "type.type_nm",
-                    "item_price",
-                    "item_price_buy",
-                    "inv_item_master.image",
-                    "inv_item_master.ppn",
-                    "inv_item_master.vat_tp",
-                    "inv_item_master.maximum_stock",
-                    "inv_item_master.minimum_stock",
-                    "inv_item_master.golongan_cd",
-                    "golongan.golongan_nm",
-                    "inv_item_master.kategori_cd",
-                    "kategori.kategori_nm",
-                    "inv_item_master.dosis",
-                    "inv_item_master.inventory_st",
-                    "inv_item_master.generic_st"
-                )
-                ->leftJoin('inv.inv_item_type as type','type.type_cd','=','inv_item_master.type_cd')
-                ->leftJoin('inv.inv_unit as unit','unit.unit_cd','=','inv_item_master.unit_cd')
-                ->leftJoin('inv.inv_item_golongan as golongan','golongan.golongan_cd','=','inv_item_master.golongan_cd')
-                ->leftJoin('inv.inv_item_kategori as kategori','kategori.kategori_cd','=','inv_item_master.kategori_cd')
-                ->leftJoin('auth.users as user', 'user.unit_cd', 'inv_item_master.pos_cd')
-                // ->leftJoin('com_region as prop', 'prop.region_cd', 'inv_item_master.region_prop')
-                // ->leftJoin('com_region as kab', 'kab.region_cd', 'inv_item_master.region_kab')
-                ->where('inv_item_master.pos_cd', $unit);
-                
-        
-        return DataTables::of($data)->make(true);
-    } else {
-        $data = InvInvItemMaster::select(
-            '*',
-            'user.user_nm',
-            // 'user.email',
-            // 'prop.region_nm as region_prop',
-            // 'kab.region_nm as region_kab',
-                    "inv_item_master.item_cd",
-                    "inv_item_master.item_nm",
-                    "inv_item_master.unit_cd",
-                    "unit.unit_nm",
-                    "inv_item_master.type_cd",
-                    "type.type_nm",
-                    "item_price",
-                    "item_price_buy",
-                    "inv_item_master.image",
-                    "inv_item_master.ppn",
-                    "inv_item_master.vat_tp",
-                    "inv_item_master.maximum_stock",
-                    "inv_item_master.minimum_stock",
-                    "inv_item_master.golongan_cd",
-                    "golongan.golongan_nm",
-                    "inv_item_master.kategori_cd",
-                    "kategori.kategori_nm",
-                    "inv_item_master.dosis",
-                    "inv_item_master.inventory_st",
-                    "inv_item_master.generic_st"
-                )
-                ->leftJoin('inv.inv_item_type as type','type.type_cd','=','inv_item_master.type_cd')
-                ->leftJoin('inv.inv_unit as unit','unit.unit_cd','=','inv_item_master.unit_cd')
-                ->leftJoin('inv.inv_item_golongan as golongan','golongan.golongan_cd','=','inv_item_master.golongan_cd')
-                ->leftJoin('inv.inv_item_kategori as kategori','kategori.kategori_cd','=','inv_item_master.kategori_cd')
-                ->leftJoin('auth.users as user', 'user.unit_cd', 'inv_item_master.pos_cd');
-                // ->leftJoin('com_region as prop', 'prop.region_cd', 'inv_item_master.region_prop')
-                // ->leftJoin('com_region as kab', 'kab.region_cd', 'inv_item_master.region_kab');
-                
-        return DataTables::of($data)->make(true);
-                // ->where('inv_item_master.pos_cd', $unit);
+        $pos = Auth::user()->unit_cd;
+        if ($pos != null){
+            $data = InvInvItemMaster::getAllData()->where('inv_item_master.pos_cd', $pos);
+            return DataTables::of($data)->make(true);
+        } else {
+            $data = InvInvItemMaster::getAllData();
+            return DataTables::of($data)->make(true);
+        }
     }
-}
 
     /**
      * Store a newly created resource in storage.
@@ -239,7 +168,7 @@ class InvItemMasterController extends Controller{
             'minimum_stock' => 'required',
             //'maximum_stock' => 'required'
         ]);
-        
+
 		DB::beginTransaction();
         DB::transaction(function () use($request) {
 
@@ -273,35 +202,36 @@ class InvItemMasterController extends Controller{
             $item->pos_cd = Auth::user()->unit_cd;
             $item->created_by     = Auth::user()->user_id;
             $item->save();
-            
-			//--insert spesifik tipe inventori to spesifik warehouse
-            switch ($request->type_cd) {
-                case 'TPXXX':
-                    $pos = InvInvPosInventori::where('pos_cd',configuration('WHXXX'))->get();
-                    break;
-                case 'TPXXX':
-                    $pos = InvInvPosInventori::where('pos_cd',configuration('WHXXX'))->get();
-                    break;
-                default:
-					//$pos = InvInvPosInventori::whereNotIn('pos_cd',[configuration('WHXXX'),configuration('WHXXX')])->get();
-                    $pos = InvInvPosInventori::where('pos_cd',configuration('WHPOS_TRX'))->get();
-                    break;
-            }
 
-            foreach ($pos as $wh) {
+			//--insert spesifik tipe inventori to spesifik warehouse
+            // switch ($request->type_cd) {
+            //     case 'TPXXX':
+            //         $pos = InvInvPosInventori::where('pos_cd',configuration('WHXXX'))->get();
+            //         break;
+            //     case 'TPXXX':
+            //         $pos = InvInvPosInventori::where('pos_cd',configuration('WHXXX'))->get();
+            //         break;
+            //     default:
+			// 		//$pos = InvInvPosInventori::whereNotIn('pos_cd',[configuration('WHXXX'),configuration('WHXXX')])->get();
+            //         $pos = InvInvPosInventori::where('pos_cd',configuration('WHPOS_TRX'))->get();
+            //         break;
+            // }
+
+            // foreach ($pos as $wh) {
                 $posItemUnit = new InvInvPosItemUnit;
                 //$posItemUnit->item_cd    = strtoupper(str_replace(' ','',$request->item_cd));
 				$posItemUnit->item_cd    = $item->item_cd;
-                $posItemUnit->pos_cd     = $wh->pos_cd;
+                // $posItemUnit->pos_cd     = $wh->pos_cd;
+                $posItemUnit->pos_cd     = Auth::user()->unit_cd;
                 $posItemUnit->unit_cd    = $request->unit_cd;
                 $posItemUnit->quantity   = 0;
                 $posItemUnit->created_by = Auth::user()->user_id;
                 $posItemUnit->save();
-            }
+            // }
         });
 		DB::commit();
 
-        return response()->json(['status' => 'ok'],200); 
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -359,9 +289,9 @@ class InvItemMasterController extends Controller{
             //'item_price'     => 'required',
             //'item_price_buy' => 'required',
         ]);
-		
+
         $item                 	= InvInvItemMaster::find($id);
-		
+
 		//--Update satuan pos
 		$unitOld = $item->unit_cd;
 		DB::table('inv.inv_pos_itemunit')
@@ -369,7 +299,7 @@ class InvItemMasterController extends Controller{
 		->where('unit_cd',$unitOld)
 		->update(['unit_cd' => $request->unit_cd]);
 		//--End Update satuan pos
-		
+
         $item->item_nm        	= $request->item_nm;
         $item->type_cd        	= $request->type_cd;
         $item->unit_cd        	= $request->unit_cd;
@@ -397,7 +327,7 @@ class InvItemMasterController extends Controller{
 
         $item->save();
 
-        return response()->json(['status' => 'ok'],200); 
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -440,15 +370,15 @@ class InvItemMasterController extends Controller{
 
         $data        = InvInvItemMaster::select(
                             "inv_item_master.item_cd as id",
-                            "item_nm as text", 
+                            "item_nm as text",
                             "unit_cd",
-                            "item_price", 
-                            "item_price_buy", 
+                            "item_price",
+                            "item_price_buy",
                             "dosis"
                     )
                     ->where("item_nm", "ILIKE", "%$paramString%")
                     ->get();
-                    
+
         return response()->json($data);
     }
 
@@ -472,7 +402,8 @@ class InvItemMasterController extends Controller{
             $posItemUnit = new InvInvPosItemUnit;
             $posItemUnit->item_cd = $request->satuan_item_cd;
             $posItemUnit->unit_cd = $request->unit_cd_satuan;
-            $posItemUnit->pos_cd = configuration('WHPOS_TRX'); //--default/gudang utama
+            // $posItemUnit->pos_cd = configuration('WHPOS_TRX'); //--default/gudang utama
+            $posItemUnit->pos_cd =  Auth::user()->unit_cd;
             $posItemUnit->quantity = 0;
             $posItemUnit->save();
         });
@@ -513,7 +444,7 @@ class InvItemMasterController extends Controller{
         });
         return response()->json(['status' => 'ok'],200);
     }
-    
+
     /**
      * cek data satuan
      */

@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     private $folder_path = 'admin.user';
-    
+
     function __construct(){
         $this->middleware('auth');
     }
@@ -34,9 +34,9 @@ class UserController extends Controller
         $title      = 'Kelola Data User';
         $roles      = AuthRole::getAllRoles(Auth::user()->role->role_cd);
         $companies  = PublicComCompany::all(['comp_cd','comp_nm']);
-		$unit  		= PublicComUnit::all(['unit_cd','unit_nm']);
+		$unit  		= InvInvPosInventori::all(['pos_cd','pos_nm']);
         \LogActivityHelpers::saveLog(
-            $logTp = 'visit', 
+            $logTp = 'visit',
             $logNm = "Membuka Menu $title"
         );
 
@@ -54,7 +54,7 @@ class UserController extends Controller
                     'user_nm',
                     'email',
                     'roles.role_cd',
-                    'role_nm', 
+                    'role_nm',
                     'users.updated_at as last_login'
                     )
                 ->join('auth.role_users','role_users.user_id','users.user_id')
@@ -68,7 +68,7 @@ class UserController extends Controller
         ->addColumn('actions',function($data){
             $actions = '';
             $actions .= "<button type='button' id='profil' class='btn btn-info btn-flat btn-sm' data-toggle='tooltip' data-placement='top' title='Profil User'><i class='icon icon-menu-open'></i> </button>";
-                    
+
             return $actions;
         })
         ->rawColumns(['actions'])
@@ -88,10 +88,10 @@ class UserController extends Controller
             $companies  = PublicComCompany::all(['comp_cd','comp_nm']);
 			$unit  		= InvInvPosInventori::all(['pos_cd','pos_nm']);
             \LogActivityHelpers::saveLog(
-                $logTp = 'visit', 
+                $logTp = 'visit',
                 $logNm = "Membuka Menu $title" . " " . $dataUser->user_nm
             );
-    
+
             return view('sistem.' . $this->folder_path . '.' . $pageName, compact('title', 'dataUser', 'roles','companies','unit'));
         } else {
             abort(404);
@@ -135,21 +135,21 @@ class UserController extends Controller
                 'created_by' => Auth::user()->user_id
             ]);
             \LogActivityHelpers::saveLog(
-                $logTp = 'create', 
-                $logNm = "Menambah Data User $user->user_id - $user->user_nm", 
-                $table = $user->getTable(), 
+                $logTp = 'create',
+                $logNm = "Menambah Data User $user->user_id - $user->user_nm",
+                $table = $user->getTable(),
                 $newData = $user
             );
 
-            
+
             $roleUser = AuthRoleUser::create([
                 'role_cd'    => $request->role_cd,
                 'user_id'    => $user->user_id,
-                'created_by' => Auth::user()->user_id 
+                'created_by' => Auth::user()->user_id
             ]);
         });
-            
-        return response()->json(['status' => 'ok'],200); 
+
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -188,7 +188,7 @@ class UserController extends Controller
             $read   = !empty($request->read)    ? '1' : '0';
             $update = !empty($request->update)  ? '1' : '0';
             $delete = !empty($request->delete)  ? '1' : '0';
-    
+
             $ruleTp = $create.$read.$update.$delete;
 
             $user             = AuthUser::find($id);
@@ -203,9 +203,9 @@ class UserController extends Controller
             $user->save();
 
             \LogActivityHelpers::saveLog(
-                $logTp   = 'update', 
-                $logNm   = "Mengubah Data User $user->user_cd - $user->user_nm", 
-                $table   = $user->getTable(), 
+                $logTp   = 'update',
+                $logNm   = "Mengubah Data User $user->user_cd - $user->user_nm",
+                $table   = $user->getTable(),
                 $newData = $user,
                 $oldData = $oldData
             );
@@ -218,7 +218,7 @@ class UserController extends Controller
             return $user;
         });
 
-        return response()->json(['status' => 'ok'],200); 
+        return response()->json(['status' => 'ok'],200);
     }
 
     /**
@@ -231,13 +231,13 @@ class UserController extends Controller
         DB::transaction(function () use($id) {
             $data = AuthUser::find($id);
             \LogActivityHelpers::saveLog(
-                $logTp   = 'delete', 
+                $logTp   = 'delete',
                 $logNm   = "Menghapus Data User $id",
-                $table   = $data->getTable(), 
+                $table   = $data->getTable(),
                 $newData = NULL,
                 $oldData = $data
             );
-            
+
             AuthRoleUser::destroy($id);
             AuthUser::destroy($id);
         });
@@ -258,13 +258,13 @@ class UserController extends Controller
                 $image          = str_replace(' ', '+', $image);
                 //$imageName      = $user->user_id.'.'.'png';
 				$imageName      = 'user-' .$user->user_id.'.'.'png';
-    
+
                 \File::put(storage_path('app/public/file/image/'.$imageName), base64_decode($image));
-    
+
                 //$user->image = '/storage/file/image/'.$imageName;
 				$user->image = $imageName;
             }
-            
+
             $user->save();
 
         });

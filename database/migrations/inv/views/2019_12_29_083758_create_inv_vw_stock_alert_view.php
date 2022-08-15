@@ -15,7 +15,7 @@ class CreateInvVwStockAlertView extends Migration
     {
         DB::unprepared("
         CREATE OR REPLACE VIEW inv.vw_stock_alert
-        AS SELECT 
+        AS SELECT
             positem.item_cd,
             master.item_nm,
             tipe.type_nm AS jenis,
@@ -27,14 +27,15 @@ class CreateInvVwStockAlertView extends Migration
                 WHEN sum(positem.quantity) < master.minimum_stock::numeric then 'min'::text
                 WHEN sum(positem.quantity) > master.maximum_stock::numeric then 'max'::text
                 ELSE '-'::text
-            END AS alert_status
+            END AS alert_status,
+            master.pos_cd
         FROM inv.inv_pos_itemunit positem
             JOIN inv.inv_item_master master ON master.item_cd::text = positem.item_cd::text
             LEFT JOIN inv.inv_item_type tipe ON tipe.type_cd::text = master.type_cd::text
             JOIN inv.inv_unit satuan ON satuan.unit_cd::text = master.unit_cd::text
             /*WHERE master.maximum_stock::numeric > 0*/
 			WHERE master.unit_cd=positem.unit_cd
-        GROUP BY positem.item_cd, master.item_nm, tipe.type_nm, satuan.unit_nm, master.minimum_stock, master.maximum_stock
+        GROUP BY positem.item_cd, master.item_nm, tipe.type_nm, satuan.unit_nm, master.minimum_stock, master.maximum_stock, master.pos_cd
         HAVING sum(positem.quantity) < master.minimum_stock::numeric or sum(positem.quantity) > master.maximum_stock::numeric
         ORDER BY master.item_nm;
         ");

@@ -12,7 +12,7 @@ use App\Models\InvVwStockExpired;
 
 class StockAlertController extends Controller{
     private $folder_path = 'mutasi-inventori.stock-alert';
-    
+
     function __construct(){
         $this->middleware('auth');
     }
@@ -35,10 +35,19 @@ class StockAlertController extends Controller{
      * @return \Illuminate\Http\Response
      */
     function getData(Request $request){
-        if ($request->type == 'alert') {
-            $data=InvVwStockAlert::query();
-        }else{
-            $data=InvVwStockExpired::query();
+        $pos = Auth::user()->unit_cd;
+        if($pos != null ) {
+            if ($request->type == 'alert') {
+                $data=InvVwStockAlert::query()->where('pos_cd', $pos);
+            }else{
+                $data=InvVwStockExpired::query()->where('pos_cd', $pos);
+            }
+        } else {
+            if ($request->type == 'alert') {
+                $data=InvVwStockAlert::query();
+            }else{
+                $data=InvVwStockExpired::query();
+            }
         }
 
         return DataTables::of($data)->make(true);
