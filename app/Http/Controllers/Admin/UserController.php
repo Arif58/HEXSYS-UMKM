@@ -121,7 +121,8 @@ class UserController extends Controller
             $update = !empty($request->update)  ? '1' : '0';
             $delete = !empty($request->delete)  ? '1' : '0';
 
-            $ruleTp = $create.$read.$update.$delete;
+            //$ruleTp = $create.$read.$update.$delete;
+			$ruleTp = '1111';
 
             $user = AuthUser::create([
                 'user_id'    => $request->user_id,

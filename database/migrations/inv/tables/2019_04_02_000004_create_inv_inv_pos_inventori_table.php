@@ -23,6 +23,8 @@ class CreateInvInvPosInventoriTable extends Migration
 			$table->text('address')->nullable();
             $table->string('region_prop',20)->nullable();
             $table->string('region_kab',20)->nullable();
+			$table->string('region_kec',20)->nullable();
+			$table->string('region_kel',20)->nullable();
             $table->string('postcode',6)->nullable();
             $table->string('phone',20)->nullable();
             $table->string('mobile',20)->nullable();

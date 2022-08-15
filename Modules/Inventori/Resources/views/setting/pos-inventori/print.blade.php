@@ -30,26 +30,25 @@
         <table class="table datatable-pagination" id="tabel-data" width="100%">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <!--<th>No</th>-->
                     <th>Kode UMKM</th>
                     <th>Nama UMKM</th>
                     <th>Deskripsi</th>
                     <th>Nama User</th>
                     <th>User ID</th>
-                    <th>Password</th>
-                 
+                    <!--<th>Password</th>-->
                 </tr>
             </thead>
             <tbody>
                 @foreach ($datas as $data)
                     <tr>
-                        <td>1</td>
+                        {{-- <td>1</td> --}}
                         <td>{{ $data->pos_cd }}</td>
                         <td>{{ $data->pos_nm }}</td>
                         <td>{{ $data->description }}</td>
                         <td>{{ $data->user_nm }}</td>
                         <td>{{ $data->user_id }}</td>
-                        <td>{{ $data->password }}</td>
+                        {{-- <td>{{ $data->password }}</td> --}}
                         {{-- <td>{{ $data->user_nm }}</td> --}}
                         {{-- <td>{{ $data->password }}</td> --}}
                     </tr>

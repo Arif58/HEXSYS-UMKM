@@ -406,7 +406,7 @@
                     {
                         data: 'password',
                         name: 'password',
-                        visible: true
+                        visible: false
                     },
                     // {
                     //     data: 'user_nm',
@@ -567,7 +567,7 @@
                         timer: 1000
                     });
                 } else {
-                    window.location = baseUrl + '/print/' + dataCd;
+                    window.open(baseUrl + '/print/' + dataCd, '_blank');
                 }
             });
 

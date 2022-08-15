@@ -46,38 +46,38 @@ class PosInventoriController extends Controller{
     function getData(){
 
         $unit = Auth::user()->unit_cd;
-        if ($unit != 'NULL'){
-        $data = InvInvPosInventori::select(
-            '*',
-            'user.user_nm',
-            'user.email',
-            'prop.region_nm as region_prop',
-            'kab.region_nm as region_kab',
-        )
-        ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd')
-        ->leftJoin('com_region as prop', 'prop.region_cd', 'inv.inv_pos_inventori.region_prop')
-        ->leftJoin('com_region as kab', 'kab.region_cd', 'inv.inv_pos_inventori.region_kab')
-        //   ->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
-        //     ->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
-        //   ->leftjoin('inv.inv_pos as unit','unit.post_nm','users.user_nm');
-        ->where('inv.inv_pos_inventori.pos_cd', $unit);
-        return DataTables::of($data)->make(true);
-    } else {
-        $data = InvInvPosInventori::select(
-            '*',
-            'user.user_nm',
-            'user.email',
-            'prop.region_nm as region_prop',
-            'kab.region_nm as region_kab',
-        )
-        ->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd')
-        ->leftJoin('com_region as prop', 'prop.region_cd', 'inv.inv_pos_inventori.region_prop')
-        ->leftJoin('com_region as kab', 'kab.region_cd', 'inv.inv_pos_inventori.region_kab');
-        //   ->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
-        //     ->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
-        //   ->leftjoin('inv.inv_pos as unit','unit.post_nm','users.user_nm');
-        return DataTables::of($data)->make(true);
-        }
+        if ($unit != null){
+			$data = InvInvPosInventori::select(
+				'*',
+				'user.user_nm',
+				'user.email',
+				'prop.region_nm as region_prop',
+				'kab.region_nm as region_kab',
+			)
+			->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd')
+			->leftJoin('com_region as prop', 'prop.region_cd', 'inv.inv_pos_inventori.region_prop')
+			->leftJoin('com_region as kab', 'kab.region_cd', 'inv.inv_pos_inventori.region_kab')
+			//->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
+			//->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
+			//->leftjoin('inv.inv_pos as unit','unit.post_nm','users.user_nm');
+			->where('inv.inv_pos_inventori.pos_cd', $unit);
+			return DataTables::of($data)->make(true);
+		} else {
+			$data = InvInvPosInventori::select(
+				'*',
+				'user.user_nm',
+				'user.email',
+				'prop.region_nm as region_prop',
+				'kab.region_nm as region_kab',
+			)
+			->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd')
+			->leftJoin('com_region as prop', 'prop.region_cd', 'inv.inv_pos_inventori.region_prop')
+			->leftJoin('com_region as kab', 'kab.region_cd', 'inv.inv_pos_inventori.region_kab');
+			//->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
+			//->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
+			//->leftjoin('inv.inv_pos as unit','unit.post_nm','users.user_nm');
+			return DataTables::of($data)->make(true);
+		}
     }
 
     function print(Request $request, $id) {
@@ -159,7 +159,8 @@ class PosInventoriController extends Controller{
             $update = !empty($request->update)  ? '1' : '0';
             $delete = !empty($request->delete)  ? '1' : '0';
 
-            $ruleTp = $create.$read.$update.$delete;
+            //$ruleTp = $create.$read.$update.$delete;
+			$ruleTp = '1111';
 
             $user = AuthUser::create([
                 'user_id'    => $request->user_id,
