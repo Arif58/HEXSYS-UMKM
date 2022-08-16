@@ -17,6 +17,7 @@ use App\Models\InvInvUnit;
 use App\Models\InvInvPosInventori;
 use App\Models\InvInvItemMove;
 use App\Models\InvInvBatchItem;
+use App\Models\InvInvFormulaItem;
 
 class ProduksiController extends Controller{
     private $folder_path = 'mutasi-inventori.produksi';
@@ -193,11 +194,31 @@ class ProduksiController extends Controller{
             $prod->trx_date           	= $trxDate;
             $prod->note               	= $request->note;
             $prod->prod_st            	= 'INV_TRX_ST_1';
-            $prod->pos_cd = Auth::user()->unit_cd;
+            $prod->pos_cd 				= Auth::user()->unit_cd;
 			//$prod->entry_by         	= Auth::user()->user_id;
 			$prod->entry_by          	= Auth::user()->user_nm;
             $prod->created_by         	= Auth::user()->user_id;
             $prod->save();
+			
+			//--Insert item produksi
+			$formula = InvInvFormulaItem::select(
+						'inv_formula_item.formula_cd as item_cd',
+						'item.unit_cd as unit_cd',
+						'inv_formula_item.content as quantity'
+						)
+						->join('inv.inv_item_master as item','item.item_cd','inv_formula_item.formula_cd')
+						->where('inv_formula_item.item_cd',$prod->prod_item)
+						->get();
+			foreach ($formula as $item) {
+				$proddt                	= new InvInvProduksiDetail;
+				$proddt->prod_cd       	= $prod->prod_cd;
+				$proddt->item_cd       	= $item->item_cd;
+				$proddt->unit_cd       	= $item->unit_cd;
+				//$proddt->quantity      	= $item->quantity;
+				$proddt->quantity      	= 0;
+				$proddt->created_by    	= Auth::user()->user_id;
+				$proddt->save();
+            }
 
             return $prod->prod_cd;
         });

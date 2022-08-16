@@ -474,11 +474,23 @@ class InvItemMasterController extends Controller{
      * @return Response
      */
     function getDataFormula(Request $request){
-        $data = InvInvFormulaItem::where('item_cd',$request->item_cd)->get();
-
+        //$data = InvInvFormulaItem::where('item_cd',$request->item_cd)->get();
+		
+		$data = InvInvFormulaItem::select(
+				'inv_formula_item.formula_item_id',
+				'inv_formula_item.formula_cd',
+				'inv_formula_item.content',
+				'inv_formula_item.unit_cd',
+				'item.item_nm',
+				'item.unit_cd as item_unit'
+				)
+				->join('inv.inv_item_master as item','item.item_cd','inv_formula_item.formula_cd')
+				->where('inv_formula_item.item_cd',$request->item_cd)
+				->get();
+		
         return DataTables::of($data)
         ->addColumn('action', function($data){
-            return "<button type='button' id='hapus-formula' class='btn btn-danger ml-3 legitRipple'>Hapus <i class='icon-bin ml-2'></i></button>";
+            return "<button type='button' id='hapus-formula' class='btn btn-danger ml-3 legitRipple'><i class='icon-bin ml-2'></i></button>";
         })
         ->rawColumns(['action'])
         ->make(true);
@@ -491,8 +503,8 @@ class InvItemMasterController extends Controller{
         $this->validate($request,[
             'formula_item_cd'   => 'required',
             'formula_cd'        => 'required',
-            'formula_content'           => 'required',
-            'formula_unit_cd'           => 'required',
+            //'formula_content'           => 'required',
+            //'formula_unit_cd'           => 'required',
         ]);
         DB::transaction(function () use($request) {
             $formulaItem = new InvInvFormulaItem;
