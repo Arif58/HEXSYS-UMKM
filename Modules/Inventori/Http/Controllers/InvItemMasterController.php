@@ -216,7 +216,8 @@ class InvItemMasterController extends Controller{
             //         $pos = InvInvPosInventori::where('pos_cd',configuration('WHPOS_TRX'))->get();
             //         break;
             // }
-
+			
+			if (Auth::user()->unit_cd != null) {
             // foreach ($pos as $wh) {
                 $posItemUnit = new InvInvPosItemUnit;
                 //$posItemUnit->item_cd    = strtoupper(str_replace(' ','',$request->item_cd));
@@ -228,6 +229,7 @@ class InvItemMasterController extends Controller{
                 $posItemUnit->created_by = Auth::user()->user_id;
                 $posItemUnit->save();
             // }
+			}
         });
 		DB::commit();
 
@@ -499,7 +501,7 @@ class InvItemMasterController extends Controller{
             $formulaItem->content = $request->formula_content;
             $formulaItem->unit_cd = $request->formula_unit_cd;
             if($request->checkbox_formula == 'on'){
-                $item->main_st     = '1';
+                $formulaItem->main_st     = '1';
             }
             $formulaItem->save();
         });

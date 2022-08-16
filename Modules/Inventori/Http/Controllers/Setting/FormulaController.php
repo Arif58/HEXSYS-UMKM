@@ -13,7 +13,7 @@ use App\Models\InvInvFormula;
 
 class FormulaController extends Controller
 {
-    private $folder_path = 'setting.formula-obat';
+    private $folder_path = 'setting.formula';
     
     function __construct(){
         $this->middleware('auth');
@@ -24,11 +24,11 @@ class FormulaController extends Controller
      */
     function index()
     {
-        $filename_page = 'index';
-        $title         = 'Formula Obat';
-        $formula_obat    = InvInvFormula::all(['formula_cd','formula_nm']);
+        $filename_page 	= 'index';
+        $title         	= 'Formula';
+        $formula    	= InvInvFormula::all(['formula_cd','formula_nm']);
 
-        return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title','formula_obat'));
+        return view('inventori::' . $this->folder_path . '.' . $filename_page, compact('title','formula'));
     }
 
     /**

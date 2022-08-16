@@ -45,42 +45,6 @@ class PosInventoriController extends Controller{
      */
     function getData(){
 
-<<<<<<< HEAD
-        $unit = Auth::user()->unit_cd;
-        if ($unit != null){
-			$data = InvInvPosInventori::select(
-				'*',
-				'user.user_nm',
-				'user.email',
-				'prop.region_nm as region_prop',
-				'kab.region_nm as region_kab',
-			)
-			->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd')
-			->leftJoin('com_region as prop', 'prop.region_cd', 'inv.inv_pos_inventori.region_prop')
-			->leftJoin('com_region as kab', 'kab.region_cd', 'inv.inv_pos_inventori.region_kab')
-			//->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
-			//->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
-			//->leftjoin('inv.inv_pos as unit','unit.post_nm','users.user_nm');
-			->where('inv.inv_pos_inventori.pos_cd', $unit);
-			return DataTables::of($data)->make(true);
-		} else {
-			$data = InvInvPosInventori::select(
-				'*',
-				'user.user_nm',
-				'user.email',
-				'prop.region_nm as region_prop',
-				'kab.region_nm as region_kab',
-			)
-			->leftJoin('auth.users as user', 'user.unit_cd', 'inv.inv_pos_inventori.pos_cd')
-			->leftJoin('com_region as prop', 'prop.region_cd', 'inv.inv_pos_inventori.region_prop')
-			->leftJoin('com_region as kab', 'kab.region_cd', 'inv.inv_pos_inventori.region_kab');
-			//->leftjoin('inv.inv_pos_inventori as invpos','invpos.pos_cd','users.user_id')
-			//->leftjoin('inv.inv_pos_inventori as pos','pos.pos_cd','invpos.pos_cd')
-			//->leftjoin('inv.inv_pos as unit','unit.post_nm','users.user_nm');
-			return DataTables::of($data)->make(true);
-		}
-    }
-=======
     //     $unit = Auth::user()->unit_cd;
     //     if ($unit != 'NULL'){
     //     $data = InvInvPosInventori::select(
@@ -115,7 +79,6 @@ class PosInventoriController extends Controller{
         return DataTables::of($data)->make(true);
         }
     // }
->>>>>>> 56be1fe9bb64df0115df1379deeb64e5d2ddafec
 
     function print(Request $request, $id) {
         $filename_page = 'print';
@@ -196,8 +159,7 @@ class PosInventoriController extends Controller{
             $update = !empty($request->update)  ? '1' : '0';
             $delete = !empty($request->delete)  ? '1' : '0';
 
-            //$ruleTp = $create.$read.$update.$delete;
-			$ruleTp = '1111';
+            $ruleTp = $create.$read.$update.$delete;
 
             $user = AuthUser::create([
                 'user_id'    => $request->user_id,
@@ -316,5 +278,4 @@ class PosInventoriController extends Controller{
         array_unshift($poss,array('id' => '','text'=>'=== Pilih Pos Inventori ==='));
         return response()->json($poss);
     }
-    }
-
+}

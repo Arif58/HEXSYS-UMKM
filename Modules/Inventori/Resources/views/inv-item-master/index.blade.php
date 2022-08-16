@@ -37,7 +37,7 @@
                 <button type="button" class="btn btn-warning legitRipple" id="ubah"><i class="icon-pencil mr-2"></i> Ubah</button>
                 <button type="button" class="btn btn-danger legitRipple" id="hapus"><i class="icon-trash mr-2"></i> Hapus</button>
                 <button type="button" class="btn btn-success legitRipple" id="multi"><i class="icon-spinner4 mr-2"></i> Multi Satuan</button>
-                {{-- <button type="button" class="btn btn-info legitRipple" id="formula"><i class="icon-lab mr-2"></i> Formula</button> --}}
+                <button type="button" class="btn btn-info legitRipple" id="formula"><i class="icon-lab mr-2"></i> Bill Of Material</button>
 				<br><br>
                 <div class="table-responsive">
                     <table class="table table-single-select datatable-pagination" id="tabel-data" width="100%">
@@ -304,8 +304,7 @@
 	</div>
     {{-- ./modal satuan --}}
     {{-- modal formula --}}
-	<!--
-    <div class="modal fade" id="modal-formula">
+	<div class="modal fade" id="modal-formula">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -318,7 +317,7 @@
                         <div class="col-md-6">
                             <div class="form-group form-group-float">
                                 <input type="hidden" name="formula_item_cd" id="formula_item_cd">
-                                <label class="form-group-float-label is-visible">Formula</label>
+                                <label class="form-group-float-label is-visible">Item</label>
                                 <select name="formula_cd" id="formula_cd" class="form-control form-control-select2 select-search" required data-fouc>
                                     <option value="">=== Pilih Data ===</option>
                                     @foreach ($formulas as $item)
@@ -328,6 +327,25 @@
                             </div>
                         </div>
 						<div class="col-md-6">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Jumlah</label>
+                                <input type="number" name="formula_content" id="formula_content" class="form-control" required="" min="0" aria-invalid="false">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" style="display: none">
+                            <div class="form-group form-group-float">
+                                <label class="form-group-float-label is-visible">Satuan</label>
+                                <select name="formula_unit_cd" class="form-control form-control-select2 select-search" data-fouc>
+                                    <option value="">=== Pilih Data ===</option>
+                                    @foreach ($units as $item)
+                                        <option value="{{ $item->unit_cd}}">{{ $item->unit_nm}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+						<div class="col-md-6" style="display: none">
                             <div class="form-group form-group-float">
                                 <label class="form-group-float-label is-visible">Formula Utama</label>
                                 <div class="input-group">
@@ -339,26 +357,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group form-group-float">
-                                <label class="form-group-float-label is-visible">Jumlah</label>
-                                <input type="number" name="formula_content" id="formula_content" class="form-control" required="" min="0" max="100" aria-invalid="false">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-group-float">
-                                <label class="form-group-float-label is-visible">Satuan</label>
-                                <select name="formula_unit_cd" class="form-control form-control-select2 select-search" required data-fouc>
-                                    <option value="">=== Pilih Data ===</option>
-                                    @foreach ($units as $item)
-                                        <option value="{{ $item->unit_cd}}">{{ $item->unit_nm}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group form-group-float">
-                                <button type="submit" name="submit" class="btn btn-primary btn-sm btn-flat" id="add-formula"><i class="icon-add"></i></button>
+                                <button type="submit" name="submit" class="btn btn-primary btn-sm btn-flat" id="add-formula"><i class="icon-add"></i></button>                                
                             </div>
                         </div>
                     </div>
@@ -368,10 +367,12 @@
                             <thead>
                                 <tr>
                                     <th id="formula_item_id_table">formula_item_id_table</th>
-                                    <th id="formula_cd_table">Formula</th>
+                                    <th id="formula_cd_table">Kode Item</th>
+									<th id="item_nm_table">Nama</th>
                                     <th id="content_table">Jumlah</th>
                                     <th id="unit_cd_table">Satuan</th>
-                                    <th id="action_table">Aksi</th>
+									<th id="item_unit_table">Satuan</th>
+                                    <th id="action_table"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -385,7 +386,6 @@
 			</div>
 		</div>
 	</div>
-	-->
     {{-- ./modal formula --}}
 @endsection
 @push('scripts')
@@ -993,9 +993,11 @@
                     dom : 'tpi',
                     columns: [
                         { data: 'formula_item_id', name: 'formula_item_id', visible:false },
-                        { data: 'formula_cd', name: 'formula_cd', visible:true },
+						{ data: 'formula_cd', name: 'formula_cd', visible:false },
+                        { data: 'item_nm', name: 'item_nm', visible:true },
                         { data: 'content', name: 'content', visible:true },
-                        { data: 'unit_cd', name: 'unit_cd', visible:true },
+                        { data: 'unit_cd', name: 'unit_cd', visible:false },
+						{ data: 'item_unit', name: 'item_unit', visible:true },
                         { data: 'action', name: 'action', visible:true },
                     ],
                 });
