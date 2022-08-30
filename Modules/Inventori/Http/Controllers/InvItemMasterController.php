@@ -42,7 +42,15 @@ class InvItemMasterController extends Controller{
         $roots         = InvInvItemMaster::all(['item_cd','item_nm']);
         $principals    = InvPoPrincipal::all(['principal_cd','principal_nm']);
         $roles      = AuthRole::getAllRoles(Auth::user()->role->role_cd);
-        $formulas      = InvInvFormula::all(['formula_cd','formula_nm']);
+        
+		//$formulas      = InvInvFormula::all(['formula_cd','formula_nm']);
+		$formulas    	= InvInvItemMaster::select(
+							'item_cd as formula_cd',
+							'item_nm as formula_nm'
+							)
+							->orderBy('item_nm', 'asc')
+							->get();
+							
         //$item_cd       = Str::random(8);
 		//$item_cd       = '';
 		$item_cd       = InvInvItemMaster::getItemCd();
