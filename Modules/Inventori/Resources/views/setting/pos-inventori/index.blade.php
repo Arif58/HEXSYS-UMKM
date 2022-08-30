@@ -548,6 +548,8 @@
                     $('input[name=pos_nm]').val(rowData['pos_nm']);
                     $('input[name=description]').val(rowData['description']);
                     $('input[name=address]').val(rowData['address']);
+                    $('input[name=user_id]').val(rowData['user_id']);
+                    $('input[name=user_nm]').val(rowData['user_nm']);
                     if (rowData['postrx_st'] == "1") {
                         // document.getElementById("checkbox-katarak").checked = true;
                         $("#checkbox_transaksi").prop("checked", true);

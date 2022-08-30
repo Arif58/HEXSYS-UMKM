@@ -46,8 +46,15 @@ class InvItemMasterController extends Controller{
         //$item_cd       = Str::random(8);
 		//$item_cd       = '';
 		$item_cd       = InvInvItemMaster::getItemCd();
+        $pos = Auth::user()->unit_cd;
+        if ($pos != NULL){
+            $types = InvInvItemType::select(['type_cd','type_nm'])->where('pos_cd', $pos)->get();
+        } else {   
+            $types = InvInvItemType::all(['type_cd','type_nm']);
+        }
 
         return view('inventori::' . $this->folder_path . '.' . $pageFileName, compact('title','roles','units','types','roots','principals','item_cd','formulas'));
+    
     }
 
     function detail($id){
@@ -142,6 +149,11 @@ class InvItemMasterController extends Controller{
      */
     function getData(){
         $pos = Auth::user()->unit_cd;
+        // if ($pos != NULL){
+        //     $types = InvInvItemType::select(['type_cd','type_nm'])->where('pos_cd', $pos)->get();
+        // } else {   
+        //     $types = InvInvItemType::all(['type_cd','type_nm']);
+        // }
         if ($pos != null){
             $data = InvInvItemMaster::getAllData()->where('inv_item_master.pos_cd', $pos);
             return DataTables::of($data)->make(true);

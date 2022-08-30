@@ -29,6 +29,7 @@
 								@foreach ($types as $item)
 									<option value="{{ $item->type_cd}}">{{ $item->type_nm}}</option>
 								@endforeach
+                                
 							</select>
 						</div>
 					</div>
@@ -112,9 +113,10 @@
                         <div class="col-md-4">
                             <div class="form-group form-group-float">
                                 <label class="form-group-float-label is-visible">Jenis Inventori</label>
-                                <select name="type_cd" class="form-control form-control-select2 select-search" data-fouc>
+                                <select name="type_cd" class="form-control form-control-select2 select-search" data-fouc> 
                                     <option value="">=== Pilih Data ===</option>
                                     @foreach ($types as $item)
+                                    
                                         <option value="{{ $item->type_cd}}">{{ $item->type_nm}}</option>
                                     @endforeach
                                 </select>
@@ -260,6 +262,7 @@
                                     <option value="">=== Pilih Data ===</option>
                                     @foreach ($units as $item)
                                         <option value="{{ $item->unit_cd}}">{{ $item->unit_nm}}</option>
+                                        
                                     @endforeach
                                 </select>
                             </div>
@@ -395,8 +398,10 @@
     var baseUrl     = "{{ url('inventori/daftar-inventori/') }}";
     var item_cd_satuan = "";
     var unit_cd_satuan = ""
+    
 
     $(document).ready(function(){
+        
         $('#bagian-form').hide();
 
         $('select[name=vat_tp]').change(function () {
@@ -408,6 +413,7 @@
                 $('input[name=ppn]').prop("required",true);
                 $('input[name=ppn]').focus();
             }
+            
         });
 
 
@@ -526,6 +532,7 @@
 				}
 			],
             columns: [
+                
                 { data: 'item_cd', name: 'item_cd', visible:true },
                 { data: 'item_nm', name: 'item_nm', visible:true },
                 { data: 'unit_cd', name: 'unit_cd', visible:false },
@@ -553,6 +560,7 @@
 
 		/* tambah data */
         $('#tambah').click(function()   {
+
             saveMethod  ='tambah';
 
             $('input[name=minimum_stock]').val('0').trigger('input');
@@ -564,6 +572,12 @@
             $('#bagian-tabel').hide();
             $('#bagian-form').show();
             $('.card-title').text('Tambah Data');
+            // $pos = Auth::user()->unit_cd;
+        // if ($pos != NULL){
+        //     $types = InvInvItemType::select(['type_cd','type_nm'])->where('pos_cd', $pos)->get();
+        // } else {   
+        //     $types = InvInvItemType::all(['type_cd','type_nm']);
+        // }
         });
 
         /* reset form */
@@ -574,6 +588,7 @@
         /* submit form */
         $('#form-isian').submit(function(e){
             if (e.isDefaultPrevented()) {
+                
             // handle the invalid form...
             } else {
                 e.preventDefault();
@@ -640,6 +655,7 @@
                                         reset('ubah');
                                     }
                                 });
+                                
                             }
                         });
                     }
