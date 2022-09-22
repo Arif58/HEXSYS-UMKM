@@ -1,5 +1,4 @@
-/*--psql -U postgres -d telkomims <resources/sql/com_region.sql--*/
---psql -U postgres -d telkomims <user.sql
+/*--psql -U postgres -d telkomims <user.sql--*/
 
 psql -U postgres -d telkomims <com_region.sql
 psql -U postgres -d telkomims <com_nation.sql
