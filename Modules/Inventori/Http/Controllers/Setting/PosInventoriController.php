@@ -102,6 +102,7 @@ class PosInventoriController extends Controller{
             'role_cd' => 'required',
             //'pos_cd' => 'required|unique:pgsql.inv.inv_pos_inventori|max:20',
             'pos_nm' => 'required|max:255',
+            
         ]);
 
         // $pos            = new InvInvPosInventori;
@@ -218,26 +219,64 @@ class PosInventoriController extends Controller{
     function update(Request $request, $id){
         $this->validate($request,[
             'pos_nm' => 'required',
+            'user_nm' => 'required',
+            'role_cd' => 'required',
+            'email'   => 'nullable',
         ]);
-
         $pos = InvInvPosInventori::find($id);
-        $pos->pos_cd     = $request->pos_cd;
-        $pos->pos_nm     = $request->pos_nm;
-        $pos->postcode = $request->postcode;
-        $pos->phone = $request->phone;
-        $pos->address = $request->address;
-        $pos->mobile = $request->mobile;
-        $pos->fax = $request->fax;
-        $pos->email = $request->email;
-        $pos->npwp = $request->npwp;
-        $pos->pos_note = $request->pos_note;
+        $update = DB::transaction(function () use($request) {
+          
+            $posCd = InvInvPosInventori::getPosCd();([
 
-        $pos->pic = $request->pic;
-        $pos->region_prop = $request->region_prop;
-        $pos->region_kab = $request->region_kab;
-        $pos->region_kec = $request->region_kec;
-        $pos->region_kel = $request->region_kel;
-        $pos->description   = $request->description;
+           
+                'pos_cd' 	    => $posCd,
+                'pos_nm'        => $request->pos_nm,
+                'postcode'      => $request->postcode,
+                'phone'         => $request->phone,
+                'address'       => $request->address,
+                'mobile'        => $request->mobile,
+                'fax'           => $request->fax,
+                'email'         => $request->email,
+                'npwp'          => $request->npwp,
+                'pic'           => $request->pic,
+                'pos_note'      => $request->pos_note,
+                'region_prop'   => $request->region_prop,
+                'region_kab'    => $request->region_kab,
+                'region_kec'    => $request->region_kec,
+                'region_kel'    => $request->region_kel,
+                'description'   => $request->description,
+              
+            ]);
+
+        $create = !empty($request->create)  ? '1' : '0';
+        $read   = !empty($request->read)    ? '1' : '0';
+        $update = !empty($request->update)  ? '1' : '0';
+        $delete = !empty($request->delete)  ? '1' : '0';
+        $ruleTp = $create.$read.$update.$delete;
+
+        $user             = AuthUser::find($id);
+        $oldData = clone $user;
+
+        $user->user_nm    = $request->user_nm;
+        $user->email      = $request->email;
+        //$user->rule_tp    = $ruleTp;
+        $user->comp_cd 	  = $request->comp_cd;
+        $user->unit_cd 	  = $request->unit_cd;
+        $user->updated_by = Auth::user()->user_id;
+        $user->save();
+
+        \LogActivityHelpers::saveLog(
+            $logTp   = 'update',
+            $logNm   = "Mengubah Data User $user->user_cd - $user->user_nm",
+            $table   = $user->getTable(),
+            $newData = $user,
+            $oldData = $oldData
+        );
+
+        $roleUser             = AuthRoleUser::find($id);
+        $roleUser->role_cd    = $request->role_cd;
+        $roleUser->updated_by = Auth::user()->user_id;
+        $roleUser->save();
 
         if($request->checkbox_transaksi == 'on'){
             $pos->postrx_st = '1';
@@ -247,7 +286,9 @@ class PosInventoriController extends Controller{
         $pos->updated_by = Auth::user()->user_id;
 
         $pos->save();
-
+        return $posCd;
+    });
+ 
         return response()->json(['status' => 'ok'],200);
     }
 
