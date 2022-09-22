@@ -68,7 +68,8 @@ SELECT
 menu_cd,
 'admin' AS created_by,now()
 FROM auth.menus m
-WHERE menu_cd ILIKE 'INV10%';
+WHERE menu_cd ILIKE 'INV10%'
+AND menu_cd NOT IN ('INV1003','INV1021','INV1022','INV1026','INV1027','INV1031');
 
 INSERT INTO auth.role_menus (
 role_cd,

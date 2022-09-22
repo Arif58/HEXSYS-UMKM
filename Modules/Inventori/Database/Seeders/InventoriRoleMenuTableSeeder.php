@@ -56,7 +56,7 @@ class InventoriRoleMenuTableSeeder extends Seeder
             [ "menu_cd" => "INV04", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "INV0401", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "INV0402", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
-            [ "menu_cd" => "INV0403", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
+            //[ "menu_cd" => "INV0403", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "INV0404", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "INV0405", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "INV0406", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
@@ -65,11 +65,11 @@ class InventoriRoleMenuTableSeeder extends Seeder
 			[ "menu_cd" => "INV0409", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "INV05", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "INV06", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
-            [ "menu_cd" => "INV0600", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
+            //[ "menu_cd" => "INV0600", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
 			[ "menu_cd" => "INV0601", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "INV0602", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
             [ "menu_cd" => "INV0603", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
-			[ "menu_cd" => "INV0604", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
+			//[ "menu_cd" => "INV0604", "role_cd" => "admin", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],
 			
 			/*--admwh--*/
             [ "menu_cd" => "INV", "role_cd" => "admwh", "created_by" => "admin", "created_at" => date("Y-m-d H:i:s")],

@@ -972,7 +972,6 @@
                     timer: 1000
                 });
             }else{
-                //summon datatable
                 tabelFormula = $('#tabel-formula').DataTable({
                     language: {
                         paginate: {'next': $('html').attr('dir') == 'rtl' ? 'Next &larr;' : 'Next &rarr;', 'previous': $('html').attr('dir') == 'rtl' ? '&rarr; Prev' : '&larr; Prev'}
@@ -1001,7 +1000,7 @@
                         { data: 'action', name: 'action', visible:true },
                     ],
                 });
-                //summon modal
+                
                 $('input[name="formula_item_cd"]').val(rowData["item_cd"]);
 			    // $('input[name="unit_cd_default"]').val(rowData["unit_cd"]);
                 $('#modal-formula').modal('show');
