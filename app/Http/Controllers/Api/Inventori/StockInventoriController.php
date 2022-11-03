@@ -21,8 +21,6 @@ class StockInventoriController extends Controller
 
     public function getData() {
         $pos = Auth::user()->unit_cd;
-        // $pos_nm = InvInvPosInventori::select("pos_nm")
-        // ->where('pos_cd', $pos)->first();
         $stock  = InvInvPosItemUnit::select(
             "inv_pos_itemunit.positemunit_cd",
                     "inv_pos_itemunit.pos_cd",
@@ -40,11 +38,11 @@ class StockInventoriController extends Controller
                 ->join('inv.inv_unit as unit','unit.unit_cd','inv_pos_itemunit.unit_cd')
 				->orderBy('pos_nm')
 				->orderBy('item_nm')
-				->where('pos_nm', 'Burjo Malatax')->get();
+				->where('inv_pos_itemunit.pos_cd', $pos)->get();
 
        $response = [
             'status' => 'success',
-            'data' => $pos
+            'data' => $stock
         ];
 
         return response()->json($response, 200);
