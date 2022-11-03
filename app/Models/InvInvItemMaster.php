@@ -5,6 +5,7 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\InvTrxTarifUnitMedis;
+use Illuminate\Support\Facades\Auth;
 
 class InvInvItemMaster extends Model{
     protected $table        = 'inv.inv_item_master';
@@ -132,4 +133,6 @@ class InvInvItemMaster extends Model{
         }
         return $result;
     }
+
+   
 }

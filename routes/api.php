@@ -17,28 +17,48 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/','Api\AntreanController@index');
+// Route::get('/','Api\AntreanController@index');
 
-// USER MANAGEMENT
-Route::post('register', 'Api\UserController@register');
-Route::post('login', 'Api\UserController@login');
-Route::get('user', 'Api\UserController@getAuthenticatedUser')->middleware('jwt.verify');
-Route::post('refresh', 'Api\UserController@refresh');
+// // USER MANAGEMENT
+// Route::post('register', 'Api\UserController@register');
+// Route::post('login', 'Api\UserController@login');
+// Route::get('user', 'Api\UserController@getAuthenticatedUser')->middleware('jwt.verify');
+// Route::post('refresh', 'Api\UserController@refresh');
 
 //ANTRIAN
-Route::post('getNomorAntrean','Api\AntreanController@nomorAntrean')->middleware('jwt.verify');
-Route::post('getRekapAntrean','Api\AntreanController@rekapAntrean')->middleware('jwt.verify');
-Route::post('getKodeBookingOperasi','Api\AntreanController@kodeBookingOperasi')->middleware('jwt.verify');
-Route::post('getJadwalOperasiHarian','Api\AntreanController@jadwalOperasiHarian')->middleware('jwt.verify');
-Route::post('verifikasiAntrean','Api\AntreanController@verifikasiAntrean')->middleware('jwt.verify');
+// Route::post('getNomorAntrean','Api\AntreanController@nomorAntrean')->middleware('jwt.verify');
+// Route::post('getRekapAntrean','Api\AntreanController@rekapAntrean')->middleware('jwt.verify');
+// Route::post('getKodeBookingOperasi','Api\AntreanController@kodeBookingOperasi')->middleware('jwt.verify');
+// Route::post('getJadwalOperasiHarian','Api\AntreanController@jadwalOperasiHarian')->middleware('jwt.verify');
+// Route::post('verifikasiAntrean','Api\AntreanController@verifikasiAntrean')->middleware('jwt.verify');
 
-//MOBILE
-Route::post('app-registrasi','Api\MobileAppController@registrasi')->middleware('jwt.verify');
-Route::get('app-listjadwal','Api\MobileAppController@getListJadwal')->middleware('jwt.verify');
-Route::post('app-verifikasi','Api\MobileAppController@verifikasi')->middleware('jwt.verify');
-Route::get('app-profilpasien/{id}','Api\MobileAppController@getProfilPasien')->middleware('jwt.verify');
-// Route::post('app-profilpasien','Api\MobileAppController@getProfilPasien')->middleware('jwt.verify');
-Route::get('app-jadwalpasien/{id}','Api\MobileAppController@getJadwalPasien')->middleware('jwt.verify');
-// Route::post('app-jadwalpasien','Api\MobileAppController@getJadwalPasien')->middleware('jwt.verify');
-Route::post('app-riwayat','Api\MobileAppController@getRiwayatPasien')->middleware('jwt.verify');
-Route::get('app-riwayat/{id}','Api\MobileAppController@getRiwayatPasien')->middleware('jwt.verify');
+// //MOBILE
+// Route::post('app-registrasi','Api\MobileAppController@registrasi')->middleware('jwt.verify');
+// Route::get('app-listjadwal','Api\MobileAppController@getListJadwal')->middleware('jwt.verify');
+// Route::post('app-verifikasi','Api\MobileAppController@verifikasi')->middleware('jwt.verify');
+// Route::get('app-profilpasien/{id}','Api\MobileAppController@getProfilPasien')->middleware('jwt.verify');
+// // Route::post('app-profilpasien','Api\MobileAppController@getProfilPasien')->middleware('jwt.verify');
+// Route::get('app-jadwalpasien/{id}','Api\MobileAppController@getJadwalPasien')->middleware('jwt.verify');
+// // Route::post('app-jadwalpasien','Api\MobileAppController@getJadwalPasien')->middleware('jwt.verify');
+// Route::post('app-riwayat','Api\MobileAppController@getRiwayatPasien')->middleware('jwt.verify');
+// Route::get('app-riwayat/{id}','Api\MobileAppController@getRiwayatPasien')->middleware('jwt.verify');
+
+Route::post('login', 'Api\Auth\UserController@login');
+Route::group(['prefix' => 'auth','middleware' => 'jwt.verify'], function() {
+    Route::get('user', 'Api\Auth\UserController@getUser');
+    Route::post('logout', 'Api\Auth\UserController@logout');
+    Route::post('me', 'Api\Auth\UserController@me');
+    Route::post('refresh', 'Api\Auth\UserController@refresh');
+});
+
+
+Route::group(['prefix' => 'inventori', 'middleware' => 'jwt.verify'], function() {
+    Route::get('stock-inventori', 'Api\Inventori\StockInventoriController@getData');
+    Route::get('show/{user_id}', 'Api\Inventori\StockInventoriController@show');
+    
+});
+
+Route::group(['prefix' => 'daftar-inventori', 'middleware' => 'jwt.verify'], function() {
+    Route::get('/', 'Api\Inventori\InvItemController@index');
+});
+
