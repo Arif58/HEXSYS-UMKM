@@ -49,7 +49,7 @@ class StockInventoriController extends Controller
        
     }
 
-    public function show($user_id) {
+    public function show($id) {
         $stock = InvInvPosItemUnit::select(
             "inv_pos_itemunit.positemunit_cd",
             "inv_pos_itemunit.pos_cd",
@@ -65,7 +65,7 @@ class StockInventoriController extends Controller
         ->join('inv.inv_pos_inventori as pos','pos.pos_cd','inv_pos_itemunit.pos_cd')
         ->join('inv.inv_item_master as master','master.item_cd','inv_pos_itemunit.item_cd')
         ->join('inv.inv_unit as unit','unit.unit_cd','inv_pos_itemunit.unit_cd')
-        ->where('inv_pos_itemunit.positemunit_cd', $user_id)
+        ->where('inv_pos_itemunit.positemunit_cd', $id)
         ->first();
 
         if($stock) {

@@ -44,6 +44,7 @@ use Illuminate\Http\Request;
 // Route::get('app-riwayat/{id}','Api\MobileAppController@getRiwayatPasien')->middleware('jwt.verify');
 
 Route::post('login', 'Api\Auth\UserController@login');
+
 Route::group(['prefix' => 'auth','middleware' => 'jwt.verify'], function() {
     Route::get('user', 'Api\Auth\UserController@getUser');
     Route::post('logout', 'Api\Auth\UserController@logout');
@@ -53,12 +54,35 @@ Route::group(['prefix' => 'auth','middleware' => 'jwt.verify'], function() {
 
 
 Route::group(['prefix' => 'inventori', 'middleware' => 'jwt.verify'], function() {
+
+    /* stock-inventori */
     Route::get('stock-inventori', 'Api\Inventori\StockInventoriController@getData');
-    Route::get('show/{user_id}', 'Api\Inventori\StockInventoriController@show');
+    
+    Route::get('show/{id}', 'Api\Inventori\StockInventoriController@show');
+
+    /* transaksi-inventori */
+    Route::group(['prefix' => 'transaksi-inventori', 'middleware' => 'jwt.verify'], function() {
+
+        /* transaksi-barang-masuk */
+        Route::group(['prefix' => 'transaksi-barang-masuk', 'middleware' => 'jwt.verify'], function() {
+            Route::get('/', 'Api\Inventori\TransaksiInventori\StockInController@index');
+            Route::put('/{id}', 'Api\Inventori\TransaksiInventori\StockInController@update');
+        });
+
+        /* transaksi-barang-keluar */
+        Route::group(['prefix' => 'transaksi-barang-keluar', 'middleware' => 'jwt.verify'], function() {
+            Route::put('/{id}', 'Api\Inventori\TransaksiInventori\StockOutController@update');
+        });
+
+        /* riwayat-transaksi */
+        Route::get('/riwayat-transaksi', 'Api\Inventori\TransaksiInventori\RiwayatTransaksiController@index');
+    });
     
 });
 
 Route::group(['prefix' => 'daftar-inventori', 'middleware' => 'jwt.verify'], function() {
     Route::get('/', 'Api\Inventori\InvItemController@index');
 });
+
+
 
