@@ -19,7 +19,31 @@ class StockOutController extends Controller
      */
     public function index()
     {
-        //
+        $pos = Auth::user()->unit_cd;
+        $stockIn = InvInvPosItemUnit::select(
+            "inv_pos_itemunit.positemunit_cd",
+                    "inv_pos_itemunit.pos_cd",
+                    "pos.pos_nm",
+                    "inv_pos_itemunit.item_cd",
+                    "master.item_nm",
+                    // "master.item_price",
+                    // "master.item_price_buy",
+                    "inv_pos_itemunit.unit_cd",
+                    "unit.unit_nm",
+                    "inv_pos_itemunit.quantity"
+        )
+        ->join('inv.inv_pos_inventori as pos','pos.pos_cd','inv_pos_itemunit.pos_cd')
+                ->join('inv.inv_item_master as master','master.item_cd','inv_pos_itemunit.item_cd')
+                ->join('inv.inv_unit as unit','unit.unit_cd','inv_pos_itemunit.unit_cd')
+				->orderBy('pos_nm')
+				->orderBy('item_nm')
+				->where('inv_pos_itemunit.pos_cd', $pos)->get();
+
+        $response = [
+            'status' => 'success',
+            'data' => $stockIn
+        ];
+        return response()->json($response, 200);
     }
 
     /**
