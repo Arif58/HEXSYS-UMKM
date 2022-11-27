@@ -86,6 +86,9 @@ Route::group(['prefix' => 'inventori', 'middleware' => 'jwt.verify'], function()
 
         /* riwayat-transaksi */
         Route::get('/riwayat-transaksi', 'Api\Inventori\TransaksiInventori\RiwayatTransaksiController@index');
+
+        /* Stock-alert */
+        Route::get('/stock-alert', 'Api\Inventori\TransaksiInventori\StockAlertController@getStockAlert');
     });
     
 });
@@ -93,6 +96,3 @@ Route::group(['prefix' => 'inventori', 'middleware' => 'jwt.verify'], function()
 Route::group(['prefix' => 'daftar-inventori', 'middleware' => 'jwt.verify'], function() {
     Route::get('/', 'Api\Inventori\InvItemController@index');
 });
-
-
-
