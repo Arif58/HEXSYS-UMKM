@@ -45,10 +45,10 @@ class StockInController extends Controller
     }
 
     function update(Request $request, $id){
-        // $this->validate($request,[
-        //     'jumlah_trx' => 'required',
-        //     'new_stock'  => 'required',
-        // ]);
+        $this->validate($request,[
+            'jumlah_trx' => 'required',
+            // 'new_stock'  => 'required',
+        ]);
         
         try {
             //code...
