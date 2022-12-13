@@ -20,7 +20,7 @@ class StockOutController extends Controller
     public function index()
     {
         $pos = Auth::user()->unit_cd;
-        $stockIn = InvInvPosItemUnit::select(
+        $stockOut = InvInvPosItemUnit::select(
             "inv_pos_itemunit.positemunit_cd",
                     "inv_pos_itemunit.pos_cd",
                     "pos.pos_nm",
@@ -41,7 +41,7 @@ class StockOutController extends Controller
 
         $response = [
             'status' => 'success',
-            'data' => $stockIn
+            'data' => $stockOut
         ];
         return response()->json($response, 200);
     }

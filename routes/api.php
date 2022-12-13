@@ -79,8 +79,8 @@ Route::group(['prefix' => 'inventori', 'middleware' => 'jwt.verify'], function()
 
         /* transfer */
         Route::group(['prefix' => 'transfer', 'middleware' => 'jwt.verify'], function() {
-            Route::get('/', 'Api\Inventori\TransaksiInventori\TransferController@index');
-            Route::get('/{id}', 'Api\Inventori\StockInvetoriController@show');
+            Route::get('/', 'Api\Inventori\StockInventoriController@getData');
+            Route::get('/{id}', 'Api\Inventori\StockInventoriController@show');
             Route::put('/{id}', 'Api\Inventori\TransaksiInventori\TransferController@update');
         });
 
@@ -91,6 +91,9 @@ Route::group(['prefix' => 'inventori', 'middleware' => 'jwt.verify'], function()
         Route::get('/stock-alert', 'Api\Inventori\TransaksiInventori\StockAlertController@getStockAlert');
     });
     
+    Route::group(['prefix' => 'stock-opname', 'middleware' => 'jwt.verify'], function() {
+        Route::get('/', 'Api\Inventori\StockOpnameController@index');
+    });
 });
 
 Route::group(['prefix' => 'daftar-inventori', 'middleware' => 'jwt.verify'], function() {

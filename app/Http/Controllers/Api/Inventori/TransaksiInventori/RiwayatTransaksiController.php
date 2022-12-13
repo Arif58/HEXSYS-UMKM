@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\InvInvPosInventori;
 use App\Models\InvVwInvTrxHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RiwayatTransaksiController extends Controller
 {
@@ -16,11 +17,12 @@ class RiwayatTransaksiController extends Controller
      */
     public function index()
     {
-        $gudangs = InvVwInvTrxHistory::all()->sortBy('pos_nm');
+        $pos = Auth::user()->unit_cd;
+        $history = InvVwInvTrxHistory::all()->where("pos_cd", $pos);
 
         $response = [
             'status' => 'success',
-            'data' => $gudangs
+            'data' => $history
         ];
         return response()->json($response, 200);
     }

@@ -14,8 +14,13 @@ class TransferController extends Controller
 {
     function update(Request $request, $id){
         try {
+            $this->validate($request,[
+                'jumlah_trx'         => 'required',
+                'pos_cd_destination' => 'required',
+            ]);
             //code...
             DB::transaction(function() use($request, $id) {
+                // dd($request->all());
                 $oldStockSource = InvInvPosItemUnit::find($id);
                 $newStockSource = InvInvPosItemUnit::find($id);
                 
