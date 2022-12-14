@@ -18,7 +18,7 @@ class RiwayatTransaksiController extends Controller
     public function index()
     {
         $pos = Auth::user()->unit_cd;
-        $history = InvVwInvTrxHistory::all()->where("pos_cd", $pos);
+        $history = InvVwInvTrxHistory::orderBy('inv_item_move_id', 'desc')->where("pos_cd", $pos)->get();
 
         $response = [
             'status' => 'success',
